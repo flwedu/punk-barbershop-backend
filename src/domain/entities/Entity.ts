@@ -1,6 +1,13 @@
 export abstract class Entity<T> {
 
-    protected id: string;
+    private _id: string;
+
+    protected get id(): string {
+        return this._id;
+    }
+    protected set id(value: string) {
+        this._id = value;
+    }
     public props: T;
 
     constructor(props: T, id?: string) {

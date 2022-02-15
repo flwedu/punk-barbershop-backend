@@ -14,6 +14,8 @@ export class Barber extends Entity<BarberProps> {
         super(props, id);
     }
 
+    get id(): string { return this.id }
+
     public static create(props: BarberProps, id?: string) {
         const barber = new Barber(props, id);
 
