@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "name": "punk-barbershop-backend",
+  "version": "1.0.0",
+  "description": "a backed application created for the exercise of DDD and TDD concepts. The punk barbershop was created to exemplify the business rules.",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "private": false
+}
