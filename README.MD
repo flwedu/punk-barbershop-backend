@@ -1,5 +1,8 @@
 # punk-barbershop-backend
 
+<img src="https://user-images.githubusercontent.com/55285816/154165860-266d2e83-a65a-473b-b163-a111826db8e4.jpg" alt="punk barbershop logo" width="200px" />
+
+
 ## Descrição do projeto
 
 Essa aplicação backend foi criada para atender as demandas de uma barbearia, no agendamento de atendimentos, consulta de preços e acúmulo de pontos de fidelidade para o cliente.
