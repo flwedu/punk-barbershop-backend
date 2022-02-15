@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export abstract class Entity<T> {
 
     private _id: string;
