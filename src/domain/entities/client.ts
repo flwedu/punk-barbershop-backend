@@ -13,8 +13,6 @@ export class Client extends Entity<ClientProps> {
         super(props, id);
     }
 
-    get id(): string { return this.id }
-
     public static create(props: ClientProps, id?: string) {
         const client = new Client(props, id);
 

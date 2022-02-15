@@ -14,8 +14,6 @@ export class Scheduling extends Entity<SchedulingProps> {
         super(props, id);
     }
 
-    get id(): string { return this.id }
-
     public static create(props: SchedulingProps, id?: string) {
         const scheduling = new Scheduling(props, id);
 

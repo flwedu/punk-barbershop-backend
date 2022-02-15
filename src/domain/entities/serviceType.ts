@@ -13,8 +13,6 @@ export class ServiceType extends Entity<ServiceTypeProps> {
         super(props, id);
     }
 
-    get id(): string { return this.id }
-
     public static create(props: ServiceTypeProps, id?: string) {
         const serviceType = new ServiceType(props, id);
 
