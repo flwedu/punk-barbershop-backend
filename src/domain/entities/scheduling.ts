@@ -1,11 +1,12 @@
 import { Entity } from "./Entity";
+import { ServiceType } from "./serviceType";
 
 type SchedulingProps = {
     clientId: string;
     barberId: string;
+    serviceTypeId: string;
     scheduleDate: Date;
     createdAt: Date;
-    serviceType: string,
 };
 
 export class Scheduling extends Entity<SchedulingProps> {
