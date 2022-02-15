@@ -1,5 +1,4 @@
 import { Entity } from "./Entity";
-import { ServiceType } from "./serviceType";
 
 type SchedulingProps = {
     clientId: string;
