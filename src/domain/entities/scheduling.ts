@@ -1,7 +1,7 @@
 import { Entity } from "./Entity";
 
 type SchedulingProps = {
-    cliendId: string;
+    clientId: string;
     barberId: string;
     scheduleDate: Date;
     createdAt: Date;
