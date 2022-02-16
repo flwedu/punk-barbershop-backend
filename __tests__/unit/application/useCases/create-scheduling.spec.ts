@@ -6,6 +6,7 @@ import { Client } from "../../../../src/domain/entities/client";
 import { Barber } from "../../../../src/domain/entities/barber";
 import { ServiceType } from "../../../../src/domain/entities/serviceType";
 import { Duration } from "../../../../src/domain/valueObjects/duration";
+import { Maybe } from "../../../../src/util/Maybe";
 
 describe("create-scheduling use case", () => {
 
@@ -42,16 +43,32 @@ describe("create-scheduling use case", () => {
     serviceTypeRepository.ServiceTypeList.push(serviceType);
 
     it("should execute the create-scheduling with the correct parameters", async () => {
-
         const createScheduling = new CreateScheduling(clientRepository, barberRepository, serviceTypeRepository);
 
-        const scheduling = await createScheduling.execute({
+        const maybeOfScheduling = Maybe.of(await createScheduling.execute({
             clientId: client.id,
             barberId: barber.id,
             serviceTypeId: serviceType.id,
             scheduleDate: new Date()
-        })
+        }));
 
-        expect(scheduling).toBeTruthy();
+        expect(maybeOfScheduling.isPresent()).toBeTruthy();
     })
+
+    it("should throw error when executing the create-scheduling with the correct parameters but with resource not found", () => {
+
+        expect.assertions(1);
+        const createScheduling = new CreateScheduling(clientRepository, barberRepository, serviceTypeRepository);
+
+        expect(async () => {
+            Maybe.of(await createScheduling.execute({
+                clientId: "1",
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+                scheduleDate: new Date()
+            }))
+        }).rejects.toThrow()
+    }
+    )
 })
+
