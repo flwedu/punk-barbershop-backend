@@ -43,6 +43,9 @@ describe("create-scheduling use case", () => {
     serviceTypeRepository.ServiceTypeList.push(serviceType);
 
     it("should execute the create-scheduling with the correct parameters", async () => {
+
+        expect.assertions(1);
+
         const createScheduling = new CreateScheduling(clientRepository, barberRepository, serviceTypeRepository);
 
         const maybeOfScheduling = Maybe.of(await createScheduling.execute({
