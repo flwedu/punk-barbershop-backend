@@ -2,6 +2,7 @@ import { Scheduling } from "../../domain/entities/scheduling";
 import { ServiceTypeRepository } from "../repositories/ServiceTypeRepository";
 import { ClientRepository } from "../repositories/ClientRepository"
 import { BarberRepository } from "../repositories/BarberRepository"
+import { Maybe } from "../../util/Maybe";
 
 type CreateSchedulingRequest = {
     clientId: string,
@@ -20,21 +21,21 @@ export class CreateScheduling {
 
     async execute({ barberId, clientId, scheduleDate, serviceTypeId }: CreateSchedulingRequest) {
 
-        const client = await this.clientRepository.findById(clientId);
+        const client = Maybe.of(await this.clientRepository.findById(clientId));
 
-        if (!client) {
+        if (client.isEmpty()) {
             throw new Error("Client not found")
         }
 
-        const barber = await this.barberRepository.findById(barberId);
+        const barber = Maybe.of(await this.barberRepository.findById(barberId));
 
-        if (!barber) {
+        if (barber.isEmpty()) {
             throw new Error("Barber not found")
         }
 
-        const serviceType = await this.serviceTypeRepository.findById(serviceTypeId);
+        const serviceType = Maybe.of(await this.serviceTypeRepository.findById(serviceTypeId));
 
-        if (!serviceType) {
+        if (serviceType.isEmpty()) {
             throw new Error("Service type not found")
         }
 
