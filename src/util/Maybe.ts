@@ -1,13 +1,17 @@
 export class Maybe<T>{
 
-    private value: any;
+    private value;
 
-    private constructor(value: any) {
+    private constructor(value: T | null) {
         this.value = value;
     }
 
-    static of<T>(value: any) {
+    static of<T>(value: T) {
         return new Maybe<T>(value);
+    }
+
+    static empty(){
+        return new Maybe(null);
     }
 
     isPresent() {
@@ -19,8 +23,10 @@ export class Maybe<T>{
     }
 
     getValue(): T {
-        if (this.isPresent()) return this.value;
-        else throw new Error("Value is undefined");
+        if (this.value){
+            return this.value;
+        } 
+        throw new Error("Value is undefined");
     }
 
     getValueOrElse(otherValue: any) {
