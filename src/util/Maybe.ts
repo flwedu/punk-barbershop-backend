@@ -11,7 +11,7 @@ export class Maybe<T>{
     }
 
     isPresent() {
-        return (!this.isEmpty())
+        return (this.value !== undefined && this.value !== null);
     }
 
     isEmpty() {
