@@ -18,7 +18,7 @@ export class Maybe<T>{
         return (this.value === undefined || this.value === null)
     }
 
-    getValue() {
+    getValue(): T {
         if (this.isPresent()) return this.value;
         else throw new Error("Value is undefined");
     }
