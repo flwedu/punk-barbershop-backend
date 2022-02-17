@@ -1,3 +1,4 @@
+import { emailRegex } from "../../util/regularExpressions";
 import { Entity } from "./Entity";
 
 export type ClientProps = {
@@ -14,6 +15,12 @@ export class Client extends Entity<ClientProps> {
     }
 
     public static create(props: ClientProps, id?: string) {
+
+        // Verifying fields
+        if (emailRegex().test(props.email)){
+            return null;
+        }
+
         const client = new Client(props, id);
 
         return client;
