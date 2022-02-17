@@ -1,6 +1,6 @@
 import { Entity } from "./Entity";
 
-type ClientProps = {
+export type ClientProps = {
     name: string;
     email: string;
     createdAt: Date;
