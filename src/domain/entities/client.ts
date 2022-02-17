@@ -1,4 +1,4 @@
-import { emailRegex } from "../../util/regularExpressions";
+import { testCpf, testEmail } from "../../util/testFields";
 import { Entity } from "./Entity";
 
 export type ClientProps = {
@@ -17,8 +17,12 @@ export class Client extends Entity<ClientProps> {
     public static create(props: ClientProps, id?: string) {
 
         // Verifying fields
-        if (emailRegex().test(props.email)){
-            return null;
+        if (!testEmail(props.email)){
+            throw new Error("invalid email");
+        }
+
+        if(!testCpf(props.cpf)){
+            throw new Error("invalid cpf");
         }
 
         const client = new Client(props, id);
