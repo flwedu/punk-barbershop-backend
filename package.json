@@ -15,6 +15,7 @@
   "private": false,
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watchAll",
     "start": "ts-node src/index.ts"
   }
 }
