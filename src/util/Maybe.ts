@@ -1,13 +1,13 @@
-export class Maybe<T>{
+export class Maybe{
 
     private value;
 
-    private constructor(value: T | null) {
+    private constructor(value: any) {
         this.value = value;
     }
 
-    static of<T>(value: T) {
-        return new Maybe<T>(value);
+    static of(value: any)  {
+        return new Maybe(value);
     }
 
     static empty(){
@@ -22,7 +22,7 @@ export class Maybe<T>{
         return (this.value === undefined || this.value === null)
     }
 
-    getValue(): T {
+    getValue() {
         if (this.value){
             return this.value;
         } 
