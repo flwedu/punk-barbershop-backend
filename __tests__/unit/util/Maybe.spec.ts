@@ -1,53 +1,59 @@
-import { Maybe } from "../../src/util/Maybe";
+import { Maybe } from "../../../src/util/Maybe";
 
 describe("Testing Maybe class functions", () => {
 
     describe("testing isPresent() function", () => {
         it("iPresent should return true", () => {
 
-            expect.assertions(1)
+            expect.assertions(3)
 
-            const value = "Yes";
-            let maybe = Maybe.of(value);
+            const maybeString = Maybe.of("ABC");
+            const maybeNumber = Maybe.of(123);
+            const maybeObject = Maybe.of(Object.create({}));
 
-            expect(maybe.isPresent()).toBeTruthy();
-
+            expect(maybeString.isPresent()).toBeTruthy();
+            expect(maybeNumber.isPresent()).toBeTruthy();
+            expect(maybeObject.isPresent()).toBeTruthy();
         })
 
         it("iPresent should return false", () => {
 
-            expect.assertions(2)
+            expect.assertions(3)
 
-            let maybe = Maybe.of(null);
+            const maybeNull = Maybe.of(null);
+            const maybeUndefined = Maybe.of(undefined);
+            const maybeEmpty = Maybe.empty();
 
-            expect(maybe.isPresent()).toBeFalsy();
-
-            maybe = Maybe.of(undefined);
-
-            expect(maybe.isPresent()).toBeFalsy();
+            expect(maybeNull.isPresent()).toBeFalsy();
+            expect(maybeUndefined.isPresent()).toBeFalsy();
+            expect(maybeEmpty.isPresent()).toBeFalsy();
         })
     })
 
     describe("isEmpty() function", () => {
 
         it("isEmpty() should return true", () => {
-            expect.assertions(2);
+            expect.assertions(3)
 
-            let maybe = Maybe.of(null);
-            expect(maybe.isEmpty()).toBeTruthy();
+            const maybeNull = Maybe.of(null);
+            const maybeUndefined = Maybe.of(undefined);
+            const maybeEmpty = Maybe.empty();
 
-            maybe = Maybe.of(undefined);
-            expect(maybe.isEmpty()).toBeTruthy();
+            expect(maybeNull.isEmpty()).toBeTruthy();
+            expect(maybeUndefined.isEmpty()).toBeTruthy();
+            expect(maybeEmpty.isEmpty()).toBeTruthy();
         })
 
         it("isEmpty() should return false", () => {
-            expect.assertions(2);
+            expect.assertions(3)
 
-            let maybe = Maybe.of("A value");
-            expect(maybe.isEmpty()).toBeFalsy();
+            const maybeString = Maybe.of("ABC");
+            const maybeNumber = Maybe.of(123);
+            const maybeObject = Maybe.of(Object.create({}));
 
-            maybe = Maybe.of(111);
-            expect(maybe.isEmpty()).toBeFalsy();
+            expect(maybeString.isEmpty()).toBeFalsy();
+            expect(maybeNumber.isEmpty()).toBeFalsy();
+            expect(maybeObject.isEmpty()).toBeFalsy();
         })
     })
 
