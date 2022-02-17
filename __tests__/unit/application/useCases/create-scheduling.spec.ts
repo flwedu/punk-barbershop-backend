@@ -19,18 +19,18 @@ describe("create-scheduling use case", () => {
     const client = Client.create({
         name: "Test",
         birthDate: new Date(),
-        cpf: "00000000",
-        email: "",
-        createdAt: new Date()
+        cpf: "000.111.222-33",
+        email: "user@email.com",
+        createdAt: new Date(),
     })
-    clientRepository.clientList.push(client)
+    if(client)    clientRepository.clientList.push(client)
 
     const barber = Barber.create({
         name: "Barber",
         birthDate: new Date(),
-        cpf: "00000000",
+        cpf: "000.111.222-33",
         createdAt: new Date(),
-        email: "",
+        email: "user@email.com",
     })
     barberRepository.BarberList.push(barber);
 
@@ -49,7 +49,7 @@ describe("create-scheduling use case", () => {
         const createScheduling = new CreateScheduling(clientRepository, barberRepository, serviceTypeRepository);
 
         const maybeOfScheduling = Maybe.of(await createScheduling.execute({
-            clientId: client.id,
+            clientId: client?.id || "1",
             barberId: barber.id,
             serviceTypeId: serviceType.id,
             scheduleDate: new Date()
