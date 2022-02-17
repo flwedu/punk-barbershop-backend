@@ -1,3 +1,3 @@
 export function emailRegex(){
-    return new RegExp("/[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi")
+    return new RegExp(/^[-\.\w\d]+@.+\..+$/gi)
 }
