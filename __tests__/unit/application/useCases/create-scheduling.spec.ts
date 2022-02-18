@@ -5,7 +5,7 @@ import { IMServiceTypeRepository } from "../repositories/IM-ServiceTypeRepositor
 import { Client } from "../../../../src/domain/entities/client";
 import { Barber } from "../../../../src/domain/entities/barber";
 import { ServiceType } from "../../../../src/domain/entities/serviceType";
-import { Duration } from "../../../../src/domain/valueObjects/duration";
+import { Duration } from "../../../../src/domain/valueObjects/Duration";
 import { Maybe } from "../../../../src/util/Maybe";
 
 describe("create-scheduling use case", () => {
