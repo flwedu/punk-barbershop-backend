@@ -1,6 +1,6 @@
 import { Entity } from "./Entity";
 
-type SchedulingProps = {
+export type SchedulingProps = {
     clientId: string;
     barberId: string;
     serviceTypeId: string;
