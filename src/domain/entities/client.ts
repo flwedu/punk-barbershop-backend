@@ -1,8 +1,8 @@
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
-import { Entity, Props } from "./Entity";
+import { Entity } from "./Entity";
 
-export interface ClientProps extends Props<Client> {
+export interface Props<Client> {
     name: string,
     email: Email,
     createdAt: Date,
@@ -11,11 +11,11 @@ export interface ClientProps extends Props<Client> {
 }
 
 export class Client extends Entity {
-    private constructor(props: ClientProps, id?: string) {
+    private constructor(props: Props<Client>, id?: string) {
         super(props, id);
     }
 
-    public static create(props: ClientProps, id?: string) {
+    public static create(props: Props<Client>, id?: string) {
 
         const client = new Client(props, id);
 

@@ -1,7 +1,7 @@
 import { Duration } from "../valueObjects/Duration";
-import { Entity, Props } from "./Entity";
+import { Entity } from "./Entity";
 
-export interface ServiceTypeProps extends Props<ServiceType> {
+export interface Props<ServiceType>{
     name: string,
     description: string,
     duration: Duration,
@@ -9,11 +9,11 @@ export interface ServiceTypeProps extends Props<ServiceType> {
 }
 
 export class ServiceType extends Entity {
-    private constructor(props: ServiceTypeProps, id?: string) {
+    private constructor(props: Props<ServiceType>, id?: string) {
         super(props, id);
     }
 
-    public static create(props: ServiceTypeProps, id?: string) {
+    public static create(props: Props<ServiceType>, id?: string) {
         const serviceType = new ServiceType(props, id);
 
         return serviceType;

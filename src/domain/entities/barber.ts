@@ -1,8 +1,8 @@
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
-import { Entity, Props } from "./Entity";
+import { Entity } from "./Entity";
 
-export interface BarberProps extends Props<Barber> {
+export interface Props<Barber> {
     name: string,
     email: Email,
     createdAt: Date,
@@ -11,11 +11,11 @@ export interface BarberProps extends Props<Barber> {
 }
 
 export class Barber extends Entity {
-    private constructor(props: BarberProps, id?: string) {
+    private constructor(props: Props<Barber>, id?: string) {
         super(props, id);
     }
 
-    public static create(props: BarberProps, id?: string) {
+    public static create(props: Props<Barber>, id?: string) {
         const barber = new Barber(props, id);
 
         return barber;

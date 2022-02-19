@@ -1,6 +1,6 @@
-import { Entity, Props } from "./Entity";
+import { Entity } from "./Entity";
 
-export interface SchedulingProps extends Props<Scheduling> {
+export interface Props<Scheduling> {
     clientId: string,
     barberId: string,
     serviceTypeId: string,
@@ -9,11 +9,11 @@ export interface SchedulingProps extends Props<Scheduling> {
 }
 
 export class Scheduling extends Entity {
-    private constructor(props: SchedulingProps, id?: string) {
+    private constructor(props: Props<Scheduling>, id?: string) {
         super(props, id);
     }
 
-    public static create(props: SchedulingProps, id?: string) {
+    public static create(props: Props<Scheduling>, id?: string) {
         const scheduling = new Scheduling(props, id);
 
         return scheduling;
