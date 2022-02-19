@@ -8,7 +8,8 @@ import IRepository from "../repositories/IRepository";
 type SchedulingRepositories = {
     clientRepository: IRepository<Client>,
     barberRepository: IRepository<Barber>,
-    serviceTypeRepository: IRepository<ServiceType>
+    serviceTypeRepository: IRepository<ServiceType>,
+    schedulingRepository: IRepository<Scheduling>
 }
 
 type CreateSchedulingRequest = {
@@ -23,6 +24,7 @@ export class CreateScheduling {
     private clientRepository: IRepository<Client>
     private barberRepository: IRepository<Barber>
     private serviceTypeRepository: IRepository<ServiceType>
+    private schedulingRepository: IRepository<Scheduling>
 
     constructor(repositoriesList: SchedulingRepositories) {
         Object.assign(this, repositoriesList);
@@ -48,12 +50,10 @@ export class CreateScheduling {
             throw new Error("Service type not found")
         }
 
-        const scheduling = Scheduling.create({
+        return this.schedulingRepository.save({
             ...request,
             scheduleDate: new Date(request.scheduleDate),
             createdAt: new Date(),
-        })
-
-        return scheduling;
+        });
     }
 }
