@@ -1,7 +1,7 @@
-import { Duration } from "../valueObjects/duration";
+import { Duration } from "../valueObjects/Duration";
 import { Entity } from "./Entity";
 
-type ServiceTypeProps = {
+export type ServiceTypeProps = {
     name: string,
     description: string,
     duration: Duration,
