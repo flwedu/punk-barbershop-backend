@@ -1,12 +1,13 @@
+import { Cpf } from "../valueObjects/Cpf";
+import { Email } from "../valueObjects/Email";
 import { Entity } from "./Entity";
 
-type BarberProps = {
+export type BarberProps = {
     name: string;
-    email: string;
+    email: Email;
     createdAt: Date;
     birthDate: Date;
-    cpf: string;
-    cnpj?: string;
+    cpf: Cpf;
 };
 
 export class Barber extends Entity<BarberProps> {
