@@ -1,14 +1,14 @@
 import { Duration } from "../valueObjects/Duration";
-import { Entity } from "./Entity";
+import { Entity, Props } from "./Entity";
 
-export type ServiceTypeProps = {
+export interface ServiceTypeProps extends Props<ServiceType> {
     name: string,
     description: string,
     duration: Duration,
     price: number,
-};
+}
 
-export class ServiceType extends Entity<ServiceTypeProps> {
+export class ServiceType extends Entity {
     private constructor(props: ServiceTypeProps, id?: string) {
         super(props, id);
     }

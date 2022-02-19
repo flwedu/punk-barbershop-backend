@@ -1,14 +1,14 @@
-import { Entity } from "./Entity";
+import { Entity, Props } from "./Entity";
 
-export type SchedulingProps = {
-    clientId: string;
-    barberId: string;
-    serviceTypeId: string;
-    scheduleDate: Date;
-    createdAt: Date;
-};
+export interface SchedulingProps extends Props<Scheduling> {
+    clientId: string,
+    barberId: string,
+    serviceTypeId: string,
+    scheduleDate: Date,
+    createdAt: Date,
+}
 
-export class Scheduling extends Entity<SchedulingProps> {
+export class Scheduling extends Entity {
     private constructor(props: SchedulingProps, id?: string) {
         super(props, id);
     }

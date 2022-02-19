@@ -1,16 +1,16 @@
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
-import { Entity } from "./Entity";
+import { Entity, Props } from "./Entity";
 
-export type ClientProps = {
-    name: string;
-    email: Email;
-    createdAt: Date;
-    birthDate: Date;
-    cpf: Cpf;
-};
+export interface ClientProps extends Props<Client> {
+    name: string,
+    email: Email,
+    createdAt: Date,
+    birthDate: Date,
+    cpf: Cpf,
+}
 
-export class Client extends Entity<ClientProps> {
+export class Client extends Entity {
     private constructor(props: ClientProps, id?: string) {
         super(props, id);
     }
