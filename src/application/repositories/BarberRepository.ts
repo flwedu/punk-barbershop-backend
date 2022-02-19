@@ -1,6 +1,8 @@
-import { Barber } from "../../domain/entities/barber";
+import { Barber, BarberProps } from "../../domain/entities/barber";
 
 export interface BarberRepository {
 
-    findById(id: string): Promise<Barber | null>;
+    findById(id: string): Promise<Barber>;
+
+    save(props: BarberProps, id?: string): Promise<Barber>;
 }
