@@ -7,9 +7,12 @@ export class Duration implements ValueObject<Duration> {
         this.minuts = minuts;
     }
 
-    static set(minuts: number): Duration {
-        const duration = new Duration(minuts);
-        return duration;
+    static of(durationInMinuts: string): Duration {
+        const duration = Number(durationInMinuts);
+        if(Number.isNaN(duration) || durationInMinuts.length < 1){
+            throw new Error("failed to convert value to duration")
+        }
+        return new Duration(duration);
     }
     getValue(): number { return this.minuts; }
 
