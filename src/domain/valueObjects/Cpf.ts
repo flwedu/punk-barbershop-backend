@@ -16,10 +16,6 @@ export class Cpf implements ValueObject<Cpf>{
         return new Cpf(value);
     }
 
-    isValid(){
-        return testCpf(this._value);
-    }
-
     getValue(){
         return this._value;
     }
