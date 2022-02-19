@@ -1,22 +1,13 @@
-import { SchedulingRepository } from "../../../../src/application/repositories/SchedulingRepository";
-import { Scheduling, SchedulingProps } from "../../../../src/domain/entities/scheduling";
+import { Props, Scheduling } from "../../../../src/domain/entities/scheduling";
+import { IMRepository } from "./IM-Abstract-Repository";
 
-export class IMSchedulingRepository implements SchedulingRepository {
-  public list: Scheduling[] = [];
+export class IMSchedulingRepository extends IMRepository<Scheduling> {
+  save(props: Props<Scheduling>, id?: string): Promise<Scheduling> {
+    const result = Scheduling.create(props, id);
 
-  async findById(id: string): Promise<Scheduling> {
-    const scheduling = this.list.filter((scheduling) => scheduling.id === id)[0];
+    this.list.push(result)
 
-    if(!scheduling){
-        return Promise.reject("scheduling not found")
-    }
-    return Promise.resolve(scheduling);
+    return Promise.resolve(result);
   }
-  save(props: SchedulingProps): Promise<Scheduling> {
-    
-    const scheduling = Scheduling.create(props);
-    this.list.push(scheduling);
 
-    return Promise.resolve(scheduling);
-  }
 }

@@ -1,22 +1,15 @@
-import { BarberRepository } from "../../../../src/application/repositories/BarberRepository";
-import { Barber, BarberProps } from "../../../../src/domain/entities/barber";
+import { Barber, Props } from "../../../../src/domain/entities/barber";
+import { IMRepository } from "./IM-Abstract-Repository";
 
-export class IMBarberRepository implements BarberRepository {
-  public barberList: Barber[] = [];
+export class IMBarberRepository extends IMRepository<Barber> {
 
-  async findById(id: string): Promise<Barber> {
-    const barber = this.barberList.filter((barber) => barber.id === id)[0];
+  save(props: Props<Barber>, id?: string): Promise<Barber> {
 
-    if(!barber){
-        return Promise.reject("barber not found")
-    }
-    return Promise.resolve(barber);
+    const result = Barber.create(props, id);
+
+    this.list.push(result)
+
+    return Promise.resolve(result);
   }
-  save(props: BarberProps): Promise<Barber> {
-    
-    const barber = Barber.create(props);
-    this.barberList.push(barber);
 
-    return Promise.resolve(barber);
-  }
 }

@@ -1,22 +1,13 @@
-import { ServiceTypeRepository } from "../../../../src/application/repositories/ServiceTypeRepository";
-import { ServiceType, ServiceTypeProps } from "../../../../src/domain/entities/serviceType";
+import { ServiceType, Props } from "../../../../src/domain/entities/serviceType";
+import { IMRepository } from "./IM-Abstract-Repository";
 
-export class IMServiceTypeRepository implements ServiceTypeRepository {
-  public list: ServiceType[] = [];
+export class IMServiceTypeRepository extends  IMRepository<ServiceType> {
+  save(props: Props<ServiceType>, id?: string): Promise<ServiceType> {
+    const result = ServiceType.create(props, id);
 
-  async findById(id: string): Promise<ServiceType> {
-    const serviceType = this.list.filter((serviceType) => serviceType.id === id)[0];
+    this.list.push(result)
 
-    if(!serviceType){
-        return Promise.reject("service type not found")
-    }
-    return Promise.resolve(serviceType);
+    return Promise.resolve(result);
   }
-  save(props: ServiceTypeProps): Promise<ServiceType> {
-    
-    const serviceType = ServiceType.create(props);
-    this.list.push(serviceType);
-
-    return Promise.resolve(serviceType);
-  }
+  
 }
