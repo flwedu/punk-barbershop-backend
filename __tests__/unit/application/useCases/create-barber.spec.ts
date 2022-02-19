@@ -11,42 +11,38 @@ describe("create barber use cases", () => {
     it("should create a new barber with valid data", async () => {
 
         expect.assertions(3);
-        const barberRepository = new IMBarberRepository();
-        const createBarber = new CreateBarber(barberRepository);
-        const spy = jest.spyOn(barberRepository, "save");
+        const repository = new IMBarberRepository();
+        const sut = new CreateBarber(repository);
+        const spy = jest.spyOn(repository, "save");
 
-        const barberData = {
+        const barber = await sut.execute({
             name: "Test",
             email: "barber@email.com",
             birthDate: "1980-01-05",
             cpf: "00000000000"
-        }
-
-        const barber = await createBarber.execute(barberData);
+        });
 
         expect(barber).toBeTruthy();
-        expect(barberRepository.findById(barber.id)).toBeTruthy();
+        expect(repository.findById(barber.id)).toBeTruthy();
         expect(spy).toHaveBeenCalledTimes(1);
     })
 
     it("should not create a new barber with invalid email", async () => {
 
         expect.assertions(2);
-        const barberRepository = new IMBarberRepository();
-        const createBarber = new CreateBarber(barberRepository);
-        const spy = jest.spyOn(barberRepository, "save");
-
-        const barberData = {
-            name: "Test",
-            email: "",
-            birthDate: "1980-01-05",
-            cpf: "00000000000"
-        }
+        const repository = new IMBarberRepository();
+        const sut = new CreateBarber(repository);
+        const spy = jest.spyOn(repository, "save");
 
         try{
-            await createBarber.execute(barberData);
+            await sut.execute({
+                name: "Test",
+                email: "",
+                birthDate: "1980-01-05",
+                cpf: "00000000000"
+            });
         }catch(err){
-            expect(barberRepository.barberList.length).toBe(0);
+            expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
 
@@ -55,21 +51,19 @@ describe("create barber use cases", () => {
     it("should not create a new barber with invalid cpf", async () => {
 
         expect.assertions(2);
-        const barberRepository = new IMBarberRepository();
-        const createBarber = new CreateBarber(barberRepository);
-        const spy = jest.spyOn(barberRepository, "save");
-
-        const barberData = {
-            name: "Test",
-            email: "barber@email.com",
-            birthDate: "1980-01-05",
-            cpf: "000000000"
-        }
+        const repository = new IMBarberRepository();
+        const sut = new CreateBarber(repository);
+        const spy = jest.spyOn(repository, "save");
 
         try{
-            await createBarber.execute(barberData);
+            await sut.execute({
+                name: "Test",
+                email: "barber@email.com",
+                birthDate: "1980-01-05",
+                cpf: "000000000"
+            });
         }catch(err){
-            expect(barberRepository.barberList.length).toBe(0);
+            expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
 
