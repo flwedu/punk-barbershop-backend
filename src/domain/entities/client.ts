@@ -1,9 +1,10 @@
 import { Cpf } from "../valueObjects/Cpf";
+import { Email } from "../valueObjects/Email";
 import { Entity } from "./Entity";
 
 export type ClientProps = {
     name: string;
-    email: string;
+    email: Email;
     createdAt: Date;
     birthDate: Date;
     cpf: Cpf;

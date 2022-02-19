@@ -1,4 +1,6 @@
-import { Client, ClientProps } from "../../domain/entities/client";
+import { Client } from "../../domain/entities/client";
+import { Cpf } from "../../domain/valueObjects/Cpf";
+import { Email } from "../../domain/valueObjects/Email";
 import { ClientRepository } from "../repositories/ClientRepository";
 
 type CreateClientRequest = {
@@ -13,13 +15,13 @@ export class CreateClient {
     constructor(private clientRepository: ClientRepository){}
 
     async execute(request: CreateClientRequest){
-
-        const hydratedData: ClientProps = {
-            ...request,
-            birthDate: new Date(request.birthDate),
-            createdAt: new Date()
-        };
         
-        return Client.create(hydratedData);
+        return Client.create({
+            ...request,
+            email: Email.of(request.email),
+            cpf: Cpf.of(request.cpf),
+            birthDate: new Date(request.birthDate),
+            createdAt: new Date(),
+        });
     }
 }
