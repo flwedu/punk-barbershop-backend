@@ -15,3 +15,9 @@ O documento de requisitos pode ser encontrado em `REQUERIMENTS.MD`.
 ## ~~Rodando a aplicação~~
 
 Aplicação em fase de levantamento de requisitos, modelagem de domínio e aplicação de regras de negócio.
+
+Para executar testes:
+
+```bash
+yarn test
+```
