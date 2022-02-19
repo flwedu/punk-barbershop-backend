@@ -1,6 +1,8 @@
+import { Client } from "../../domain/entities/client";
 import { Cpf } from "../../domain/valueObjects/Cpf";
 import { Email } from "../../domain/valueObjects/Email";
-import { ClientRepository } from "../repositories/ClientRepository";
+import IRepository from "../repositories/IRepository";
+
 
 type CreateClientRequest = {
     name: string;
@@ -11,7 +13,7 @@ type CreateClientRequest = {
 
 export class CreateClient {
 
-    constructor(private clientRepository: ClientRepository){}
+    constructor(private repository: IRepository<Client>){}
 
     async execute(request: CreateClientRequest){
 
@@ -22,6 +24,6 @@ export class CreateClient {
             birthDate: new Date(request.birthDate),
             createdAt: new Date(),
         };
-        return await this.clientRepository.save(clientProps);
+        return await this.repository.save(clientProps);
     }
 }

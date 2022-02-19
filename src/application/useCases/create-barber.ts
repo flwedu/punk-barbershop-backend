@@ -1,6 +1,7 @@
+import { Barber } from "../../domain/entities/barber";
 import { Cpf } from "../../domain/valueObjects/Cpf";
 import { Email } from "../../domain/valueObjects/Email";
-import { BarberRepository } from "../repositories/BarberRepository";
+import IRepository from "../repositories/IRepository";
 
 type CreateBarberRequest = {
     name: string;
@@ -11,7 +12,7 @@ type CreateBarberRequest = {
 
 export class CreateBarber {
 
-    constructor(private barberRepository: BarberRepository){}
+    constructor(private repository: IRepository<Barber>){}
 
     async execute(request: CreateBarberRequest){
 
@@ -22,6 +23,6 @@ export class CreateBarber {
             birthDate: new Date(request.birthDate),
             createdAt: new Date(),
         };
-        return await this.barberRepository.save(barberProps);
+        return await this.repository.save(barberProps);
     }
 }

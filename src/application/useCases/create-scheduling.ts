@@ -1,50 +1,57 @@
+import { Barber } from "../../domain/entities/barber";
+import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";
-import { ServiceTypeRepository } from "../repositories/ServiceTypeRepository";
-import { ClientRepository } from "../repositories/ClientRepository"
-import { BarberRepository } from "../repositories/BarberRepository"
+import { ServiceType } from "../../domain/entities/serviceType";
 import { Maybe } from "../../util/Maybe";
+import IRepository from "../repositories/IRepository";
+
+type SchedulingRepositories = {
+    clientRepository: IRepository<Client>,
+    barberRepository: IRepository<Barber>,
+    serviceTypeRepository: IRepository<ServiceType>
+}
 
 type CreateSchedulingRequest = {
     clientId: string,
     barberId: string,
-    scheduleDate: Date,
+    scheduleDate: string,
     serviceTypeId: string,
 }
 
 export class CreateScheduling {
 
-    constructor(
-        private clientRepository: ClientRepository,
-        private barberRepository: BarberRepository,
-        private serviceTypeRepository: ServiceTypeRepository
-    ) { }
+    private clientRepository: IRepository<Client>
+    private barberRepository: IRepository<Barber>
+    private serviceTypeRepository: IRepository<ServiceType>
 
-    async execute({ barberId, clientId, scheduleDate, serviceTypeId }: CreateSchedulingRequest) {
+    constructor(repositoriesList: SchedulingRepositories) {
+        Object.assign(this, repositoriesList);
+    }
 
-        const client = Maybe.of(await this.clientRepository.findById(clientId));
+    async execute(request: CreateSchedulingRequest) {
+
+        const client = Maybe.of(await this.clientRepository.findById(request.clientId));
 
         if (client.isEmpty()) {
             throw new Error("Client not found")
         }
 
-        const barber = Maybe.of(await this.barberRepository.findById(barberId));
+        const barber = Maybe.of(await this.barberRepository.findById(request.barberId));
 
         if (barber.isEmpty()) {
             throw new Error("Barber not found")
         }
 
-        const serviceType = Maybe.of(await this.serviceTypeRepository.findById(serviceTypeId));
+        const serviceType = Maybe.of(await this.serviceTypeRepository.findById(request.serviceTypeId));
 
         if (serviceType.isEmpty()) {
             throw new Error("Service type not found")
         }
 
         const scheduling = Scheduling.create({
-            clientId,
-            barberId,
-            scheduleDate,
+            ...request,
+            scheduleDate: new Date(request.scheduleDate),
             createdAt: new Date(),
-            serviceTypeId
         })
 
         return scheduling;
