@@ -14,10 +14,10 @@ describe("create scheduling use case", () => {
         const clientRepository = new IMClientRepository();
         const barberRepository = new IMBarberRepository();
         const serviceTypeRepository = new IMServiceTypeRepository();
-        const schedulingRepository = new IMSchedulingRepository()
+        const schedulingRepository = new IMSchedulingRepository();
         const sut = new CreateScheduling({
             schedulingRepository, clientRepository, serviceTypeRepository, barberRepository
-        })
+        });
 
         const client = await new CreateClient(clientRepository).execute({
             name: "Test",
@@ -30,7 +30,7 @@ describe("create scheduling use case", () => {
             email: "barber@email.com",
             birthDate: "1980-01-05",
             cpf: "00000000000"
-        })
+        });
 
         const serviceType = await new CreateServiceType(serviceTypeRepository).execute({
             name: "Corte xavoso",
@@ -39,12 +39,12 @@ describe("create scheduling use case", () => {
             price: "50.00"
         });
 
-        return { sut, schedulingRepository, client, serviceType, barber }
+        return { sut, schedulingRepository, client, serviceType, barber };
 
     };
 
     beforeEach(() => {
-        jest.clearAllMocks()
+        jest.clearAllMocks();
     });
 
     it("should create a new scheduling", async () => {
@@ -52,14 +52,14 @@ describe("create scheduling use case", () => {
         expect.assertions(3);
 
         const { sut, schedulingRepository, client, serviceType, barber } = await prepare();
-        const spy = jest.spyOn(schedulingRepository, "save")
+        const spy = jest.spyOn(schedulingRepository, "save");
 
         const result = await sut.execute({
             clientId: client.id,
             barberId: barber.id,
             serviceTypeId: serviceType.id,
             scheduleDate: "2022-01-01T14:00"
-        })
+        });
 
         expect(result).toBeTruthy();
         expect(schedulingRepository.list.length).toEqual(1);
@@ -67,12 +67,12 @@ describe("create scheduling use case", () => {
 
     });
 
-    it("should not create a new scheduling with without client id", async () => {
+    it("should not create a new scheduling without client id", async () => {
 
         expect.assertions(2);
 
         const { sut, schedulingRepository, serviceType, barber } = await prepare();
-        const spy = jest.spyOn(schedulingRepository, "save")
+        const spy = jest.spyOn(schedulingRepository, "save");
 
         try {
             await sut.execute({
@@ -80,6 +80,39 @@ describe("create scheduling use case", () => {
                 barberId: barber.id,
                 serviceTypeId: serviceType.id,
                 scheduleDate: "2022-01-01T14:00"
+            })
+        } catch {
+
+            expect(schedulingRepository.list.length).toEqual(0);
+            expect(spy).toHaveBeenCalledTimes(0);
+        }
+    });
+
+    it("should not create a new scheduling with invalid date", async () => {
+
+        expect.assertions(2);
+
+        const { sut, schedulingRepository, client, serviceType, barber } = await prepare();
+        const spy = jest.spyOn(schedulingRepository, "save");
+
+        try {
+            await sut.execute({
+                clientId: client.id,
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+                scheduleDate: "202201-01T14:00"
+            })
+            await sut.execute({
+                clientId: client.id,
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+                scheduleDate: ""
+            })
+            await sut.execute({
+                clientId: client.id,
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+                scheduleDate: "abc"
             })
         } catch {
 
