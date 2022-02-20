@@ -4,7 +4,7 @@ import { Email } from "../../domain/valueObjects/Email";
 import IRepository from "../repositories/IRepository";
 
 
-type CreateClientRequest = {
+export type CreateClientRequest = {
     name: string;
     email: string;
     birthDate: string;
