@@ -1,4 +1,4 @@
-import { ValueObject } from "./ValueObject";
+import ValueObject from "./ValueObject";
 
 export class Duration implements ValueObject<Duration> {
 
@@ -9,7 +9,7 @@ export class Duration implements ValueObject<Duration> {
 
     static of(durationInMinuts: string): Duration {
         const duration = Number(durationInMinuts);
-        if(Number.isNaN(duration) || durationInMinuts.length < 1){
+        if (Number.isNaN(duration) || durationInMinuts.length < 1) {
             throw new Error("failed to convert value to duration")
         }
         return new Duration(duration);

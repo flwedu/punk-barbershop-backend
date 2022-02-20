@@ -1,7 +1,7 @@
 import { Duration } from "../valueObjects/Duration";
 import { Entity } from "./Entity";
 
-export interface Props<ServiceType>{
+export interface Props<ServiceType> {
     name: string,
     description: string,
     duration: Duration,

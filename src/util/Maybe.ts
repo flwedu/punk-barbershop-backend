@@ -1,16 +1,15 @@
-export class Maybe{
-
-    private value;
+export default class Maybe {
+    private value: any;
 
     private constructor(value: any) {
         this.value = value;
     }
 
-    static of(value: any)  {
+    static of(value: any) {
         return new Maybe(value);
     }
 
-    static empty(){
+    static empty() {
         return new Maybe(null);
     }
 
@@ -19,14 +18,14 @@ export class Maybe{
     }
 
     isEmpty() {
-        return (this.value === undefined || this.value === null)
+        return (this.value === undefined || this.value === null);
     }
 
     getValue() {
-        if (this.value){
+        if (this.value) {
             return this.value;
-        } 
-        throw new Error("Value is undefined");
+        }
+        throw new Error('Value is undefined');
     }
 
     getValueOrElse(otherValue: any) {

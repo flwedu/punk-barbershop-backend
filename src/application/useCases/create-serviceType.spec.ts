@@ -33,7 +33,7 @@ describe("create barber use cases", () => {
         const sut = new CreateServiceType(repository);
         const spy = jest.spyOn(repository, "save");
 
-        try{
+        try {
             await sut.execute({
                 name: "Corte xavoso",
                 description: "Aquele corte maneiro",
@@ -64,7 +64,7 @@ describe("create barber use cases", () => {
                 duration: null,
                 price: "50.00"
             });
-        }catch(err){
+        } catch (err) {
             expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
@@ -78,7 +78,7 @@ describe("create barber use cases", () => {
         const sut = new CreateServiceType(repository);
         const spy = jest.spyOn(repository, "save");
 
-        try{
+        try {
             await sut.execute({
                 name: "Corte xavoso",
                 description: "Aquele corte maneiro",
@@ -103,7 +103,7 @@ describe("create barber use cases", () => {
                 duration: "60",
                 price: "abc12"
             });
-        }catch(err){
+        } catch (err) {
             expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }

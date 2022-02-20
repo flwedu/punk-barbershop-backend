@@ -33,14 +33,14 @@ describe("create client use cases", () => {
         const sut = new CreateClient(repository);
         const spy = jest.spyOn(repository, "save");
 
-        try{
+        try {
             await sut.execute({
                 name: "Test",
                 email: "",
                 birthDate: "01/01/2021",
                 cpf: "00000000000"
             });
-        }catch(err){
+        } catch (err) {
             expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
@@ -54,14 +54,14 @@ describe("create client use cases", () => {
         const sut = new CreateClient(repository);
         const spy = jest.spyOn(repository, "save");
 
-        try{
+        try {
             await sut.execute({
                 name: "Test",
                 email: "aa@email.com",
                 birthDate: "01/01/2021",
                 cpf: "000000000"
             });
-        }catch(err){
+        } catch (err) {
             expect(repository.list.length).toBe(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }

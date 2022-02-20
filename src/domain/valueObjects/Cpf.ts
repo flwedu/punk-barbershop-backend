@@ -1,5 +1,5 @@
 import { testCpf } from "../../util/testFields";
-import { ValueObject } from "./ValueObject";
+import ValueObject from "./ValueObject";
 
 export class Cpf implements ValueObject<Cpf>{
 
@@ -9,18 +9,18 @@ export class Cpf implements ValueObject<Cpf>{
         this._value = value.replace(/[\.\-]/g, '');
     }
 
-    static of(value: string): Cpf{
-        if(!testCpf(value)){
+    static of(value: string): Cpf {
+        if (!testCpf(value)) {
             throw new Error("Invalid CPF")
         }
         return new Cpf(value);
     }
 
-    getValue(){
+    getValue() {
         return this._value;
     }
 
-    getFormatedValue(): string{
+    getFormatedValue(): string {
 
         const exp = /^(\d{3})(\d{3})(\d{3})(\d{2})$/
         return this._value.replace(exp, "$1.$2.$3-$4")

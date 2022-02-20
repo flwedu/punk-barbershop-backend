@@ -12,9 +12,9 @@ type CreateBarberRequest = {
 
 export class CreateBarber {
 
-    constructor(private repository: IRepository<Barber>){}
+    constructor(private repository: IRepository<Barber>) { }
 
-    async execute(request: CreateBarberRequest){
+    async execute(request: CreateBarberRequest) {
 
         const barberProps = {
             ...request,

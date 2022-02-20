@@ -13,9 +13,9 @@ type CreateClientRequest = {
 
 export class CreateClient {
 
-    constructor(private repository: IRepository<Client>){}
+    constructor(private repository: IRepository<Client>) { }
 
-    async execute(request: CreateClientRequest){
+    async execute(request: CreateClientRequest) {
 
         const clientProps = {
             ...request,

@@ -1,5 +1,5 @@
-export interface ValueObject<T>{
+export default interface ValueObject<T> {
 
     getValue(): any;
-    equals(other: T):boolean
-}
+    equals(other: T): boolean
+};

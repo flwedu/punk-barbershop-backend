@@ -1,4 +1,4 @@
-import { Maybe } from "../../../src/util/Maybe";
+import Maybe from "../../../src/util/Maybe";
 
 describe("Testing Maybe class functions", () => {
 
