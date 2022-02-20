@@ -5,7 +5,7 @@ import { ServiceType } from "../../domain/entities/serviceType";
 import Maybe from "../../util/Maybe";
 import IRepository from "../repositories/IRepository";
 
-type SchedulingRepositories = {
+type SchedulingRepositoriesDependencies = {
     clientRepository: IRepository<Client>,
     barberRepository: IRepository<Barber>,
     serviceTypeRepository: IRepository<ServiceType>,
@@ -26,7 +26,7 @@ export class CreateScheduling {
     private serviceTypeRepository: IRepository<ServiceType>
     private schedulingRepository: IRepository<Scheduling>
 
-    constructor(repositoriesList: SchedulingRepositories) {
+    constructor(repositoriesList: SchedulingRepositoriesDependencies) {
         Object.assign(this, repositoriesList);
     }
 
