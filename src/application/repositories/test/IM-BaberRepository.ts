@@ -1,4 +1,4 @@
-import { Barber, Props } from "../../../../src/domain/entities/barber";
+import { Barber, Props } from "../../../domain/entities/barber";
 import { IMRepository } from "./IM-Abstract-Repository";
 
 export class IMBarberRepository extends IMRepository<Barber> {

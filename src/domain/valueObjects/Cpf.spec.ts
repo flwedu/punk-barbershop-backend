@@ -1,4 +1,4 @@
-import { Cpf } from "../../../../src/domain/valueObjects/Cpf"
+import { Cpf } from "./Cpf"
 
 it("equals() should return true", () => {
 

@@ -1,4 +1,4 @@
-import { Props, Scheduling } from "../../../../src/domain/entities/scheduling";
+import { Props, Scheduling } from "../../../domain/entities/scheduling";
 import { IMRepository } from "./IM-Abstract-Repository";
 
 export class IMSchedulingRepository extends IMRepository<Scheduling> {

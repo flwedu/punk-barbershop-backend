@@ -1,5 +1,5 @@
-import { CreateClient } from "../../../../src/application/useCases/create-client";
-import { IMClientRepository } from "../repositories/IM-ClientRepository";
+import { IMClientRepository } from "../repositories/test/IM-ClientRepository";
+import { CreateClient } from "./create-client";
 
 describe("create client use cases", () => {
 

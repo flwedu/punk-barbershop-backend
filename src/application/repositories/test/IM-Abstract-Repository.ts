@@ -1,5 +1,5 @@
-import IRepository from "../../../../src/application/repositories/IRepository";
-import { Entity, Props } from "../../../../src/domain/entities/Entity";
+import { Entity, Props } from "../../../domain/entities/Entity";
+import IRepository from "../IRepository";
 
 export abstract class IMRepository<T extends Entity> implements IRepository<T> {
   list: T[] = [];

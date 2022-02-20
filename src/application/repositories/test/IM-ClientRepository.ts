@@ -1,4 +1,4 @@
-import { Client, Props } from "../../../../src/domain/entities/client";
+import { Client, Props } from "../../../domain/entities/client";
 import { IMRepository } from "./IM-Abstract-Repository";
 
 export class IMClientRepository extends IMRepository<Client> {

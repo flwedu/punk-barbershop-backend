@@ -1,4 +1,4 @@
-import { ServiceType, Props } from "../../../../src/domain/entities/serviceType";
+import { ServiceType, Props } from "../../../domain/entities/serviceType";
 import { IMRepository } from "./IM-Abstract-Repository";
 
 export class IMServiceTypeRepository extends  IMRepository<ServiceType> {
