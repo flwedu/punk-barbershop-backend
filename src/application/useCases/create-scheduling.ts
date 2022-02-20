@@ -2,6 +2,7 @@ import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";
 import { ServiceType } from "../../domain/entities/serviceType";
+import DateTime from "../../domain/valueObjects/DateTime";
 import Maybe from "../../util/Maybe";
 import IRepository from "../repositories/IRepository";
 
@@ -52,8 +53,8 @@ export class CreateScheduling {
 
         return this.schedulingRepository.save({
             ...request,
-            scheduleDate: new Date(request.scheduleDate),
-            createdAt: new Date(),
+            scheduleDate: DateTime.of(request.scheduleDate),
+            createdAt: DateTime.of(new Date().toUTCString()),
         });
     }
 }
