@@ -1,11 +1,11 @@
-import { IMBarberRepository } from "../repositories/test/IM-BaberRepository";
-import { IMClientRepository } from "../repositories/test/IM-ClientRepository"
-import { IMSchedulingRepository } from "../repositories/test/IM-SchedulingRepository";
-import { IMServiceTypeRepository } from "../repositories/test/IM-ServiceTypeRepository";
-import { CreateBarber } from "./create-barber";
-import { CreateClient } from "./create-client";
-import { CreateScheduling } from "./create-scheduling"
-import { CreateServiceType } from "./create-serviceType";
+import { IMBarberRepository } from "../../repositories/test/IM-BaberRepository";
+import { IMClientRepository } from "../../repositories/test/IM-ClientRepository"
+import { IMSchedulingRepository } from "../../repositories/test/IM-SchedulingRepository";
+import { IMServiceTypeRepository } from "../../repositories/test/IM-ServiceTypeRepository";
+import { CreateBarber } from "../barber/create-barber";
+import { CreateClient } from "../client/create-client";
+import { CreateServiceType } from "../service-type/create-serviceType";
+import { CreateScheduling } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
 

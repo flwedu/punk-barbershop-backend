@@ -1,4 +1,4 @@
-import { IMBarberRepository } from "../repositories/test/IM-BaberRepository";
+import { IMBarberRepository } from "../../repositories/test/IM-BaberRepository";
 import { CreateBarber } from "./create-barber";
 
 describe("create barber use cases", () => {

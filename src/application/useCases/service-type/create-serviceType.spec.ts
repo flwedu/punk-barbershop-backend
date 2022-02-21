@@ -1,4 +1,4 @@
-import { IMServiceTypeRepository } from "../repositories/test/IM-ServiceTypeRepository";
+import { IMServiceTypeRepository } from "../../repositories/test/IM-ServiceTypeRepository";
 import { CreateServiceType } from "./create-serviceType";
 
 describe("create barber use cases", () => {

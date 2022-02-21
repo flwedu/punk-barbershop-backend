@@ -1,7 +1,7 @@
-import { Barber } from "../../domain/entities/barber";
-import { Cpf } from "../../domain/valueObjects/Cpf";
-import { Email } from "../../domain/valueObjects/Email";
-import IRepository from "../repositories/IRepository";
+import { Barber } from "../../../domain/entities/barber";
+import { Cpf } from "../../../domain/valueObjects/Cpf";
+import { Email } from "../../../domain/valueObjects/Email";
+import IRepository from "../../repositories/IRepository";
 
 type CreateBarberRequest = {
     name: string;

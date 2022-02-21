@@ -1,6 +1,6 @@
-import { ServiceType } from "../../domain/entities/serviceType";
-import { Duration } from "../../domain/valueObjects/Duration";
-import IRepository from "../repositories/IRepository";
+import { ServiceType } from "../../../domain/entities/serviceType";
+import { Duration } from "../../../domain/valueObjects/Duration";
+import IRepository from "../../repositories/IRepository";
 
 type CreateServiceTypeRequest = {
     name: string,

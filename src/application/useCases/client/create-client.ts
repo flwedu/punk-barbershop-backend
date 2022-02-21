@@ -1,7 +1,7 @@
-import { Client } from "../../domain/entities/client";
-import { Cpf } from "../../domain/valueObjects/Cpf";
-import { Email } from "../../domain/valueObjects/Email";
-import IRepository from "../repositories/IRepository";
+import { Client } from "../../../domain/entities/client";
+import { Cpf } from "../../../domain/valueObjects/Cpf";
+import { Email } from "../../../domain/valueObjects/Email";
+import IRepository from "../../repositories/IRepository";
 
 
 export type CreateClientRequest = {
