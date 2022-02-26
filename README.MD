@@ -19,5 +19,5 @@ Aplicação em fase de levantamento de requisitos, modelagem de domínio e aplic
 Para executar testes:
 
 ```bash
-yarn test
+npm run test
 ```
