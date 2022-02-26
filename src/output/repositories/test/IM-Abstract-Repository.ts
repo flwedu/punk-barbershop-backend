@@ -27,4 +27,13 @@ export abstract class IMRepository<T extends Entity> implements IRepository<T> {
         )
         return Promise.resolve(result);
     }
+    delete(id: string): Promise<any> {
+        const oldLength = this.list.length;
+        this.list = this.list.filter(element => element.id != id);
+
+        if (oldLength > this.list.length) {
+            return Promise.resolve(this.list);
+        }
+        return Promise.reject()
+    }
 }
