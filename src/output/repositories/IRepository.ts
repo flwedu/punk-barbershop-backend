@@ -7,4 +7,5 @@ export default abstract class IRepository<T extends Entity>{
     abstract findAll(): Promise<T[]>;
     abstract save(props: Props<T>, id?: string): Promise<T>;
     abstract update(props: Props<T>, id: string): Promise<T>;
+    abstract delete(id: string): Promise<any>;
 }
