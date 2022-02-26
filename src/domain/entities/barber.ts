@@ -2,6 +2,15 @@ import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
 import { Entity } from "./Entity";
 
+type InputBarberProps = {
+    id?: string,
+    name: string,
+    email: string,
+    birthDate: string,
+    createdAt?: string,
+    cpf: string,
+}
+
 export interface Props<Barber> {
     name: string,
     email: Email,
@@ -15,9 +24,17 @@ export class Barber extends Entity {
         super(props, id);
     }
 
-    public static create(props: Props<Barber>, id?: string) {
-        const barber = new Barber(props, id);
+    public static create(props: InputBarberProps, id?: string) {
 
+        const readyProps = {
+            ...props,
+            email: Email.of(props.email),
+            cpf: Cpf.of(props.cpf),
+            birthDate: new Date(props.birthDate),
+            createdAt: new Date(),
+        } as Props<Barber>
+
+        const barber = new Barber(readyProps, id);
         return barber;
     }
 }
