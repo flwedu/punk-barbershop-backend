@@ -1,4 +1,5 @@
-import { IMServiceTypeRepository } from "../../../output/repositories/test/IM-ServiceTypeRepository";
+import { ServiceType } from "../../../domain/entities/serviceType";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateServiceTypeUseCase } from "./create-serviceType";
 
 describe("create barber use cases", () => {
@@ -10,7 +11,7 @@ describe("create barber use cases", () => {
     it("should create a new service type", async () => {
 
         expect.assertions(3);
-        const repository = new IMServiceTypeRepository();
+        const repository = new IMRepository<ServiceType>();
         const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -29,7 +30,7 @@ describe("create barber use cases", () => {
     it("should not create a new service type with invalid duration value", async () => {
 
         expect.assertions(2);
-        const repository = new IMServiceTypeRepository();
+        const repository = new IMRepository<ServiceType>();
         const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -74,7 +75,7 @@ describe("create barber use cases", () => {
     it("should not create a new service type with invalid price value", async () => {
 
         expect.assertions(2);
-        const repository = new IMServiceTypeRepository();
+        const repository = new IMRepository<ServiceType>();
         const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 

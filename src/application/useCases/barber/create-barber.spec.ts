@@ -1,4 +1,5 @@
-import { IMBarberRepository } from "../../../output/repositories/test/IM-BaberRepository";
+import { Barber } from "../../../domain/entities/barber";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateBarberUseCase } from "./create-barber";
 
 describe("create barber use cases", () => {
@@ -10,7 +11,7 @@ describe("create barber use cases", () => {
     it("should create a new barber with valid data", async () => {
 
         expect.assertions(3);
-        const repository = new IMBarberRepository();
+        const repository = new IMRepository<Barber>();
         const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -29,7 +30,7 @@ describe("create barber use cases", () => {
     it("should not create a new barber with invalid email", async () => {
 
         expect.assertions(2);
-        const repository = new IMBarberRepository();
+        const repository = new IMRepository();
         const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -42,7 +43,7 @@ describe("create barber use cases", () => {
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledTimes(0);
         }
 
     })
@@ -50,7 +51,7 @@ describe("create barber use cases", () => {
     it("should not create a new barber with invalid cpf", async () => {
 
         expect.assertions(2);
-        const repository = new IMBarberRepository();
+        const repository = new IMRepository();
         const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -63,7 +64,7 @@ describe("create barber use cases", () => {
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledTimes(0);
         }
 
     })

@@ -1,4 +1,5 @@
-import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository";
+import { Client } from "../../../domain/entities/client";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateClientUseCase } from "./create-client";
 import { FindClientUseCase } from "./find-client";
 
@@ -8,7 +9,7 @@ describe("Find client use cases", () => {
     });
 
     async function setupRepository() {
-        const repository = new IMClientRepository();
+        const repository = new IMRepository<Client>();
         const createClient = new CreateClientUseCase(repository);
 
         const client1 = await createClient.execute({

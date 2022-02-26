@@ -1,7 +1,8 @@
-import { IMBarberRepository } from "../../../output/repositories/test/IM-BaberRepository";
-import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository"
-import { IMSchedulingRepository } from "../../../output/repositories/test/IM-SchedulingRepository";
-import { IMServiceTypeRepository } from "../../../output/repositories/test/IM-ServiceTypeRepository";
+import { Barber } from "../../../domain/entities/barber";
+import { Client } from "../../../domain/entities/client";
+import { Scheduling } from "../../../domain/entities/scheduling";
+import { ServiceType } from "../../../domain/entities/serviceType";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateBarberUseCase } from "../barber/create-barber";
 import { CreateClientUseCase } from "../client/create-client";
 import { CreateServiceTypeUseCase } from "../service-type/create-serviceType";
@@ -11,10 +12,10 @@ describe("create scheduling use case", () => {
 
     async function prepare() {
 
-        const clientRepository = new IMClientRepository();
-        const barberRepository = new IMBarberRepository();
-        const serviceTypeRepository = new IMServiceTypeRepository();
-        const schedulingRepository = new IMSchedulingRepository();
+        const clientRepository = new IMRepository<Client>();
+        const barberRepository = new IMRepository<Barber>();
+        const serviceTypeRepository = new IMRepository<ServiceType>();
+        const schedulingRepository = new IMRepository<Scheduling>();
         const sut = new CreateSchedulingUseCase({
             schedulingRepository, clientRepository, serviceTypeRepository, barberRepository
         });

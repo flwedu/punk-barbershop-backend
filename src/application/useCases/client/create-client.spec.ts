@@ -1,4 +1,5 @@
-import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository";
+import { Client } from "../../../domain/entities/client";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateClientUseCase } from "./create-client";
 
 describe("create client use cases", () => {
@@ -10,7 +11,7 @@ describe("create client use cases", () => {
     it("should create a new client with valid data", async () => {
 
         expect.assertions(3);
-        const repository = new IMClientRepository();
+        const repository = new IMRepository<Client>();
         const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -29,7 +30,7 @@ describe("create client use cases", () => {
     it("should not create a new client with invalid email", async () => {
 
         expect.assertions(2);
-        const repository = new IMClientRepository();
+        const repository = new IMRepository<Client>();
         const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
@@ -50,7 +51,7 @@ describe("create client use cases", () => {
     it("should not create a new client with invalid cpf", async () => {
 
         expect.assertions(2);
-        const repository = new IMClientRepository();
+        const repository = new IMRepository<Client>();
         const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
