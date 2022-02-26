@@ -42,7 +42,7 @@ describe("create barber use cases", () => {
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(spy).toHaveBeenCalledTimes(1);
         }
 
     })
@@ -63,7 +63,7 @@ describe("create barber use cases", () => {
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(spy).toHaveBeenCalledTimes(1);
         }
 
     })
