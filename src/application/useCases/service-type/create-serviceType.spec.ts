@@ -1,5 +1,5 @@
 import { IMServiceTypeRepository } from "../../../output/repositories/test/IM-ServiceTypeRepository";
-import { CreateServiceType } from "./create-serviceType";
+import { CreateServiceTypeUseCase } from "./create-serviceType";
 
 describe("create barber use cases", () => {
 
@@ -11,7 +11,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(3);
         const repository = new IMServiceTypeRepository();
-        const sut = new CreateServiceType(repository);
+        const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         const result = await sut.execute({
@@ -30,7 +30,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(2);
         const repository = new IMServiceTypeRepository();
-        const sut = new CreateServiceType(repository);
+        const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {
@@ -75,7 +75,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(2);
         const repository = new IMServiceTypeRepository();
-        const sut = new CreateServiceType(repository);
+        const sut = new CreateServiceTypeUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {

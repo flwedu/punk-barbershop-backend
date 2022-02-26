@@ -2,6 +2,7 @@ import { Barber } from "../../../domain/entities/barber";
 import { Cpf } from "../../../domain/valueObjects/Cpf";
 import { Email } from "../../../domain/valueObjects/Email";
 import IRepository from "../../../output/repositories/IRepository";
+import IUseCase from "../IUseCase";
 
 type CreateBarberRequest = {
     name: string;
@@ -10,7 +11,7 @@ type CreateBarberRequest = {
     cpf: string;
 }
 
-export class CreateBarber {
+export class CreateBarberUseCase implements IUseCase {
 
     constructor(private repository: IRepository<Barber>) { }
 

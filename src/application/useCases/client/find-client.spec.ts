@@ -1,6 +1,6 @@
 import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository";
-import { CreateClient } from "./create-client";
-import { FindClient } from "./find-client";
+import { CreateClientUseCase } from "./create-client";
+import { FindClientUseCase } from "./find-client";
 
 describe("Find client use cases", () => {
     beforeEach(() => {
@@ -9,7 +9,7 @@ describe("Find client use cases", () => {
 
     async function setupRepository() {
         const repository = new IMClientRepository();
-        const createClient = new CreateClient(repository);
+        const createClient = new CreateClientUseCase(repository);
 
         const client1 = await createClient.execute({
             name: "Client1",
@@ -32,7 +32,7 @@ describe("Find client use cases", () => {
         expect.assertions(3);
 
         const { repository, client1, client2 } = await setupRepository();
-        const sut = new FindClient(repository);
+        const sut = new FindClientUseCase(repository);
         const spy = jest.spyOn(repository, "findById");
 
         const result1 = await sut.execute({ id: client1.id });
@@ -47,7 +47,7 @@ describe("Find client use cases", () => {
         expect.assertions(1);
 
         const { repository } = await setupRepository();
-        const sut = new FindClient(repository);
+        const sut = new FindClientUseCase(repository);
         const spy = jest.spyOn(repository, "findById");
 
         sut.execute({ id: "1121" }).catch(() => {
@@ -59,7 +59,7 @@ describe("Find client use cases", () => {
         expect.assertions(3);
 
         const { repository, client1, client2 } = await setupRepository();
-        const sut = new FindClient(repository);
+        const sut = new FindClientUseCase(repository);
         const spy = jest.spyOn(repository, "find");
 
         const list1 = await sut.execute({

@@ -1,5 +1,5 @@
 import { IMBarberRepository } from "../../../output/repositories/test/IM-BaberRepository";
-import { CreateBarber } from "./create-barber";
+import { CreateBarberUseCase } from "./create-barber";
 
 describe("create barber use cases", () => {
 
@@ -11,7 +11,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(3);
         const repository = new IMBarberRepository();
-        const sut = new CreateBarber(repository);
+        const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         const barber = await sut.execute({
@@ -30,7 +30,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(2);
         const repository = new IMBarberRepository();
-        const sut = new CreateBarber(repository);
+        const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {
@@ -51,7 +51,7 @@ describe("create barber use cases", () => {
 
         expect.assertions(2);
         const repository = new IMBarberRepository();
-        const sut = new CreateBarber(repository);
+        const sut = new CreateBarberUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {

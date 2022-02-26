@@ -9,7 +9,7 @@ type CreateServiceTypeRequest = {
     price: string,
 }
 
-export class CreateServiceType {
+export class CreateServiceTypeUseCase {
 
     constructor(private repository: IRepository<ServiceType>) { }
 

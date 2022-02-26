@@ -5,6 +5,7 @@ import { ServiceType } from "../../../domain/entities/serviceType";
 import DateTime from "../../../domain/valueObjects/DateTime";
 import Maybe from "../../../util/Maybe";
 import IRepository from "../../../output/repositories/IRepository";
+import IUseCase from "../IUseCase";
 
 type SchedulingRepositoriesDependencies = {
     clientRepository: IRepository<Client>,
@@ -20,7 +21,7 @@ type CreateSchedulingRequest = {
     serviceTypeId: string,
 }
 
-export class CreateScheduling {
+export class CreateSchedulingUseCase implements IUseCase {
 
     private clientRepository: IRepository<Client>
     private barberRepository: IRepository<Barber>

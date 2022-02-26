@@ -2,10 +2,10 @@ import { IMBarberRepository } from "../../../output/repositories/test/IM-BaberRe
 import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository"
 import { IMSchedulingRepository } from "../../../output/repositories/test/IM-SchedulingRepository";
 import { IMServiceTypeRepository } from "../../../output/repositories/test/IM-ServiceTypeRepository";
-import { CreateBarber } from "../barber/create-barber";
-import { CreateClient } from "../client/create-client";
-import { CreateServiceType } from "../service-type/create-serviceType";
-import { CreateScheduling } from "./create-scheduling";
+import { CreateBarberUseCase } from "../barber/create-barber";
+import { CreateClientUseCase } from "../client/create-client";
+import { CreateServiceTypeUseCase } from "../service-type/create-serviceType";
+import { CreateSchedulingUseCase } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
 
@@ -15,24 +15,24 @@ describe("create scheduling use case", () => {
         const barberRepository = new IMBarberRepository();
         const serviceTypeRepository = new IMServiceTypeRepository();
         const schedulingRepository = new IMSchedulingRepository();
-        const sut = new CreateScheduling({
+        const sut = new CreateSchedulingUseCase({
             schedulingRepository, clientRepository, serviceTypeRepository, barberRepository
         });
 
-        const client = await new CreateClient(clientRepository).execute({
+        const client = await new CreateClientUseCase(clientRepository).execute({
             name: "Test",
             email: "user@email.com",
             birthDate: "01/01/2021",
             cpf: "00000000000"
         });
-        const barber = await new CreateBarber(barberRepository).execute({
+        const barber = await new CreateBarberUseCase(barberRepository).execute({
             name: "Test",
             email: "barber@email.com",
             birthDate: "1980-01-05",
             cpf: "00000000000"
         });
 
-        const serviceType = await new CreateServiceType(serviceTypeRepository).execute({
+        const serviceType = await new CreateServiceTypeUseCase(serviceTypeRepository).execute({
             name: "Corte xavoso",
             description: "Aquele corte maneiro",
             duration: "60",

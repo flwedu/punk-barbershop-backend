@@ -1,5 +1,5 @@
 import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository";
-import { CreateClient } from "./create-client";
+import { CreateClientUseCase } from "./create-client";
 
 describe("create client use cases", () => {
 
@@ -11,7 +11,7 @@ describe("create client use cases", () => {
 
         expect.assertions(3);
         const repository = new IMClientRepository();
-        const sut = new CreateClient(repository);
+        const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         const client = await sut.execute({
@@ -30,7 +30,7 @@ describe("create client use cases", () => {
 
         expect.assertions(2);
         const repository = new IMClientRepository();
-        const sut = new CreateClient(repository);
+        const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {
@@ -51,7 +51,7 @@ describe("create client use cases", () => {
 
         expect.assertions(2);
         const repository = new IMClientRepository();
-        const sut = new CreateClient(repository);
+        const sut = new CreateClientUseCase(repository);
         const spy = jest.spyOn(repository, "save");
 
         try {

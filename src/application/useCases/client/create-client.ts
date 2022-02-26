@@ -2,6 +2,7 @@ import { Client } from "../../../domain/entities/client";
 import { Cpf } from "../../../domain/valueObjects/Cpf";
 import { Email } from "../../../domain/valueObjects/Email";
 import IRepository from "../../../output/repositories/IRepository";
+import IUseCase from "../IUseCase";
 
 
 export type CreateClientRequest = {
@@ -11,7 +12,7 @@ export type CreateClientRequest = {
     cpf: string;
 }
 
-export class CreateClient {
+export class CreateClientUseCase implements IUseCase {
 
     constructor(private repository: IRepository<Client>) { }
 
