@@ -1,5 +1,5 @@
 import { Client } from "../../../domain/entities/client";
-import IRepository from "../../repositories/IRepository";
+import IRepository from "../../../output/repositories/IRepository";
 
 export type FindClientRequest = {
     id?: string,

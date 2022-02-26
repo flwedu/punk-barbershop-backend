@@ -4,7 +4,7 @@ import { Scheduling } from "../../../domain/entities/scheduling";
 import { ServiceType } from "../../../domain/entities/serviceType";
 import DateTime from "../../../domain/valueObjects/DateTime";
 import Maybe from "../../../util/Maybe";
-import IRepository from "../../repositories/IRepository";
+import IRepository from "../../../output/repositories/IRepository";
 
 type SchedulingRepositoriesDependencies = {
     clientRepository: IRepository<Client>,

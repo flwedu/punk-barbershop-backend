@@ -1,4 +1,4 @@
-import { IMClientRepository } from "../../repositories/test/IM-ClientRepository";
+import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository";
 import { CreateClient } from "./create-client";
 import { FindClient } from "./find-client";
 

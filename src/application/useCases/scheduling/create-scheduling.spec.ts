@@ -1,7 +1,7 @@
-import { IMBarberRepository } from "../../repositories/test/IM-BaberRepository";
-import { IMClientRepository } from "../../repositories/test/IM-ClientRepository"
-import { IMSchedulingRepository } from "../../repositories/test/IM-SchedulingRepository";
-import { IMServiceTypeRepository } from "../../repositories/test/IM-ServiceTypeRepository";
+import { IMBarberRepository } from "../../../output/repositories/test/IM-BaberRepository";
+import { IMClientRepository } from "../../../output/repositories/test/IM-ClientRepository"
+import { IMSchedulingRepository } from "../../../output/repositories/test/IM-SchedulingRepository";
+import { IMServiceTypeRepository } from "../../../output/repositories/test/IM-ServiceTypeRepository";
 import { CreateBarber } from "../barber/create-barber";
 import { CreateClient } from "../client/create-client";
 import { CreateServiceType } from "../service-type/create-serviceType";
