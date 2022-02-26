@@ -2,6 +2,15 @@ import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
 import { Entity } from "./Entity";
 
+export type InputClientProps = {
+    id?: string,
+    name: string,
+    email: string,
+    createdAt?: string,
+    birthDate: string,
+    cpf: string,
+}
+
 export interface Props<Client> {
     name: string,
     email: Email,
@@ -15,9 +24,17 @@ export class Client extends Entity {
         super(props, id);
     }
 
-    public static create(props: Props<Client>, id?: string) {
+    public static create(props: InputClientProps, id?: string) {
 
-        const client = new Client(props, id);
+        const readyProps = {
+            ...props,
+            email: Email.of(props.email),
+            cpf: Cpf.of(props.cpf),
+            birthDate: new Date(props.birthDate),
+            createdAt: new Date(),
+        };
+
+        const client = new Client(readyProps, props.id);
 
         return client;
     }

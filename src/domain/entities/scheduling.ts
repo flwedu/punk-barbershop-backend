@@ -1,4 +1,12 @@
+import DateTime from "../valueObjects/DateTime";
 import { Entity } from "./Entity";
+
+export type InputSchedulingRequestProps = {
+    clientId: string,
+    barberId: string,
+    scheduleDate: string,
+    serviceTypeId: string,
+}
 
 export interface Props<Scheduling> {
     clientId: string,
@@ -13,8 +21,15 @@ export class Scheduling extends Entity {
         super(props, id);
     }
 
-    public static create(props: Props<Scheduling>, id?: string) {
-        const scheduling = new Scheduling(props, id);
+    public static create(props: InputSchedulingRequestProps, id?: string) {
+
+        const readyProps = {
+            ...props,
+            scheduleDate: DateTime.of(props.scheduleDate).getValue(),
+            createdAt: new Date()
+        } as Props<Scheduling>;
+
+        const scheduling = new Scheduling(readyProps, id);
 
         return scheduling;
     }

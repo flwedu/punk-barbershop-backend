@@ -1,8 +1,7 @@
 import { Barber } from "../../../domain/entities/barber";
 import { Client } from "../../../domain/entities/client";
-import { Scheduling } from "../../../domain/entities/scheduling";
+import { InputSchedulingRequestProps, Scheduling } from "../../../domain/entities/scheduling";
 import { ServiceType } from "../../../domain/entities/serviceType";
-import DateTime from "../../../domain/valueObjects/DateTime";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 
@@ -11,13 +10,6 @@ type SchedulingRepositoriesDependencies = {
     barberRepository: IRepository<Barber>,
     serviceTypeRepository: IRepository<ServiceType>,
     schedulingRepository: IRepository<Scheduling>
-}
-
-type CreateSchedulingRequest = {
-    clientId: string,
-    barberId: string,
-    scheduleDate: string,
-    serviceTypeId: string,
 }
 
 export class CreateSchedulingUseCase implements IUseCase {
@@ -31,16 +23,12 @@ export class CreateSchedulingUseCase implements IUseCase {
         Object.assign(this, repositoriesList);
     }
 
-    async execute(request: CreateSchedulingRequest) {
+    async execute(data: InputSchedulingRequestProps) {
 
-        await this.clientRepository.findById(request.clientId);
-        await this.barberRepository.findById(request.barberId);
-        await this.serviceTypeRepository.findById(request.serviceTypeId);
+        await this.clientRepository.findById(data.clientId);
+        await this.barberRepository.findById(data.barberId);
+        await this.serviceTypeRepository.findById(data.serviceTypeId);
 
-        return this.schedulingRepository.save({
-            ...request,
-            scheduleDate: DateTime.of(request.scheduleDate),
-            createdAt: DateTime.of(new Date().toUTCString()),
-        });
+        return this.schedulingRepository.save(data);
     }
 }
