@@ -10,7 +10,7 @@ import { CreateSchedulingUseCase } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
 
-    async function prepare() {
+    async function setup() {
 
         const clientRepository = new IMRepository<Client>();
         const barberRepository = new IMRepository<Barber>();
@@ -52,7 +52,7 @@ describe("create scheduling use case", () => {
 
         expect.assertions(3);
 
-        const { sut, schedulingRepository, client, serviceType, barber } = await prepare();
+        const { sut, schedulingRepository, client, serviceType, barber } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         const result = await sut.execute({
@@ -72,7 +72,7 @@ describe("create scheduling use case", () => {
 
         expect.assertions(2);
 
-        const { sut, schedulingRepository, serviceType, barber } = await prepare();
+        const { sut, schedulingRepository, serviceType, barber } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         try {
@@ -93,7 +93,7 @@ describe("create scheduling use case", () => {
 
         expect.assertions(2);
 
-        const { sut, schedulingRepository, client, serviceType, barber } = await prepare();
+        const { sut, schedulingRepository, client, serviceType, barber } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         try {
