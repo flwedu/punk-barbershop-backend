@@ -2,7 +2,7 @@ import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
 import { Entity } from "./Entity";
 
-type InputBarberProps = {
+export type InputBarberProps = {
     id?: string,
     name: string,
     email: string,
