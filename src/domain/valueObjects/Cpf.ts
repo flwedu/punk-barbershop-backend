@@ -1,4 +1,5 @@
 import { testCpf } from "../../util/testFields";
+import BusinessRuleError from "../errors/business-rule-error";
 import ValueObject from "./ValueObject";
 
 export class Cpf implements ValueObject<Cpf>{
@@ -11,7 +12,7 @@ export class Cpf implements ValueObject<Cpf>{
 
     static of(value: string): Cpf {
         if (!testCpf(value)) {
-            throw new Error("Invalid CPF")
+            throw new BusinessRuleError("Invalid CPF")
         }
         return new Cpf(value);
     }

@@ -1,4 +1,5 @@
 import { testEmail } from '../../util/testFields';
+import BusinessRuleError from '../errors/business-rule-error';
 import ValueObject from './ValueObject';
 
 export class Email implements ValueObject<Email> {
@@ -6,7 +7,7 @@ export class Email implements ValueObject<Email> {
 
     static of(value: string): Email {
         if (!testEmail(value)) {
-            throw new Error('invalid e-mail');
+            throw new BusinessRuleError('invalid e-mail');
         }
         return new Email(value);
     }
