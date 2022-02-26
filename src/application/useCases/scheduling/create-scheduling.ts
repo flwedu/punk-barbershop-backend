@@ -3,7 +3,6 @@ import { Client } from "../../../domain/entities/client";
 import { Scheduling } from "../../../domain/entities/scheduling";
 import { ServiceType } from "../../../domain/entities/serviceType";
 import DateTime from "../../../domain/valueObjects/DateTime";
-import Maybe from "../../../util/Maybe";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 
@@ -34,23 +33,9 @@ export class CreateSchedulingUseCase implements IUseCase {
 
     async execute(request: CreateSchedulingRequest) {
 
-        const client = Maybe.of(await this.clientRepository.findById(request.clientId));
-
-        if (client.isEmpty()) {
-            throw new Error("Client not found")
-        }
-
-        const barber = Maybe.of(await this.barberRepository.findById(request.barberId));
-
-        if (barber.isEmpty()) {
-            throw new Error("Barber not found")
-        }
-
-        const serviceType = Maybe.of(await this.serviceTypeRepository.findById(request.serviceTypeId));
-
-        if (serviceType.isEmpty()) {
-            throw new Error("Service type not found")
-        }
+        await this.clientRepository.findById(request.clientId);
+        await this.barberRepository.findById(request.barberId);
+        await this.serviceTypeRepository.findById(request.serviceTypeId);
 
         return this.schedulingRepository.save({
             ...request,
