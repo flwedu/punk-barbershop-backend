@@ -14,6 +14,7 @@ export abstract class IMRepository<T extends Entity> implements IRepository<T> {
         return Promise.resolve(this.list);
     }
     abstract save(props: Props<T>, id?: string): Promise<T>;
+    abstract update(props: Props<T>, id: string): Promise<T>;
 
     find(query: any): Promise<T[]> {
         const keys = Object.keys(query.props);
