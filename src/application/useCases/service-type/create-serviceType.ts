@@ -7,7 +7,8 @@ export class CreateServiceTypeUseCase {
 
     async execute(data: InputServiceTypeProps) {
 
-        return await this.repository.save(data);
+        const serviceType = ServiceType.create(data);
+        return await this.repository.save(serviceType);
     }
 
 }

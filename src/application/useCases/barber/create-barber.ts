@@ -6,8 +6,9 @@ export class CreateBarberUseCase implements IUseCase {
 
     constructor(private repository: IRepository<Barber>) { }
 
-    async execute(request: InputBarberProps) {
+    async execute(data: InputBarberProps) {
 
-        return this.repository.save(request);
+        const barber = Barber.create(data);
+        return this.repository.save(barber);
     }
 }

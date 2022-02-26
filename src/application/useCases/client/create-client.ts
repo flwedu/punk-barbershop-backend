@@ -10,6 +10,7 @@ export class CreateClientUseCase implements IUseCase {
 
     async execute(data: InputClientProps) {
 
-        return this.repository.save(data);
+        const client = Client.create(data);
+        return this.repository.save(client);
     }
 }

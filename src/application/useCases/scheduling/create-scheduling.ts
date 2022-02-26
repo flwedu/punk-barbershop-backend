@@ -29,6 +29,7 @@ export class CreateSchedulingUseCase implements IUseCase {
         await this.barberRepository.findById(data.barberId);
         await this.serviceTypeRepository.findById(data.serviceTypeId);
 
-        return this.schedulingRepository.save(data);
+        const scheduling = Scheduling.create(data);
+        return this.schedulingRepository.save(scheduling);
     }
 }
