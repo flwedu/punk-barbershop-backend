@@ -91,7 +91,7 @@ describe("create scheduling use case", () => {
 
     it("should not create a new scheduling with invalid date", async () => {
 
-        expect.assertions(2);
+        expect.assertions(4);
 
         const { sut, schedulingRepository, client, serviceType, barber } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
@@ -101,14 +101,22 @@ describe("create scheduling use case", () => {
                 clientId: client.id,
                 barberId: barber.id,
                 serviceTypeId: serviceType.id,
-                scheduleDate: "202201-01T14:00"
+                scheduleDate: "2022-01-01T25:00:00"
             })
+        } catch {
+            expect(spy).toHaveBeenCalledTimes(0);
+        }
+        try {
             await sut.execute({
                 clientId: client.id,
                 barberId: barber.id,
                 serviceTypeId: serviceType.id,
                 scheduleDate: ""
             })
+        } catch {
+            expect(spy).toHaveBeenCalledTimes(0);
+        }
+        try {
             await sut.execute({
                 clientId: client.id,
                 barberId: barber.id,
@@ -116,9 +124,8 @@ describe("create scheduling use case", () => {
                 scheduleDate: "abc"
             })
         } catch {
-
-            expect(schedulingRepository.list.length).toEqual(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
+        expect(schedulingRepository.list.length).toEqual(0);
     });
 })
