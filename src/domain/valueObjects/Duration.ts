@@ -14,9 +14,9 @@ export class Duration implements ValueObject<Duration> {
         }
         return new Duration(duration);
     }
-    getValue(): number { return this.minuts; }
+    getValue(): string { return this.minuts + ""; }
 
     equals(other: Duration): boolean {
-        return this.minuts === other.getValue();
+        return this.minuts + "" === other.getValue();
     }
 }
