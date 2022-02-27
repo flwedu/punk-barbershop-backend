@@ -1,5 +1,6 @@
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
+import { parseDateValue } from "../valueObjects/parser";
 import { Entity } from "./Entity";
 
 export type InputBarberProps = {
@@ -30,7 +31,7 @@ export class Barber extends Entity {
             ...props,
             email: Email.of(props.email),
             cpf: Cpf.of(props.cpf),
-            birthDate: new Date(props.birthDate),
+            birthDate: parseDateValue(props.birthDate),
             createdAt: new Date(),
         } as Props<Barber>
 

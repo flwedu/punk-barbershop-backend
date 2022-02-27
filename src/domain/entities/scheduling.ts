@@ -1,4 +1,4 @@
-import DateTime from "../valueObjects/DateTime";
+import { parseDateValue } from "../valueObjects/parser";
 import { Entity } from "./Entity";
 
 export type InputSchedulingRequestProps = {
@@ -25,7 +25,7 @@ export class Scheduling extends Entity {
 
         const readyProps = {
             ...props,
-            scheduleDate: DateTime.of(props.scheduleDate).getValue(),
+            scheduleDate: parseDateValue(props.scheduleDate),
             createdAt: new Date()
         } as Props<Scheduling>;
 
