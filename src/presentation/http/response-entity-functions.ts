@@ -20,7 +20,7 @@ export function createResponseEntityForError(error: Error) {
 
 export function createNotFoundResponse(data: any): IResponseEntity<any> {
     return {
-        status: 400,
+        status: 404,
         data
     }
 }
