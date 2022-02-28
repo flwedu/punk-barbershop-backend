@@ -1,5 +1,5 @@
 
-export default class EntityModelAdapter {
+export default class EntityModelParser {
 
     toModel(entity: any) {
         const model = Object.create(null);
