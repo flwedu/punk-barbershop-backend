@@ -1,6 +1,6 @@
-import { Client, InputClientProps } from "../../../domain/entities/client";
-import { Cpf } from "../../../domain/valueObjects/Cpf";
-import { Email } from "../../../domain/valueObjects/Email";
+import { Client, InputClientProps } from "../../domain/entities/client";
+import { Cpf } from "../../domain/valueObjects/Cpf";
+import { Email } from "../../domain/valueObjects/Email";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 

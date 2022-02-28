@@ -1,4 +1,4 @@
-import { Barber } from "../../../domain/entities/barber";
+import { Barber } from "../../domain/entities/barber";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateBarberUseCase } from "./create-barber";
 

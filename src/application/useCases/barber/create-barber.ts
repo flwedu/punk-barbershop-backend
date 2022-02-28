@@ -1,4 +1,4 @@
-import { Barber, InputBarberProps } from "../../../domain/entities/barber";
+import { Barber, InputBarberProps } from "../../domain/entities/barber";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 

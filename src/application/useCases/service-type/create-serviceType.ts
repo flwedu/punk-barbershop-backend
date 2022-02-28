@@ -1,4 +1,4 @@
-import { InputServiceTypeProps, ServiceType } from "../../../domain/entities/serviceType";
+import { InputServiceTypeProps, ServiceType } from "../../domain/entities/serviceType";
 import IRepository from "../../../output/repositories/IRepository";
 
 export class CreateServiceTypeUseCase {

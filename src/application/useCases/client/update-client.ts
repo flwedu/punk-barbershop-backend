@@ -1,4 +1,4 @@
-import { Client, InputClientProps } from "../../../domain/entities/client";
+import { Client, InputClientProps } from "../../domain/entities/client";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 

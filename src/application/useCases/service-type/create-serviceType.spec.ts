@@ -1,4 +1,4 @@
-import { ServiceType } from "../../../domain/entities/serviceType";
+import { ServiceType } from "../../domain/entities/serviceType";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateServiceTypeUseCase } from "./create-serviceType";
 

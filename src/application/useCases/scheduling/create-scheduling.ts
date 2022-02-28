@@ -1,7 +1,7 @@
-import { Barber } from "../../../domain/entities/barber";
-import { Client } from "../../../domain/entities/client";
-import { InputSchedulingRequestProps, Scheduling } from "../../../domain/entities/scheduling";
-import { ServiceType } from "../../../domain/entities/serviceType";
+import { Barber } from "../../domain/entities/barber";
+import { Client } from "../../domain/entities/client";
+import { InputSchedulingRequestProps, Scheduling } from "../../domain/entities/scheduling";
+import { ServiceType } from "../../domain/entities/serviceType";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 

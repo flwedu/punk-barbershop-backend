@@ -1,4 +1,4 @@
-import { Client } from "../../../domain/entities/client";
+import { Client } from "../../domain/entities/client";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateClientUseCase } from "./create-client";
 import { FindClientUseCase } from "./find-client";

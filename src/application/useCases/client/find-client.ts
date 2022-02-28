@@ -1,4 +1,4 @@
-import { Client } from "../../../domain/entities/client";
+import { Client } from "../../domain/entities/client";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
 

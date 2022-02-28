@@ -1,4 +1,4 @@
-import { testCpf } from "../../util/testFields";
+import { testCpf } from "../../../util/testFields";
 import BusinessRuleError from "../errors/business-rule-error";
 import ValueObject from "./ValueObject";
 

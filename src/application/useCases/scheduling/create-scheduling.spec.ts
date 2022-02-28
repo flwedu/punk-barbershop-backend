@@ -1,7 +1,7 @@
-import { Barber } from "../../../domain/entities/barber";
-import { Client } from "../../../domain/entities/client";
-import { Scheduling } from "../../../domain/entities/scheduling";
-import { ServiceType } from "../../../domain/entities/serviceType";
+import { Barber } from "../../domain/entities/barber";
+import { Client } from "../../domain/entities/client";
+import { Scheduling } from "../../domain/entities/scheduling";
+import { ServiceType } from "../../domain/entities/serviceType";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateBarberUseCase } from "../barber/create-barber";
 import { CreateClientUseCase } from "../client/create-client";
