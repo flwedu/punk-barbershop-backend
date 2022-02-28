@@ -1,4 +1,4 @@
-import { Entity } from "../../domain/entities/Entity";
+import { Entity } from "../../application/domain/entities/Entity";
 
 export default abstract class IRepository<T extends Entity>{
 

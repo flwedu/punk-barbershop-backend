@@ -1,5 +1,5 @@
-import BusinessRuleError from "../../domain/errors/business-rule-error";
-import ResourceNotFound from "../../domain/errors/resource-not-found";
+import BusinessRuleError from "../../application/domain/errors/business-rule-error";
+import ResourceNotFound from "../../application/domain/errors/resource-not-found";
 import IResponseEntity from "./ResponseEntity";
 
 export function createOkResponse<T>(data: T): IResponseEntity<T> {

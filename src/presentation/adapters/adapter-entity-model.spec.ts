@@ -1,5 +1,5 @@
-import { Cpf } from "../../domain/valueObjects/Cpf";
-import { Duration } from "../../domain/valueObjects/Duration";
+import { Cpf } from "../../application/domain/valueObjects/Cpf";
+import { Duration } from "../../application/domain/valueObjects/Duration";
 import EntityModelAdapter from "./adapter-entity-model"
 
 describe("entity model adapter", () => {

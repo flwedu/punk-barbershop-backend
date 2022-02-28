@@ -1,4 +1,4 @@
-import { Client } from "../../domain/entities/client";
+import { Client } from "../../application/domain/entities/client";
 import { ClientPresentationModelAdapter } from "./client-presentation-model-adapter"
 
 describe("client presentation model adapter", () => {

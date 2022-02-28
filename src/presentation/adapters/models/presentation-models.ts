@@ -1,5 +1,5 @@
-import { InputBarberProps } from "../../../domain/entities/barber";
-import { InputClientProps } from "../../../domain/entities/client"
+import { InputBarberProps } from "../../../application/domain/entities/barber";
+import { InputClientProps } from "../../../application/domain/entities/client"
 
 export type ClientPresentationModel = InputClientProps;
 

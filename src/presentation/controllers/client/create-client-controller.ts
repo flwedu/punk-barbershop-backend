@@ -1,5 +1,5 @@
 import { CreateClientUseCase } from "../../../application/useCases/client/create-client";
-import { Client, InputClientProps } from "../../../domain/entities/client";
+import { Client, InputClientProps } from "../../../application/domain/entities/client";
 import IRepository from "../../../output/repositories/IRepository";
 import { ClientPresentationModelAdapter } from "../../adapters/client-presentation-model-adapter";
 import { createResponseEntityForError } from "../../http/response-entity-functions";

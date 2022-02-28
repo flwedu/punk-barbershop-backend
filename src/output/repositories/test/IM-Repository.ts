@@ -1,5 +1,5 @@
-import { Entity } from "../../../domain/entities/Entity";
-import ResourceNotFound from "../../../domain/errors/resource-not-found";
+import { Entity } from "../../../application/domain/entities/Entity";
+import ResourceNotFound from "../../../application/domain/errors/resource-not-found";
 import IRepository from "../IRepository";
 
 export class IMRepository<T extends Entity> implements IRepository<T> {

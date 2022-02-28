@@ -1,4 +1,4 @@
-import { Client } from "../../domain/entities/client";
+import { Client } from "../../application/domain/entities/client";
 import { ClientPresentationModel } from "./models/presentation-models";
 
 export class ClientPresentationModelAdapter {
