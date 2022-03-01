@@ -41,13 +41,19 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
         )
         return Promise.resolve(result);
     }
-    delete(id: string): Promise<any> {
+    delete(id: string): Promise<void> {
+
+        const index = this.list.findIndex(elem => elem.id == id);
+        if (index == -1) {
+            throw new ResourceNotFound("element not found");
+        }
+
         const oldLength = this.list.length;
-        this.list = this.list.filter(element => element.id != id);
+        this.list.splice(index, 1);
 
         if (oldLength > this.list.length) {
-            return Promise.resolve(this.list);
+            return Promise.resolve();
         }
-        return Promise.reject()
+        throw new Error("Server error: could'nt delete the element")
     }
 }
