@@ -1,8 +1,8 @@
-import { Client, InputClientProps } from "../../domain/entities/client";
 import IRepository from "../../../output/repositories/IRepository";
+import { Client, InputClientProps } from "../../domain/entities/client";
 import IUseCase from "../IUseCase";
 
-type UpdateRequest = {
+type UpdateClientRequest = {
     id: string,
     props: InputClientProps
 }
@@ -11,10 +11,10 @@ export default class UpdateClientUseCase implements IUseCase {
 
     constructor(private readonly repository: IRepository<Client>) { }
 
-    async execute(data: UpdateRequest) {
+    async execute(data: UpdateClientRequest) {
+        const { id, props: { ...props } } = data;
 
-        await this.repository.findById(data.id);
-        const client = Client.create(data.props, data.id)
-        return this.repository.update(client, data.id);
+        const client = Client.create(props, id)
+        return this.repository.update(client, id);
     }
 }
