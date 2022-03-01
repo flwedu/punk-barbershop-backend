@@ -27,7 +27,7 @@ describe("create barber use cases", () => {
         expect(spy).toHaveBeenCalledTimes(1);
     })
 
-    it("should not create a new barber with invalid email", async () => {
+    it.each(["", null, undefined, "a", "1"])("should not create a new barber with invalid email", async (email) => {
 
         expect.assertions(2);
         const repository = new IMRepository();
@@ -37,7 +37,7 @@ describe("create barber use cases", () => {
         try {
             await sut.execute({
                 name: "Test",
-                email: "",
+                email,
                 birthDate: "1980-01-05",
                 cpf: "00000000000"
             });
@@ -48,7 +48,7 @@ describe("create barber use cases", () => {
 
     })
 
-    it("should not create a new barber with invalid cpf", async () => {
+    it.each(["", null, "01", undefined, "654321987000"])("should not create a new barber with invalid cpf -> %d", async (cpf) => {
 
         expect.assertions(2);
         const repository = new IMRepository();
@@ -60,7 +60,7 @@ describe("create barber use cases", () => {
                 name: "Test",
                 email: "barber@email.com",
                 birthDate: "1980-01-05",
-                cpf: "000000000"
+                cpf
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);

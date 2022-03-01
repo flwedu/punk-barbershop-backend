@@ -8,7 +8,29 @@ describe("Delete by id controller", () => {
         jest.clearAllMocks();
     })
 
-    it("should return 202", async () => {
+    it.each(["1", "2", "50", "44546121"])("should return 202", async (id) => {
+
+        expect.assertions(3);
+
+        const repository = new IMRepository<ServiceType>();
+        const sut = new DeleteByIdController(repository);
+        const repositorySpy = jest.spyOn(repository, "delete");
+
+        repository.list.push(ServiceType.create({
+            name: "Corte maneiro",
+            description: "Sem descrição",
+            duration: "30",
+            price: "50"
+        }, id));
+
+        const responseEntity = await sut.handle({ id });
+
+        expect(responseEntity.status).toEqual(202);
+        expect(repository.list.length).toBeFalsy();
+        expect(repositorySpy).toBeCalledTimes(1);
+    })
+
+    it.each(["8", "2", "-1", "ab", null, undefined])("should return 404", async (id) => {
 
         expect.assertions(3);
 
@@ -23,29 +45,7 @@ describe("Delete by id controller", () => {
             price: "50"
         }, "1"));
 
-        const responseEntity = await sut.handle({ id: "1" });
-
-        expect(responseEntity.status).toEqual(202);
-        expect(repository.list.length).toBeFalsy();
-        expect(repositorySpy).toBeCalledTimes(1);
-    })
-
-    it("should return 404", async () => {
-
-        // expect.assertions(3);
-
-        const repository = new IMRepository<ServiceType>();
-        const sut = new DeleteByIdController(repository);
-        const repositorySpy = jest.spyOn(repository, "delete");
-
-        repository.list.push(ServiceType.create({
-            name: "Corte maneiro",
-            description: "Sem descrição",
-            duration: "30",
-            price: "50"
-        }, "1"));
-
-        const responseEntity = await sut.handle({ id: "2" });
+        const responseEntity = await sut.handle({ id });
 
         expect(responseEntity.status).toEqual(404);
         expect(repository.list.length).toBeTruthy();

@@ -29,7 +29,7 @@ describe("create client use cases", () => {
         expect(spy).toHaveBeenCalledTimes(1);
     })
 
-    it("should not create a new client with invalid email", async () => {
+    it.each(["", null, undefined, "a", "1"])("should not create a new client with invalid email", async () => {
 
         expect.assertions(2);
         const repository = new IMRepository<Client>();
@@ -52,7 +52,7 @@ describe("create client use cases", () => {
 
     })
 
-    it("should not create a new client with invalid cpf", async () => {
+    it.each(["", null, "01", undefined, "654321987000"])("should not create a new client with invalid cpf", async () => {
 
         expect.assertions(2);
         const repository = new IMRepository<Client>();
