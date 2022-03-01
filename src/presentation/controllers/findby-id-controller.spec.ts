@@ -1,6 +1,7 @@
-import { Barber } from "../../../application/domain/entities/barber";
-import { IMRepository } from "../../../output/repositories/test/IM-Repository";
+import { Barber } from "../../application/domain/entities/barber";
+import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import FindByIdController from "./findby-id-controller";
+
 
 describe("Find by id controller", () => {
 
