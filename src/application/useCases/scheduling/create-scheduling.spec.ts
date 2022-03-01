@@ -21,10 +21,12 @@ describe("create scheduling use case", () => {
         });
 
         const client = await new CreateClientUseCase(clientRepository).execute({
-            name: "Test",
-            email: "user@email.com",
-            birthDate: "01/01/2021",
-            cpf: "00000000000"
+            props: {
+                name: "Test",
+                email: "user@email.com",
+                birthDate: "01/01/2021",
+                cpf: "00000000000"
+            }
         });
         const barber = await new CreateBarberUseCase(barberRepository).execute({
             name: "Test",

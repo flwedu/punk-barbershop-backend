@@ -16,10 +16,12 @@ describe("create client use cases", () => {
         const spy = jest.spyOn(repository, "save");
 
         const client = await sut.execute({
-            name: "Test",
-            email: "aa@email.com",
-            birthDate: "01/01/2021",
-            cpf: "00000000000"
+            props: {
+                name: "Test",
+                email: "aa@email.com",
+                birthDate: "01/01/2021",
+                cpf: "00000000000"
+            }
         });
 
         expect(client).toBeTruthy();
@@ -36,10 +38,12 @@ describe("create client use cases", () => {
 
         try {
             await sut.execute({
-                name: "Test",
-                email: "",
-                birthDate: "01/01/2021",
-                cpf: "00000000000"
+                props: {
+                    name: "Test",
+                    email: "",
+                    birthDate: "01/01/2021",
+                    cpf: "00000000000"
+                }
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
@@ -57,10 +61,12 @@ describe("create client use cases", () => {
 
         try {
             await sut.execute({
-                name: "Test",
-                email: "aa@email.com",
-                birthDate: "01/01/2021",
-                cpf: "000000000"
+                props: {
+                    name: "Test",
+                    email: "aa@email.com",
+                    birthDate: "01/01/2021",
+                    cpf: "000000000"
+                }
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);

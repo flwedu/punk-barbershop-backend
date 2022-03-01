@@ -21,10 +21,12 @@ describe("create client controller", () => {
 
         const { repository, sut } = setup();
         const response = await sut.handle({
-            name: "Test",
-            cpf: "12345678911",
-            birthDate: "2020-01-01",
-            email: "test@email.com",
+            props: {
+                name: "Test",
+                cpf: "12345678911",
+                birthDate: "2020-01-01",
+                email: "test@email.com",
+            }
         })
 
         expect(response.status).toEqual(201);
@@ -37,24 +39,30 @@ describe("create client controller", () => {
 
         const { repository, sut } = setup();
         const response = await sut.handle({
-            name: "Test",
-            cpf: "",
-            birthDate: "2020-01-01",
-            email: "test@email.com",
+            props: {
+                name: "Test",
+                cpf: "",
+                birthDate: "2020-01-01",
+                email: "test@email.com",
+            }
         })
 
         const response2 = await sut.handle({
-            name: "Test",
-            cpf: "12345678911",
-            birthDate: "2020-01-01",
-            email: "",
+            props: {
+                name: "Test",
+                cpf: "12345678911",
+                birthDate: "2020-01-01",
+                email: "",
+            }
         })
 
         const response3 = await sut.handle({
-            name: "Test",
-            cpf: "12345678911",
-            birthDate: "",
-            email: "test@email.com",
+            props: {
+                name: "Test",
+                cpf: "12345678911",
+                birthDate: "",
+                email: "test@email.com",
+            }
         })
 
         expect(response.status).toEqual(400);
