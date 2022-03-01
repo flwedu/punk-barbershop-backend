@@ -1,10 +1,9 @@
-import { CreateClientUseCase } from "../../../application/useCases/client/create-client";
 import { Client, InputClientProps } from "../../../application/domain/entities/client";
+import { CreateClientUseCase } from "../../../application/useCases/client/create-client";
 import IRepository from "../../../output/repositories/IRepository";
+import EntityModelParser from "../../adapters/entity-model-parser";
 import { createResponseEntityForError } from "../../http/response-entity-functions";
 import Controller from "../Controller";
-import EntityModelParser from "../../adapters/entity-model-parser";
-import { getRepository } from "../../../main/config/resourcesFactory";
 
 export default class CreateClientController implements Controller {
 
