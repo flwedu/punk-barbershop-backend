@@ -2,19 +2,12 @@ import { testEmail } from "../../../src/util/testFields"
 
 describe("testEmail() function", () => {
 
-    it("should return true for a valid email address", () => {
+    it.each(["ab@email.com", "aa@e.com", "abbc.df@email.com", "aa@email.com.br"])("should return true for a valid email address: %s", (email) => {
 
-        expect(testEmail("ab@email.com")).toBeTruthy();
-        expect(testEmail("aa@e.com")).toBeTruthy();
-        expect(testEmail("abbc.df@email.com")).toBeTruthy();
-        expect(testEmail("aa@email.com.br")).toBeTruthy();
+        expect(testEmail(email)).toBeTruthy();
     })
 
-    it("should return false for a invalid email address", () => {
-
-        expect(testEmail("abemail.com")).toBeFalsy();
-        expect(testEmail("aaecom")).toBeFalsy();
-        expect(testEmail("")).toBeFalsy();
-        expect(testEmail("aa.com@br")).toBeFalsy();
+    it.each(["", null, undefined, "aaec", "email.com", "aa.com@br", "@.com"])("should return false for a invalid email address", (email) => {
+        expect(testEmail(email)).toBeFalsy();
     })
 })
