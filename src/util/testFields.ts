@@ -4,6 +4,6 @@ export function testEmail(value: string) {
 }
 
 export function testCpf(value: string) {
-    const regexp = /^(\d{11})|(\d{3}\.\d{3}\.\d{3}-\d{2})$/;
+    const regexp = /^(\d{3})[\.]?(\d{3})[\.]?(\d{3})[-]?(\d{2})$/;
     return regexp.test(value);
 }
