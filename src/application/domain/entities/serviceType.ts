@@ -35,10 +35,16 @@ export class ServiceType extends Entity {
             throw new BusinessRuleError("invalid service price value")
         }
 
+        const duration = Duration.of(props.duration);
+        const price = Number(props.price);
+        if (price < 1 || Number.isNaN(price)) {
+            throw new BusinessRuleError("Invalid price value");
+        }
+
         const readyProps = {
             ...props,
-            duration: Duration.of(props.duration),
-            price: Number(props.price)
+            duration,
+            price
         } as Props<ServiceType>
 
         const serviceType = new ServiceType(readyProps, id);
