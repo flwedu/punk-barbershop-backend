@@ -25,21 +25,21 @@ export function createResponseEntityForError(error: Error) {
     }
 }
 
-export function createNotFoundResponse(data: any): IResponseEntity<any> {
+export function createNotFoundResponse(data: string): IResponseEntity<any> {
     return {
         status: 404,
         data
     }
 }
 
-export function createServerErrorResponse(data: any): IResponseEntity<any> {
+export function createServerErrorResponse(data: string): IResponseEntity<any> {
     return {
         status: 500,
         data
     }
 }
 
-export function createBadRequestErrorResponse(data: any): IResponseEntity<any> {
+export function createBadRequestErrorResponse(data: string): IResponseEntity<any> {
     return {
         status: 400,
         data
