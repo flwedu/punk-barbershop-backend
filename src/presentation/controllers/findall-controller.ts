@@ -13,7 +13,7 @@ export class FindAllController<T extends Entity> implements Controller {
     async handle(): Promise<ResponseEntity<T[]>> {
 
         try {
-            const response = await new FindAllUseCase(this.repository).execute();
+            const response = await new FindAllUseCase<T>(this.repository).execute();
             if (!response.length) {
                 return createResponseWithCode(204, []);
             }
