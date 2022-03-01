@@ -4,7 +4,6 @@ import { parseDateValue } from "../valueObjects/parser";
 import { Entity } from "./Entity";
 
 export type InputClientProps = {
-    id?: string,
     name: string,
     email: string,
     createdAt?: string,
@@ -35,7 +34,7 @@ export class Client extends Entity {
             createdAt: new Date(),
         };
 
-        const client = new Client(readyProps, props.id);
+        const client = new Client(readyProps, id);
 
         return client;
     }
