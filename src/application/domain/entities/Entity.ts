@@ -1,6 +1,7 @@
 import crypto from "crypto";
 
 export interface Props<Entity> {
+    [x: string]: any;
 
 }
 export abstract class Entity {
