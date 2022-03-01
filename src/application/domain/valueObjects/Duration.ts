@@ -8,8 +8,9 @@ export class Duration implements ValueObject<Duration> {
     }
 
     static of(durationInMinuts: string): Duration {
-        const duration = Number(durationInMinuts);
-        if (Number.isNaN(duration) || durationInMinuts.length < 1) {
+        const value = /^(\d+)$/.exec(durationInMinuts);
+        const duration = Number(value[0]);
+        if (!value[0] || duration < 1) {
             throw new Error("Invalid duration value")
         }
         return new Duration(duration);
