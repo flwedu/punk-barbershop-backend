@@ -9,6 +9,13 @@ export function createOkResponse<T>(data: T): IResponseEntity<T> {
     }
 }
 
+export function createResponseWithCode<T>(status: number, data: T): IResponseEntity<T> {
+    return {
+        status,
+        data
+    }
+}
+
 export function createResponseEntityForError(error: Error) {
     if (error instanceof ResourceNotFound) {
         return createNotFoundResponse(error.message);
