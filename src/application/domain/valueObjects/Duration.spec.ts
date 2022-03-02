@@ -1,8 +1,8 @@
 import { Duration } from "./Duration"
 
-describe("Testing Duration value object", () => {
+describe("Duration value object class tests", () => {
 
-    it.each(["1", "30", "50"])("Should create an ValueObject for %s", (value) => {
+    it.each(["1", "30", "50"])("Should create an value object for %s", (value) => {
 
         expect.assertions(2);
         const duration = Duration.of(value);
