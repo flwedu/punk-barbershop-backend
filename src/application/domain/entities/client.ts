@@ -1,6 +1,7 @@
+import { parseDateValue } from "../../../util/parser";
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
-import { parseDateValue } from "../valueObjects/parser";
+
 import { Entity } from "./Entity";
 
 export type InputClientProps = {
