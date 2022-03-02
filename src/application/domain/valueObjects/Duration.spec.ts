@@ -20,4 +20,12 @@ describe("Testing Duration value object", () => {
             expect(true).toBeTruthy();
         }
     })
+
+    it.each(["1", "21", "50"])("method equals() of a Duration object %s should return true for %s", (value) => {
+        expect.assertions(1);
+
+        const duration = Duration.of(value);
+        const duration2 = Duration.of(value);
+        expect(duration.equals(duration2)).toBeTruthy();
+    })
 })

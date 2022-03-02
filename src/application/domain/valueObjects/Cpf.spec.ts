@@ -1,24 +1,21 @@
 import { Cpf } from "./Cpf"
 
-it("equals() should return true", () => {
+it.each(["111.222.333-44", "11122233344"])("equals() should return true for a 11122233344", (value) => {
 
-    const cpf = Cpf.of("111.222.333-44");
-    const cpf2 = Cpf.of("11122233344");
+    expect.assertions(1);
+    const cpf = Cpf.of(value);
     const expected = Cpf.of("11122233344");
 
     expect(cpf.equals(expected)).toBeTruthy();
-    expect(cpf2.equals(expected)).toBeTruthy();
 })
 
-it("equals() should return false", () => {
+it.each(["111.222.333-45", "11122233345"])("equals() should return false", (value) => {
 
-    const cpf = Cpf.of("111.222.333-45");
-    const cpf2 = Cpf.of("11122233345");
-    const cpf3 = Cpf.of("111.222.333-44");
+    expect.assertions(1);
+    const cpf = Cpf.of(value);
+    const expected = Cpf.of("111.222.333-44");
 
-    expect(cpf.equals(cpf3)).toBeFalsy();
-    expect(cpf2.equals(cpf3)).toBeFalsy();
-
+    expect(cpf.equals(expected)).toBeFalsy();
 })
 
 it("getter of value should return the correct value", () => {
@@ -27,10 +24,9 @@ it("getter of value should return the correct value", () => {
     expect(cpf.getValue()).toEqual("11122233345");
 })
 
-it("getFormatedValue() should return the right value", () => {
+it.each([["11122233345", "111.222.333-45"], ["000.000.000-00", "000.000.000-00"]])("getFormatedValue() should return the right value", (value, expected) => {
 
-    const cpf = Cpf.of("11122233345");
-    const expected = "111.222.333-45";
+    const cpf = Cpf.of(value);
 
     expect(cpf.getFormatedValue()).toEqual(expected);
 
