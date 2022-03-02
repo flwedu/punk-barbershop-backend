@@ -1,6 +1,6 @@
-import ValueObject from "./ValueObject";
+import IValueObject from "./ValueObject";
 
-export class Duration implements ValueObject<Duration> {
+export class Duration implements IValueObject<Duration> {
 
     private minuts: number;
     private constructor(minuts: number) {

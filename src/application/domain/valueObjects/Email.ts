@@ -1,8 +1,8 @@
 import { testEmail } from '../../../util/testFields';
 import BusinessRuleError from '../errors/business-rule-error';
-import ValueObject from './ValueObject';
+import IValueObject from './ValueObject';
 
-export class Email implements ValueObject<Email> {
+export class Email implements IValueObject<Email> {
     private constructor(private _value: string) { }
 
     static of(value: string): Email {

@@ -1,8 +1,8 @@
 import { testCpf } from "../../../util/testFields";
 import BusinessRuleError from "../errors/business-rule-error";
-import ValueObject from "./ValueObject";
+import IValueObject from "./ValueObject";
 
-export class Cpf implements ValueObject<Cpf>{
+export class Cpf implements IValueObject<Cpf>{
 
     private _value: string;
 

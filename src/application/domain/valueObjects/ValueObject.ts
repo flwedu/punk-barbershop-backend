@@ -1,4 +1,4 @@
-export default interface ValueObject<T> {
+export default interface IValueObject<T> {
 
     getValue(): any;
     equals(other: T): boolean
