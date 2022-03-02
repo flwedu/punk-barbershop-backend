@@ -46,7 +46,6 @@ describe("create client controller", () => {
         email: "",
     },
     {
-
         name: "Test",
         cpf: "12345678911",
         birthDate: "",
