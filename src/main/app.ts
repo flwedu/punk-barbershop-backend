@@ -1,8 +1,4 @@
-import { createServer } from 'http';
+import { server } from './config/config';
 
-const server = createServer((request, response) => {
-    response.writeHead(200, 'Ok', { contentType: 'text/html' });
-    response.write('<p>Sucess! The application is running</p>');
-});
-
-server.listen(8080, () => console.log('server running at 8080'));
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => { console.log(`Server is running at: http://localhost:${PORT}/`) });
