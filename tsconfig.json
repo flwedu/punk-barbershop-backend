@@ -1,15 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "es2017",
+    "compilerOptions": {
+        "target": "es2017",
 
-    "module": "commonjs",
+        "module": "commonjs",
 
-    "esModuleInterop": true,
+        "esModuleInterop": true,
 
-    "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": true,
 
-    "strict": false,
+        "strict": false,
 
-    "skipLibCheck": true
-  }
+        "skipLibCheck": true,
+
+        "outDir": "./build"
+    }
 }
