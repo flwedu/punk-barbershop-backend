@@ -10,14 +10,52 @@ O intuito principal foi aplicar alguns conceitos aprendidos durante os estudos d
 
 ## Requisitos / regras de negócio
 
-O documento de requisitos pode ser encontrado em `REQUERIMENTS.MD`.
+O documento de requisitos pode ser encontrado em [REQUERIMENTS.MD](docs/REQUERIMENTS.MD).
 
-## ~~Rodando a aplicação~~
+## Realizando build da aplicação
 
-Aplicação em fase de levantamento de requisitos, modelagem de domínio e aplicação de regras de negócio.
+Para executar a aplicação em modo de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação rodará por padrão em [http://localhost:3000/api]([http://localhost:3000/api).
+
+Caso deseje realizar um build, execute:
+
+```bash
+npm run build
+```
+
+Será criada uma pasta `build` com os arquivos transpilados para `.js`.
+
+Após o build, basta executar o arquivo `build/main/app.js`, com o comando
+
+```bash
+node build/main/app.js
+```
+
+## Testando a aplicação
 
 Para executar testes:
 
 ```bash
 npm run test
 ```
+
+## Tecnologias utilizadas
+
+-   Javascript
+-   Typescript
+-   Node.js
+-   Express
+-   Jest
+-   SQLite
+
+## Metodologias praticadas
+
+-   TDD (Test Driven Development)
+-   DDD (Domain Driven Design)
+-   Clean Architecture
+-   SOLID
