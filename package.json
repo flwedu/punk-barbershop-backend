@@ -1,23 +1,25 @@
 {
-  "devDependencies": {
-    "@swc/core": "^1.2.140",
-    "@swc/jest": "^0.2.17",
-    "@types/jest": "^27.4.0",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "jest": "^27.5.1",
-    "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
-  },
-  "name": "punk-barbershop-backend",
-  "version": "1.0.0",
-  "description": "a backed application created for the exercise of DDD and TDD concepts. The punk barbershop was created to exemplify the business rules.",
-  "main": "src/index.ts",
-  "license": "MIT",
-  "private": false,
-  "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "start": "ts-node src/index.ts"
-  }
+    "devDependencies": {
+        "@swc/core": "^1.2.140",
+        "@swc/jest": "^0.2.17",
+        "@types/jest": "^27.4.0",
+        "@typescript-eslint/eslint-plugin": "^5.12.0",
+        "@typescript-eslint/parser": "^5.12.0",
+        "jest": "^27.5.1",
+        "ts-node": "^10.5.0",
+        "typescript": "^4.5.5"
+    },
+    "name": "punk-barbershop-backend",
+    "version": "1.0.0",
+    "description": "a backed application created for the exercise of DDD and TDD concepts. The punk barbershop was created to exemplify the business rules.",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watchAll",
+        "start": "ts-node src/index.ts",
+        "build": "tsc",
+        "test:build": "tsc && jest ./build"
+    }
 }
