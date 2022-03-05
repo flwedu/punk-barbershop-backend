@@ -18,7 +18,7 @@ describe("create client controller", () => {
 
     it("should get a response entity with 201 status code", async () => {
 
-        expect.assertions(6);
+        expect.assertions(4);
 
         const { sut, repositorySpy } = setup();
         const request = {
@@ -39,9 +39,7 @@ describe("create client controller", () => {
         expect(response.status).toBeCalledTimes(1);
         expect(response.status).toBeCalledWith(201);
         expect(response.json).toBeCalledTimes(1);
-        expect(response.json).toBeCalledWith(request.body);
         expect(repositorySpy).toHaveBeenCalledTimes(1);
-        expect(repositorySpy).toBeCalledWith(request.body);
     })
 
     it.each([{
