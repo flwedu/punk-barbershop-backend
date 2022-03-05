@@ -1,5 +1,5 @@
-import { Barber, Client, Scheduling, ServiceType } from "application/domain/entities";
-import { IMRepository } from "output/repositories/test/IM-Repository";
+import { Barber, Client, Scheduling, ServiceType } from "../../application/domain/entities";
+import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import configureClientRoutes from "../routes/clientExpressRouter";
 import { json } from "body-parser";
 import cors from "cors"
