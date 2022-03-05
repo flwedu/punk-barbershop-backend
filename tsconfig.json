@@ -1,17 +1,14 @@
 {
     "compilerOptions": {
-        "target": "es2017",
-
-        "module": "commonjs",
-
-        "esModuleInterop": true,
-
-        "forceConsistentCasingInFileNames": true,
-
-        "strict": false,
-
-        "skipLibCheck": true,
-
-        "outDir": "./build"
-    }
-}
+      "outDir": "build",
+      "module": "commonjs",
+      "target": "es2019",
+      "esModuleInterop": true,
+      "rootDir": "src",
+      "baseUrl": "src",
+      "paths": {
+        "@/*": ["*"]
+      }
+    },
+    "include": ["src"]
+  }
