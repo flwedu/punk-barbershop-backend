@@ -8,6 +8,7 @@
         "@typescript-eslint/parser": "^5.12.0",
         "jest": "^27.5.1",
         "ts-node": "^10.5.0",
+        "ts-node-dev": "^1.1.8",
         "tsconfig-paths": "^3.13.0",
         "typescript": "^4.5.5"
     },
@@ -20,7 +21,7 @@
     "scripts": {
         "test": "jest",
         "test:watch": "jest --watchAll",
-        "dev": "ts-node src/main/app.ts",
+        "dev": "ts-node-dev src/main/app.ts",
         "start": "tsc && node build/main/app.js",
         "build": "tsc",
         "test:build": "tsc && jest ./build",
