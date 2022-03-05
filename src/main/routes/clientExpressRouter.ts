@@ -1,22 +1,29 @@
+import { Router } from "express";
+import { clientRepository } from "../../main/config/resourcesFactory";
 import CreateClientController from "../../presentation/controllers/client/create-client-controller";
 import { FindAllController } from "../../presentation/controllers/findall-controller";
 import FindByIdController from "../../presentation/controllers/findby-id-controller";
-import { router } from "../config/config";
-import { clientRepository } from "../config/resourcesFactory";
 
-router.get("/clients", async (req, res) => {
-    const response = await new FindAllController(clientRepository).handle();
-    res.send(response);
-})
 
-router.get("/clients/:id", async (req, res) => {
-    const { id } = req.params
-    const response = await new FindByIdController(clientRepository).handle({ id });
-    res.send(response);
-})
 
-router.post("/clients/", async (req, res) => {
-    const { data } = req.body
-    const response = await new CreateClientController(clientRepository).handle(data);
-    res.send(response);
-})
+export default function configureClientRoutes(router: Router){
+
+    router.get("/clients", function (_, res) {
+        new FindAllController(clientRepository).handle().then(
+            result => res.status(result.status).send(result.data)
+        ).catch(err => res.send(err));
+    })
+    
+    router.get("/clients/:id", function (req, res) {
+        const { id } = req.params
+        new FindByIdController(clientRepository).handle({ id }).then(
+            result => res.status(result.status).send(result.data)
+        ).catch(err => res.send(err));
+    })
+    
+    router.post("/clients", function (req, res) {
+        new CreateClientController(clientRepository).handle({ props: req.body }).then(
+            result => res.status(result.status).send(result.data)
+        ).catch(err => res.send(err));
+    })
+}
