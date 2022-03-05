@@ -16,7 +16,7 @@ export default class FindByIdController<T extends Entity>
             );
             return new ResponseFactory(response).createOkResponse(result);
         } catch (err) {
-            return new ResponseFactory(response).createBadRequestErrorResponse(err);
+            return new ResponseFactory(response).createResponseEntityForError(err);
         }
     }
 }
