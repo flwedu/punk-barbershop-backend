@@ -1,7 +1,7 @@
 import { Router } from "express";
-import IRepository from "output/repositories/IRepository";
-import { FindAllController, FindByIdController } from "presentation/controllers";
-import { CreateClientController } from "presentation/controllers/client";
+import IRepository from "../../output/repositories/IRepository";
+import { FindAllController, FindByIdController } from "../../presentation/controllers";
+import { CreateClientController } from "../../presentation/controllers/client";
 
 export default function configureClientRoutes(router: Router, repository: IRepository<any>){
 
