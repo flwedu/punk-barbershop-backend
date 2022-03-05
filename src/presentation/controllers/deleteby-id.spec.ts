@@ -8,13 +8,18 @@ describe("Delete by id controller", () => {
         jest.clearAllMocks();
     })
 
-    it.each(["1", "2", "50", "44546121"])("should return 202", async (id) => {
+    it.each(["1", "2", "50", "44546121"])("should receives 202", async (id) => {
 
-        expect.assertions(3);
+        expect.assertions(4);
 
         const repository = new IMRepository<ServiceType>();
         const sut = new DeleteByIdController(repository);
         const repositorySpy = jest.spyOn(repository, "delete");
+        const request = { params: { id } };
+        const response = {
+            json: jest.fn(() => response),
+            status: jest.fn(() => response)
+        };
 
         repository.list.push(ServiceType.create({
             name: "Corte maneiro",
@@ -23,20 +28,26 @@ describe("Delete by id controller", () => {
             price: "50"
         }, id));
 
-        const responseEntity = await sut.handle({ id });
+        await sut.handle(request, response);
 
-        expect(responseEntity.status).toEqual(202);
-        expect(repository.list.length).toBeFalsy();
-        expect(repositorySpy).toBeCalledTimes(1);
+        expect(response.status).toBeCalledTimes(1);
+        expect(response.status).toBeCalledWith(202);
+        expect(response.json).toBeCalledTimes(1);
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 
-    it.each(["8", "2", "-1", "ab", null, undefined])("should return 404", async (id) => {
+    it.each(["8", "2", "-1", "ab", null, undefined])("should receives 404", async (id) => {
 
-        expect.assertions(3);
+        expect.assertions(4);
 
         const repository = new IMRepository<ServiceType>();
         const sut = new DeleteByIdController(repository);
         const repositorySpy = jest.spyOn(repository, "delete");
+        const request = { params: { id } };
+        const response = {
+            json: jest.fn(() => response),
+            status: jest.fn(() => response)
+        };
 
         repository.list.push(ServiceType.create({
             name: "Corte maneiro",
@@ -45,10 +56,11 @@ describe("Delete by id controller", () => {
             price: "50"
         }, "1"));
 
-        const responseEntity = await sut.handle({ id });
+        await sut.handle(request, response);
 
-        expect(responseEntity.status).toEqual(404);
-        expect(repository.list.length).toBeTruthy();
-        expect(repositorySpy).toBeCalledTimes(1);
+        expect(response.status).toBeCalledTimes(1);
+        expect(response.status).toBeCalledWith(404);
+        expect(response.json).toBeCalledTimes(1);
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 })
