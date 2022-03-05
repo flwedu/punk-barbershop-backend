@@ -1,13 +1,14 @@
-import express, { json, Router } from "express";
-import cors from "cors";
-
-const router = Router();
-import "../routes/default"
-import "../routes/clientExpressRouter";
+import { json } from "body-parser";
+import cors from "cors"
+import express from "express";
 
 const server = express();
-server.use("/api", router);
-server.use(cors());
-server.use(json());
+const router = express.Router();
 
-export { server, router };
+server.use("/api", router);
+server.use(json());
+server.use(cors());
+
+export const Config = {
+    server, router
+}
