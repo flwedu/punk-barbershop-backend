@@ -1,10 +1,9 @@
-import { Response } from "express";
 import BusinessRuleError from "../../application/domain/errors/business-rule-error";
 import ResourceNotFound from "../../application/domain/errors/resource-not-found";
 
 export default class ResponseFactory {
 
-    constructor(private readonly response: Response) { }
+    constructor(private readonly response) { }
 
     createOkResponse(data: any) {
         return this.response.status(200).json(data)
@@ -16,10 +15,10 @@ export default class ResponseFactory {
 
     createResponseEntityForError(error: Error) {
         if (error instanceof ResourceNotFound) {
-            return this.response.status(404).json(error);
+            return this.createNotFoundResponse(error.message);
         }
         if (error instanceof BusinessRuleError) {
-            return this.response.status(400).json(error);
+            return this.createBadRequestErrorResponse(error.message);
         }
         return this.response.status(500).json(error);
     }
