@@ -1,14 +1,11 @@
 {
     "compilerOptions": {
-      "outDir": "build",
-      "module": "commonjs",
-      "target": "es2019",
-      "esModuleInterop": true,
-      "rootDir": "src",
-      "baseUrl": "src",
-    //   "paths": {
-    //     "@/*": ["*"]
-    //   }
+        "outDir": "build",
+        "module": "commonjs",
+        "target": "es2019",
+        "esModuleInterop": true,
+        "rootDir": "src",
+        "baseUrl": "src"
     },
     "include": ["src"]
-  }
+}

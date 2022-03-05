@@ -1,21 +1,22 @@
-import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
+import { Request, Response } from "express";
+import ResponseFactory from "../../../presentation/http/ResponseFactory";
 import { Client } from "../../../application/domain/entities/client";
-import { CreateClienteRequest, CreateClientUseCase } from "../../../application/useCases/client/create-client";
+import { CreateClientUseCase } from "../../../application/useCases/client/create-client";
 import IRepository from "../../../output/repositories/IRepository";
-import { createResponseEntityForError, createResponseWithCode } from "../../http/response-entity-functions";
+import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
 import Controller from "../Controller";
 
 export default class CreateClientController implements Controller {
 
     constructor(private readonly repository: IRepository<Client>) { };
 
-    async handle(data: CreateClienteRequest) {
+    async handle(request: Request, response: Response) {
         try {
-            const client = await new CreateClientUseCase(this.repository).execute(data);
-            const response = new EntityModelParser().toModel(client);
-            return createResponseWithCode(201, response);
+            const client = await new CreateClientUseCase(this.repository).execute(request.body);
+            const result = new EntityModelParser().toModel(client);
+            return new ResponseFactory(response).responseWithDifferentCode(201, result);
         } catch (err) {
-            return createResponseEntityForError(err);
+            return new ResponseFactory(response).createResponseEntityForError(err);
         }
     }
 }
