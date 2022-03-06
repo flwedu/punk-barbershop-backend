@@ -1,22 +1,19 @@
 import { Entity } from "../../application/domain/entities/Entity";
 import { DeleteByIdUseCase } from "../../application/useCases/deleteby-id";
 import IRepository from "../../output/repositories/IRepository";
-import {
-    createResponseEntityForError,
-    createResponseWithCode,
-} from "../http/response-entity-functions";
-import ResponseEntity from "../http/ResponseEntity";
+import ResponseFactory from "../../presentation/http/ResponseFactory";
 import Controller from "./Controller";
 
 export class DeleteByIdController<T extends Entity> implements Controller {
     constructor(private readonly repository: IRepository<T>) { }
 
-    async handle(data: any): Promise<ResponseEntity<any>> {
+    async handle(request, response) {
+        const { id } = request.params;
         try {
-            await new DeleteByIdUseCase<T>(this.repository).execute(data);
-            return createResponseWithCode(202, "Accepted");
+            await new DeleteByIdUseCase<T>(this.repository).execute({ id });
+            return new ResponseFactory(response).responseWithDifferentCode(202, `element ${id} deleted`);
         } catch (err) {
-            return createResponseEntityForError(err);
+            return new ResponseFactory(response).createResponseEntityForError(err);
         }
     }
 }

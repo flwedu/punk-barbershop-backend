@@ -1,8 +1,8 @@
+import ResponseFactory from "../../presentation/http/ResponseFactory";
 import { Entity } from "../../application/domain/entities/Entity";
 import { FindAllUseCase } from "../../application/useCases/findall";
 import IRepository from "../../output/repositories/IRepository";
-import { createOkResponse, createResponseEntityForError, createResponseWithCode } from "../http/response-entity-functions";
-import ResponseEntity from "../http/ResponseEntity";
+
 import Controller from "./Controller";
 
 
@@ -10,18 +10,18 @@ export class FindAllController<T extends Entity> implements Controller {
 
     constructor(private readonly repository: IRepository<T>) { }
 
-    async handle(): Promise<ResponseEntity<T[]>> {
+    async handle(request, response) {
 
         try {
-            const response = await new FindAllUseCase<T>(this.repository).execute();
-            if (!response.length) {
-                return createResponseWithCode(204, []);
+            const result = await new FindAllUseCase<T>(this.repository).execute();
+            if (result.length == 0) {
+                return new ResponseFactory(response).responseWithDifferentCode(204, [])
             }
             else {
-                return createOkResponse(response);
+                return new ResponseFactory(response).createOkResponse(result);
             }
         } catch (err) {
-            return createResponseEntityForError(err);
+            return new ResponseFactory(response).createResponseEntityForError(err);
         }
 
     }

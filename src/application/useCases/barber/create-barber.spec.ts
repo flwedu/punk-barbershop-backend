@@ -16,10 +16,12 @@ describe("create barber use cases", () => {
         const spy = jest.spyOn(repository, "save");
 
         const barber = await sut.execute({
-            name: "Test",
-            email: "barber@email.com",
-            birthDate: "1980-01-05",
-            cpf: "00000000000"
+            props: {
+                name: "Test",
+                email: "barber@email.com",
+                birthDate: "1980-01-05",
+                cpf: "12345678911"
+            }
         });
 
         expect(barber).toBeTruthy();
@@ -36,10 +38,12 @@ describe("create barber use cases", () => {
 
         try {
             await sut.execute({
-                name: "Test",
-                email,
-                birthDate: "1980-01-05",
-                cpf: "00000000000"
+                props: {
+                    name: "Test",
+                    email,
+                    birthDate: "1980-01-05",
+                    cpf: "00000000000"
+                }
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);
@@ -57,10 +61,12 @@ describe("create barber use cases", () => {
 
         try {
             await sut.execute({
-                name: "Test",
-                email: "barber@email.com",
-                birthDate: "1980-01-05",
-                cpf
+                props: {
+                    name: "Test",
+                    email: "barber@email.com",
+                    birthDate: "1980-01-05",
+                    cpf
+                }
             });
         } catch (err) {
             expect(repository.list.length).toBe(0);

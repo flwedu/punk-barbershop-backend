@@ -2,53 +2,63 @@ import { Barber } from "../../application/domain/entities/barber";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import FindByIdController from "./findby-id-controller";
 
-
 describe("Find by id controller", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
     })
 
-    it("Shoul return 200 for a sucess query and body data contais the entity", async () => {
+    it.each(["1", "2"])("Should receives a 200 status code", async (id) => {
 
         expect.assertions(4);
-
         const repository = new IMRepository<Barber>();
         const sut = new FindByIdController(repository);
+        const request = {
+            params: {
+                id
+            }
+        };
+        const response = {
+            json: jest.fn(() => response),
+            status: jest.fn(() => response)
+        };
 
         const barber = Barber.create({
             name: "Barber",
             cpf: "12345678911",
             birthDate: "2021-01-01",
             email: "test@email.com"
-        }, "1");
-        const barber2 = Barber.create({
-            name: "Barber 2",
-            cpf: "12345678911",
-            birthDate: "2021-01-01",
-            email: "test@email.com"
-        }, "2");
-        repository.list.push(barber, barber2);
+        }, id);
+        repository.list.push(barber);
 
-        const responseEntity = await sut.handle({ id: "1" });
-        const responseEntity2 = await sut.handle({ id: "2" });
+        await sut.handle(request, response);
 
-        expect(responseEntity.status).toEqual(200);
-        expect(responseEntity.data).toBeTruthy();
-        expect(responseEntity2.status).toEqual(200);
-        expect(responseEntity2.data).toBeTruthy();
+        expect(response.status).toHaveBeenCalledTimes(1);
+        expect(response.json).toHaveBeenCalledTimes(1);
+        expect(response.status).toBeCalledWith(200);
+        expect(response.json).toBeCalledWith(barber);
     })
 
-    it("should return a ResponseEntity with statuscode 400 for an unsuccessful query", async () => {
+    it("should receives a 404 status code for resource not find", async () => {
 
-        expect.assertions(1);
+        expect.assertions(2);
 
+        const request = {
+            params: {
+                id: "1"
+            }
+        }
+        const response = {
+            json: jest.fn(() => response),
+            status: jest.fn(() => response)
+        };
         const repository = new IMRepository<Barber>();
         const sut = new FindByIdController(repository);
 
-        const responseEntity = await sut.handle({ id: "1" });
+        await sut.handle(request, response);
 
-        expect(responseEntity.status).toEqual(400);
+        expect(response.status).toHaveBeenCalledTimes(1);
+        expect(response.status).toBeCalledWith(404);
     })
 
 })

@@ -1,26 +1,22 @@
 import { Router } from "express";
+import { Client } from "../../application/domain/entities";
+import { CreateClientUseCase } from "../../application/useCases/client/create-client";
 import IRepository from "../../output/repositories/IRepository";
 import { FindAllController, FindByIdController } from "../../presentation/controllers";
-import { CreateClientController } from "../../presentation/controllers/client";
+import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
-export default function configureClientRoutes(router: Router, repository: IRepository<any>){
 
-    router.get("/clients", function (_, res) {
-        new FindAllController(repository).handle().then(
-            result => res.status(result.status).send(result.data)
-        ).catch(err => res.send(err));
+export default function configureClientRoutes(router: Router, repository: IRepository<any>) {
+
+    router.get("/clients", (request, response) => {
+        new FindAllController<Client>(repository).handle(request, response);
     })
-    
-    router.get("/clients/:id", function (req, res) {
-        const { id } = req.params
-        new FindByIdController(repository).handle({ id }).then(
-            result => res.status(result.status).send(result.data)
-        ).catch(err => res.send(err));
+
+    router.get("/clients/:id", (request, response) => {
+        new FindByIdController<Client>(repository).handle(request, response);
     })
-    
-    router.post("/clients", function (req, res) {
-        new CreateClientController(repository).handle({ props: req.body }).then(
-            result => res.status(result.status).send(result.data)
-        ).catch(err => res.send(err));
+
+    router.post("/clients", (request, response) => {
+        new CreateEntityController(new CreateClientUseCase(repository)).handle(request, response);
     })
 }

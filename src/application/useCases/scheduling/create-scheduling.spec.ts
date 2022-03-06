@@ -29,10 +29,12 @@ describe("create scheduling use case", () => {
             }
         });
         const barber = await new CreateBarberUseCase(barberRepository).execute({
-            name: "Test",
-            email: "barber@email.com",
-            birthDate: "1980-01-05",
-            cpf: "00000000000"
+            props: {
+                name: "Test",
+                email: "barber@email.com",
+                birthDate: "1980-01-05",
+                cpf: "00000000000"
+            }
         });
 
         const serviceType = await new CreateServiceTypeUseCase(serviceTypeRepository).execute({

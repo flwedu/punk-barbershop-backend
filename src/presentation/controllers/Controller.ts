@@ -1,6 +1,6 @@
-import IResponseEntity from "../http/ResponseEntity";
+import { Request, Response } from "express";
 
 export default interface Controller {
 
-    handle(data: any): Promise<IResponseEntity>;
+    handle(request: Request, response: Response);
 }

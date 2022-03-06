@@ -1,25 +1,22 @@
 import { Entity } from "../../application/domain/entities/Entity";
 import { FindByIdUseCase } from "../../application/useCases/findby-id";
 import IRepository from "../../output/repositories/IRepository";
-import {
-    createOkResponse,
-    createBadRequestErrorResponse,
-} from "../http/response-entity-functions";
-import ResponseEntity from "../http/ResponseEntity";
+import ResponseFactory from "../../presentation/http/ResponseFactory";
 import Controller from "./Controller";
 
 export default class FindByIdController<T extends Entity>
     implements Controller {
     constructor(private readonly repository: IRepository<T>) { }
 
-    async handle(data: any): Promise<ResponseEntity<T>> {
+    async handle(request, response) {
+        const { id } = request.params;
         try {
-            const response = await new FindByIdUseCase(this.repository).execute(
-                data
+            const result = await new FindByIdUseCase(this.repository).execute(
+                { id }
             );
-            return createOkResponse(response);
+            return new ResponseFactory(response).createOkResponse(result);
         } catch (err) {
-            return createBadRequestErrorResponse(err);
+            return new ResponseFactory(response).createResponseEntityForError(err);
         }
     }
 }
