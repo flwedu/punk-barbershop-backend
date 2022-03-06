@@ -8,10 +8,6 @@ Essa aplicação backend foi criada para atender as demandas de uma barbearia, n
 
 O intuito principal foi aplicar alguns conceitos aprendidos durante os estudos de Domain Driven Design, Test Driven Design, Clean Architecture e uso de Node.js no backend para construção de Rest APIS.
 
-## Requisitos / regras de negócio
-
-O documento de requisitos pode ser encontrado em [REQUERIMENTS.MD](docs/REQUERIMENTS.MD).
-
 ## Realizando build da aplicação
 
 Para executar a aplicação em modo de desenvolvimento:
@@ -59,3 +55,9 @@ npm run test
 -   DDD (Domain Driven Design)
 -   Clean Architecture
 -   SOLID
+
+## Documentação do projeto
+
+-   Requisitos / regras de negócio: [REQUERIMENTS.MD](docs/REQUERIMENTS.MD).
+-   Diagrama de relacionamento entre componentes: [diagram.png](docs/diagram.png)
+-   Mapeamento de rotas / requisições: [ROUTES.MD](docs/ROUTES.MD)
