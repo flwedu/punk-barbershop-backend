@@ -1,5 +1,6 @@
-import { Config } from "../config/config"
+import { Router } from "express";
 
-const { router } = Config;
+export function configureMiscRoutes(router: Router) {
 
-router.get("/", (req, res) => res.send("API is working!").status(200))
+    router.get("/", (request, response) => response.status(200).json({ message: "API is working!" }));
+}

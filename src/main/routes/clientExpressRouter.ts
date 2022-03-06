@@ -6,7 +6,7 @@ import { FindAllController, FindByIdController } from "../../presentation/contro
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
 
-export default function configureClientRoutes(router: Router, repository: IRepository<any>) {
+export function configureClientRoutes(router: Router, repository: IRepository<any>) {
 
     router.get("/clients", (request, response) => {
         new FindAllController<Client>(repository).handle(request, response);
