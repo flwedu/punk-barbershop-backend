@@ -1,8 +1,10 @@
-import { Client } from "../../../application/domain/entities/client";
-import { IMRepository } from "../../../output/repositories/test/IM-Repository";
-import { CreateClientController } from "./";
+import { Client } from "../../application/domain/entities";
+import { CreateClientUseCase } from "../../application/useCases/client/create-client";
+import { IMRepository } from "../../output/repositories/test/IM-Repository";
+import { CreateEntityController } from "./create-entity-controller";
 
-describe("create client controller", () => {
+
+describe("CreateEntityController class tests with CreateClientUseCase", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -10,8 +12,9 @@ describe("create client controller", () => {
 
     function setup() {
         const repository = new IMRepository<Client>();
+        const useCase = new CreateClientUseCase(repository);
         const repositorySpy = jest.spyOn(repository, "save");
-        const sut = new CreateClientController(repository);
+        const sut = new CreateEntityController(useCase);
 
         return { repository, sut, repositorySpy };
     }
