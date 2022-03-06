@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { CreateClientController } from "../../presentation/controllers/client/";
 import { Client } from "../../application/domain/entities";
+import { CreateClientUseCase } from "../../application/useCases/client/create-client";
 import IRepository from "../../output/repositories/IRepository";
 import { FindAllController, FindByIdController } from "../../presentation/controllers";
+import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
 
 export default function configureClientRoutes(router: Router, repository: IRepository<any>) {
@@ -16,6 +17,6 @@ export default function configureClientRoutes(router: Router, repository: IRepos
     })
 
     router.post("/clients", (request, response) => {
-        new CreateClientController(repository).handle(request, response);
+        new CreateEntityController(new CreateClientUseCase(repository)).handle(request, response);
     })
 }
