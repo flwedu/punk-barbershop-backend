@@ -1,5 +1,5 @@
 # Descrição do domain
-
+## Entidades
 As entidades do `domain` são:
 | Nome | Descrição |
 | :--------: | :--------: |
@@ -8,30 +8,54 @@ Barber | Representa um cabelereiro.
 Scheduling | Representa um agendamento.
 ServiceType | Representa um tipo de serviço.
 
-Propriedades de cada entidade:
-
--   Client:
-    -   name
-    -   email
-    -   birthDate: data de nascimento
-    -   cpf
-    -   createdAt: data de cadastro
--   Barber:
-    -   name
-    -   email
-    -   birthDate
-    -   cpf / cnpj
-    -   createdAt
--   Scheduling
-    -   clientId: id do cliente que criou o agendamento
-    -   barberId: id do barbeiro escolhido
-    -   schedulingDateTime: data e horário do agendamento
-    -   createdAt
--   ServiceType
-    -   name
-    -   description
-    -   price: preço do serviço
-    -   duration: duração do serviço
+## Diagrama de classes:
+```mermaid
+classDiagram
+	Entity <|-- Client
+	Entity <|-- Barber
+	Entity <|-- Scheduling
+	Entity <|-- ServiceType
+	Client <-- Scheduling
+	Barber <-- Scheduling
+	Entity : + string id
+	Entity : + Object props
+	class Client{
+		+ string: name
+		+ string: cpf
+		+ Date: birthDate
+		+ Date: createdAt
+		+ string: email
+	}
+		class Barber{
+		+ string: name
+		+ string: cpf/cnpj
+		+ Date: birthDate
+		+ Date: createdAt
+		+ string: email
+	}
+		class Scheduling{
+		+ string: clientId
+		+ string: barberId
+		+ Date: schedulingDateTime
+		+ Date: createdAt
+	}
+		class ServiceType{
+		+ string: name
+		+ string: description
+		+ number: price
+		+ number: duration
+		+ Date: createdAt
+	}
+```
+## Descrição dos campos
+| Campo | Descrição | Tipo | Pertence à |
+|--|--|--|--|
+| cpf / cnpj| É o número de CPF / CNPJ da pessoa | string | Client, Barber|
+| birthDate| É a data de nascimento da pessoa |Date | Client, Barber|
+|createdAt | Data de inserção do registro | Date| Todas
+| schedulingDateTime| Data e horário de um agendamento | Date | Scheduling |
+| price | É o preço de um serviço | number | ServiceType
+| duration| É a duração de um serviço (em minutos) | number | ServiceType
 
 # Requisitos Funcionais
 
