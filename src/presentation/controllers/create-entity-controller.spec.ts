@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import { Client } from "../../application/domain/entities";
 import { CreateClientUseCase } from "../../application/useCases/client/create-client";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
@@ -26,10 +27,10 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
         const { sut, repositorySpy } = setup();
         const request = {
             body: {
-                name: "Test",
+                name: faker.name.findName(),
                 cpf: "12345678911",
-                birthDate: "2020-01-01",
-                email: "test@email.com",
+                birthDate: faker.date.past(20).toISOString(),
+                email: faker.internet.email(),
             }
         };
         const response = {
@@ -46,22 +47,22 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
     })
 
     it.each([{
-        name: "Test",
+        name: faker.name.findName(),
         cpf: "",
-        birthDate: "2020-01-01",
-        email: "test@email.com",
+        birthDate: faker.date.past(20).toISOString(),
+        email: faker.internet.email(),
     },
     {
-        name: "Test",
+        name: faker.name.findName(),
         cpf: "12345678911",
-        birthDate: "2020-01-01",
+        birthDate: faker.date.past(18).toISOString(),
         email: "",
     },
     {
-        name: "Test",
+        name: faker.name.findName(),
         cpf: "12345678911",
         birthDate: "",
-        email: "test@email.com",
+        email: faker.internet.email(),
     }
     ])("should receives a 400 status code", async (body) => {
 

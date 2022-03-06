@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import { ServiceType } from "../../application/domain/entities/serviceType";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import { DeleteByIdController } from "./deleteby-id-controller";
@@ -22,8 +23,8 @@ describe("Delete by id controller", () => {
         };
 
         repository.list.push(ServiceType.create({
-            name: "Corte maneiro",
-            description: "Sem descrição",
+            name: faker.lorem.word(10),
+            description: faker.lorem.word(15),
             duration: "30",
             price: "50"
         }, id));
@@ -50,8 +51,8 @@ describe("Delete by id controller", () => {
         };
 
         repository.list.push(ServiceType.create({
-            name: "Corte maneiro",
-            description: "Sem descrição",
+            name: faker.lorem.word(10),
+            description: faker.lorem.word(15),
             duration: "30",
             price: "50"
         }, "1"));

@@ -1,16 +1,17 @@
+import faker from "@faker-js/faker";
 import { Cpf } from "../../application/domain/valueObjects/Cpf";
 import { Duration } from "../../application/domain/valueObjects/Duration";
 import EntityModelAdapter from "./entity-model-parser"
 
 describe("entity model adapter", () => {
 
-    it("should convert all date props correctly", () => {
+    it.each([faker.date.past(), faker.date.past(10), faker.date.recent()])("should convert all date props correctly", (birthDate) => {
 
         const sut = new EntityModelAdapter();
         const entity = {
             id: "1",
             props: {
-                birthDate: new Date("2021-01-01T14:00:00.000Z")
+                birthDate
             }
         }
 
@@ -18,7 +19,7 @@ describe("entity model adapter", () => {
 
         expect(model).toEqual({
             "id": "1",
-            "birthDate": "2021-01-01T14:00:00.000Z"
+            "birthDate": birthDate.toISOString()
         })
     })
 

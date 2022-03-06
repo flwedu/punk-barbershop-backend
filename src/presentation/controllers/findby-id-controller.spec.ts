@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import { Barber } from "../../application/domain/entities/barber";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import FindByIdController from "./findby-id-controller";
@@ -24,10 +25,10 @@ describe("Find by id controller", () => {
         };
 
         const barber = Barber.create({
-            name: "Barber",
+            name: faker.name.findName(),
+            email: faker.internet.email(),
             cpf: "12345678911",
-            birthDate: "2021-01-01",
-            email: "test@email.com"
+            birthDate: faker.date.recent().toISOString()
         }, id);
         repository.list.push(barber);
 
