@@ -1,3 +1,4 @@
+import { ErrorMessage } from "../errors/error-messages";
 import IValueObject from "./ValueObject";
 
 export class Duration implements IValueObject<Duration> {
@@ -8,10 +9,10 @@ export class Duration implements IValueObject<Duration> {
     }
 
     static of(durationInMinuts: string): Duration {
-        const value = /^(\d+)$/.exec(durationInMinuts);
-        const duration = Number(value[0]);
-        if (!value[0] || duration < 1) {
-            throw new Error("Invalid duration value")
+        const test = /^(\d+)$/.test(durationInMinuts);
+        const duration = Number(durationInMinuts);
+        if (!test || duration < 1) {
+            throw new Error(ErrorMessage.INVALID_PARAM("duration value"))
         }
         return new Duration(duration);
     }
