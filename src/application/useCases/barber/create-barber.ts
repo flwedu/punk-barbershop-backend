@@ -14,6 +14,6 @@ export class CreateBarberUseCase implements IUseCase {
     async execute(data: CreateBarberRequest) {
 
         const barber = Barber.create(data.props, data.id);
-        return this.repository.save(barber);
+        return this.repository.save(barber, barber.id);
     }
 }

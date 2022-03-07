@@ -14,6 +14,6 @@ export class CreateClientUseCase implements IUseCase {
     async execute(data: CreateClienteRequest) {
 
         const client = Client.create(data.props, data.id);
-        return this.repository.save(client);
+        return this.repository.save(client, client.id);
     }
 }
