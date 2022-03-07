@@ -10,9 +10,9 @@ export class CreateEntityController<T extends Entity>{
         try {
             const { id, ...props } = request.body;
             const data = await this.useCase.execute({ id, props });
-            return new ResponseFactory(response).responseWithDifferentCode(201, data);
+            return new ResponseFactory(response).makeResponse(201, data);
         } catch (error) {
-            return new ResponseFactory(response).createResponseEntityForError(error);
+            return new ResponseFactory(response).makeErrorResponse(error);
         }
     }
 }

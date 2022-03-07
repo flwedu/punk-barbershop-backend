@@ -5,32 +5,32 @@ export default class ResponseFactory {
 
     constructor(private readonly response) { }
 
-    createOkResponse(data: any) {
+    makeOkResponse(data: any) {
         return this.response.status(200).json(data)
     }
 
-    responseWithDifferentCode(status: number, data: any) {
+    makeResponse(status: number, data: any) {
         return this.response.status(status).json(data);
     }
 
-    createResponseEntityForError(error: Error) {
+    makeErrorResponse(error: Error) {
         if (error instanceof ResourceNotFound) {
-            return this.createNotFoundResponse(error.message);
+            return this.makeNotFoundResponse(error.message);
         }
         if (error instanceof BusinessRuleError) {
-            return this.createBadRequestErrorResponse(error.message);
+            return this.makeBadRequestError(error.message);
         }
         return this.response.status(500).json(error);
     }
-    createNotFoundResponse(data: string) {
+    makeNotFoundResponse(data: string) {
         return this.response.status(404).json(data);
     }
 
-    createServerErrorResponse(data: string) {
+    makeServerErrorResponse(data: string) {
         return this.response.status(500).json(data);
     }
 
-    createBadRequestErrorResponse(data: string) {
+    makeBadRequestError(data: string) {
         return this.response.status(400).json(data);
     }
 }

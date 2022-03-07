@@ -14,9 +14,9 @@ export default class FindByIdController<T extends Entity>
             const result = await new FindByIdUseCase(this.repository).execute(
                 { id }
             );
-            return new ResponseFactory(response).createOkResponse(result);
+            return new ResponseFactory(response).makeOkResponse(result);
         } catch (err) {
-            return new ResponseFactory(response).createResponseEntityForError(err);
+            return new ResponseFactory(response).makeErrorResponse(err);
         }
     }
 }

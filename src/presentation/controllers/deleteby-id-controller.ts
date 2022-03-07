@@ -11,9 +11,9 @@ export class DeleteByIdController<T extends Entity> implements Controller {
         const { id } = request.params;
         try {
             await new DeleteByIdUseCase<T>(this.repository).execute({ id });
-            return new ResponseFactory(response).responseWithDifferentCode(202, `element ${id} deleted`);
+            return new ResponseFactory(response).makeResponse(202, `element ${id} deleted`);
         } catch (err) {
-            return new ResponseFactory(response).createResponseEntityForError(err);
+            return new ResponseFactory(response).makeErrorResponse(err);
         }
     }
 }

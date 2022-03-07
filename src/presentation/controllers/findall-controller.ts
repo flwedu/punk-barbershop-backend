@@ -15,13 +15,13 @@ export class FindAllController<T extends Entity> implements Controller {
         try {
             const result = await new FindAllUseCase<T>(this.repository).execute();
             if (result.length == 0) {
-                return new ResponseFactory(response).responseWithDifferentCode(204, [])
+                return new ResponseFactory(response).makeResponse(204, [])
             }
             else {
-                return new ResponseFactory(response).createOkResponse(result);
+                return new ResponseFactory(response).makeOkResponse(result);
             }
         } catch (err) {
-            return new ResponseFactory(response).createResponseEntityForError(err);
+            return new ResponseFactory(response).makeErrorResponse(err);
         }
 
     }
