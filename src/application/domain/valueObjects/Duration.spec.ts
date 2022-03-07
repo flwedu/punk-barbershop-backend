@@ -1,3 +1,4 @@
+import { ErrorMessage } from "../errors/error-messages";
 import { Duration } from "./Duration"
 
 describe("Duration value object class tests", () => {
@@ -14,11 +15,7 @@ describe("Duration value object class tests", () => {
     it.each(["", null, undefined, "a", "-5", "0", "1.5", "2,6"])("Should throw error for %s", (value) => {
 
         expect.assertions(1);
-        try {
-            const duration = Duration.of(value);
-        } catch (err) {
-            expect(true).toBeTruthy();
-        }
+        expect(() => Duration.of(value)).toThrowError(ErrorMessage.INVALID_PARAM("duration value"));
     })
 
     it.each(["1", "21", "50"])("method equals() of a Duration object %s should return true for %s", (value) => {

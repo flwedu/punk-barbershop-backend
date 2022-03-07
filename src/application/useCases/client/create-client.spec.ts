@@ -1,77 +1,104 @@
 import { Client } from "../../domain/entities/client";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { CreateClientUseCase } from "./create-client";
+import faker from "@faker-js/faker";
+import { ErrorMessage } from "../../domain/errors/error-messages";
 
 describe("create client use cases", () => {
-
     beforeEach(() => {
         jest.clearAllMocks();
-    })
+    });
 
-    it("should create a new client with valid data", async () => {
+    function generateClientInputRequest(id?: string) {
+        return {
+            id,
+            props: {
+                name: faker.name.findName(),
+                email: faker.internet.email(),
+                birthDate: faker.date.past(15).toISOString(),
+                cpf: "00000000012",
+            }
+        }
+    }
 
-        expect.assertions(3);
+    function setup() {
         const repository = new IMRepository<Client>();
         const sut = new CreateClientUseCase(repository);
-        const spy = jest.spyOn(repository, "save");
+        const repositorySpy = jest.spyOn(repository, "save");
 
-        const client = await sut.execute({
-            props: {
-                name: "Test",
-                email: "aa@email.com",
-                birthDate: "01/01/2021",
-                cpf: "00000000000"
-            }
-        });
+        return {
+            repository,
+            sut,
+            repositorySpy,
+        };
+    }
+
+    it("should create a new client with valid data", async () => {
+        expect.assertions(3);
+        const { repository, sut, repositorySpy } = setup();
+
+        const client = await sut.execute(generateClientInputRequest());
 
         expect(client).toBeTruthy();
         expect(repository.findById(client.id)).toBeTruthy();
-        expect(spy).toHaveBeenCalledTimes(1);
-    })
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
+    });
 
-    it.each(["", null, undefined, "a", "1"])("should not create a new client with invalid email", async () => {
+    it.each(["", null, undefined, "a", "1"])(
+        "should not create a new client with invalid email",
+        async () => {
+            expect.assertions(2);
+            const { repository, sut, repositorySpy } = setup();
 
-        expect.assertions(2);
-        const repository = new IMRepository<Client>();
-        const sut = new CreateClientUseCase(repository);
-        const spy = jest.spyOn(repository, "save");
-
-        try {
-            await sut.execute({
-                props: {
-                    name: "Test",
-                    email: "",
-                    birthDate: "01/01/2021",
-                    cpf: "00000000000"
-                }
-            });
-        } catch (err) {
-            expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            try {
+                await sut.execute({
+                    props: {
+                        name: "Test",
+                        email: "",
+                        birthDate: "01/01/2021",
+                        cpf: "00000000000",
+                    },
+                });
+            } catch (err) {
+                expect(repository.list.length).toBe(0);
+                expect(repositorySpy).toHaveBeenCalledTimes(0);
+            }
         }
+    );
 
-    })
+    it.each(["", null, "01", undefined, "654321987000"])(
+        "should not create a new client with invalid cpf",
+        async () => {
+            expect.assertions(2);
+            const { repository, sut, repositorySpy } = setup();
 
-    it.each(["", null, "01", undefined, "654321987000"])("should not create a new client with invalid cpf", async () => {
-
-        expect.assertions(2);
-        const repository = new IMRepository<Client>();
-        const sut = new CreateClientUseCase(repository);
-        const spy = jest.spyOn(repository, "save");
-
-        try {
-            await sut.execute({
-                props: {
-                    name: "Test",
-                    email: "aa@email.com",
-                    birthDate: "01/01/2021",
-                    cpf: "000000000"
-                }
-            });
-        } catch (err) {
-            expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            try {
+                await sut.execute({
+                    props: {
+                        name: "Test",
+                        email: "aa@email.com",
+                        birthDate: "01/01/2021",
+                        cpf: "000000000",
+                    },
+                });
+            } catch (err) {
+                expect(repository.list.length).toBe(0);
+                expect(repositorySpy).toHaveBeenCalledTimes(0);
+            }
         }
+    );
 
-    })
-})
+    it("Should trhow error while trying to create a client with existent id", async () => {
+        expect.assertions(2);
+        const { sut, repositorySpy } = setup();
+
+        await sut.execute(generateClientInputRequest("1"));
+        try {
+            await sut.execute(generateClientInputRequest("1"))
+        }
+        catch (err) {
+            expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS("1"));
+            expect(repositorySpy).toHaveBeenCalledTimes(2);
+        }
+    });
+});
