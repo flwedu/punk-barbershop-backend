@@ -1,6 +1,13 @@
+import { ErrorMessage } from "../errors/error-messages"
 import { Cpf } from "./Cpf"
 
 describe("Cpf value object class tests", () => {
+
+    it.each(["1", null, undefined, "1234567891", "123456789123"])("Should throw error for invalid CPF value %s", (value) => {
+
+        expect.assertions(1);
+        expect(() => Cpf.of(value)).toThrowError(ErrorMessage.INVALID_PARAM("CPF"));
+    })
 
     it.each(["111.222.333-44", "11122233344"])("equals() should return true for a 11122233344", (value) => {
 
