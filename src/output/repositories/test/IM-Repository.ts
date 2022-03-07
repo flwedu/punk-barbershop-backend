@@ -1,4 +1,6 @@
 import { Entity } from "../../../application/domain/entities/Entity";
+import BusinessRuleError from "../../../application/domain/errors/business-rule-error";
+import { ErrorMessage } from "../../../application/domain/errors/error-messages";
 import ResourceNotFound from "../../../application/domain/errors/resource-not-found";
 import IRepository from "../IRepository";
 
@@ -8,7 +10,7 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
     findById(id: string): Promise<T> {
         const index = this.list.findIndex(elem => elem.id == id);
         if (index == -1) {
-            throw new ResourceNotFound("element not found");
+            throw new ResourceNotFound(ErrorMessage.ID_NOT_FOUND(id));
         }
         return Promise.resolve(this.list[index]);
     }
@@ -16,6 +18,11 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
         return Promise.resolve(this.list);
     }
     save(entity: T, id?: string): Promise<T> {
+
+        if (this.list.some(el => el.id == id)) {
+            throw new BusinessRuleError(ErrorMessage.ID_ALREADY_EXISTS(id));
+        }
+
         this.list.push(entity);
         const lastIndex = this.list.length - 1;
         return Promise.resolve(this.list[lastIndex]);
@@ -23,7 +30,7 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
     update(entity: T, id: string): Promise<T> {
         const index = this.list.findIndex(element => element.id == id);
         if (index == -1) {
-            throw new ResourceNotFound("element not found");
+            throw new ResourceNotFound(ErrorMessage.ID_NOT_FOUND(id));
         }
         this.list[index] = entity;
         return Promise.resolve(this.list[index]);
@@ -45,7 +52,7 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
 
         const index = this.list.findIndex(elem => elem.id == id);
         if (index == -1) {
-            throw new ResourceNotFound("element not found");
+            throw new ResourceNotFound(ErrorMessage.ID_NOT_FOUND(id));
         }
 
         const oldLength = this.list.length;
