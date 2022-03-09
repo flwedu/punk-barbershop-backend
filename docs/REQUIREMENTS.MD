@@ -5,10 +5,10 @@
 As entidades do `domain` são:
 | Nome | Descrição |
 | :--------: | :--------: |
-Client | Representa um cliente.
-Barber | Representa um cabelereiro.
-Scheduling | Representa um agendamento.
-ServiceType | Representa um tipo de serviço.
+| Client | Representa um cliente. |
+| Barber | Representa um cabelereiro. |
+| Scheduling | Representa um agendamento. |
+| ServiceType | Representa um tipo de serviço. |
 
 ## Diagrama de classes:
 
@@ -61,6 +61,8 @@ classDiagram
 | schedulingDateTime | Data e horário de um agendamento       | Date   | Scheduling     |
 | price              | É o preço de um serviço                | number | ServiceType    |
 | duration           | É a duração de um serviço (em minutos) | number | ServiceType    |
+
+---
 
 # Requisitos Funcionais
 

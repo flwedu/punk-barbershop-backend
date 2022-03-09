@@ -31,3 +31,11 @@ Dados do `body`:
 -   Retorna `201` para um registro inserido com sucesso.
 -   Retorna `400` para algum erro de regra de negócio
 -   Retorna `500` para erro de servidor
+
+### `DELETE` para `api/clients/:id`
+
+Solicita a exclusão de um registro.
+
+-   Retorna `202` para um registro excluído com sucesso.
+-   Retorna `404` caso nenhum registro seja encontrado.
+-   Retorna `500` para erro de servidor.
