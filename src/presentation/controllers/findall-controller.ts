@@ -4,6 +4,7 @@ import { FindAllUseCase } from "../../application/useCases/findall";
 import IRepository from "../../output/repositories/IRepository";
 
 import Controller from "./Controller";
+import EntityModelParser from "../adapters/entity-model-parser";
 
 
 export class FindAllController<T extends Entity> implements Controller {
@@ -18,7 +19,9 @@ export class FindAllController<T extends Entity> implements Controller {
                 return new ResponseFactory(response).makeResponse(204, [])
             }
             else {
-                return new ResponseFactory(response).makeOkResponse(result);
+                const parser = new EntityModelParser();
+                const parsedResult = result.map(parser.toModel);
+                return new ResponseFactory(response).makeOkResponse(parsedResult);
             }
         } catch (err) {
             return new ResponseFactory(response).makeErrorResponse(err);

@@ -1,5 +1,6 @@
 import { Entity } from "../../application/domain/entities/Entity";
 import IUseCase from "../../application/useCases/IUseCase";
+import EntityModelParser from "../adapters/entity-model-parser";
 import ResponseFactory from "../http/ResponseFactory";
 
 export default class UpdateEntityController<T extends Entity> {
@@ -9,8 +10,10 @@ export default class UpdateEntityController<T extends Entity> {
         try {
             const id = request.params.id;
             const props = request.body;
-            const updated = await this.useCase.execute({ id, props });
-            return new ResponseFactory(response).makeResponse(202, updated);
+            const data = await this.useCase.execute({ id, props });
+            const parsedData = new EntityModelParser().toModel(data);
+
+            return new ResponseFactory(response).makeResponse(202, parsedData);
         } catch (error) {
             return new ResponseFactory(response).makeErrorResponse(error);
         }

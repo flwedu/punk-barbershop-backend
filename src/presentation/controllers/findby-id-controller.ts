@@ -2,6 +2,7 @@ import { Entity } from "../../application/domain/entities/Entity";
 import { FindByIdUseCase } from "../../application/useCases/findby-id";
 import IRepository from "../../output/repositories/IRepository";
 import ResponseFactory from "../../presentation/http/ResponseFactory";
+import EntityModelParser from "../adapters/entity-model-parser";
 import Controller from "./Controller";
 
 export default class FindByIdController<T extends Entity>
@@ -11,10 +12,12 @@ export default class FindByIdController<T extends Entity>
     async handle(request, response) {
         const { id } = request.params;
         try {
-            const result = await new FindByIdUseCase(this.repository).execute(
+            const data = await new FindByIdUseCase(this.repository).execute(
                 { id }
             );
-            return new ResponseFactory(response).makeOkResponse(result);
+            const parsedData = new EntityModelParser().toModel(data);
+
+            return new ResponseFactory(response).makeOkResponse(parsedData);
         } catch (err) {
             return new ResponseFactory(response).makeErrorResponse(err);
         }

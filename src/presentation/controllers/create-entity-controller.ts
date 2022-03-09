@@ -1,5 +1,6 @@
 import { Entity } from "../../application/domain/entities/Entity";
 import IUseCase from "../../application/useCases/IUseCase";
+import EntityModelParser from "../adapters/entity-model-parser";
 import ResponseFactory from "../http/ResponseFactory";
 
 export class CreateEntityController<T extends Entity>{
@@ -10,7 +11,9 @@ export class CreateEntityController<T extends Entity>{
         try {
             const { id, ...props } = request.body;
             const data = await this.useCase.execute({ id, props });
-            return new ResponseFactory(response).makeResponse(201, data);
+            const parsedData = new EntityModelParser().toModel(data);
+
+            return new ResponseFactory(response).makeResponse(201, parsedData);
         } catch (error) {
             return new ResponseFactory(response).makeErrorResponse(error);
         }
