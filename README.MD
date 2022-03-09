@@ -58,6 +58,6 @@ npm run test
 
 ## Documentação do projeto
 
--   Requisitos / regras de negócio: [REQUIREMENTS.MD](docs/REQUIREMENTS.MD).
--   Diagrama de relacionamento entre componentes: [diagram.png](docs/diagram.png)
--   Mapeamento de rotas / requisições: [ROUTES.MD](docs/ROUTES.MD)
+-   [REQUIREMENTS.MD](docs/REQUIREMENTS.MD): Requisitos / regras de negócio.
+-   [diagram.png](docs/diagram.png): Diagrama de relacionamento entre componentes.
+-   [ROUTES.MD](docs/ROUTES.MD): Mapeamento de rotas / requisições cadastradas até o momento.
