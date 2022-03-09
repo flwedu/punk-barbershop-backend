@@ -8,12 +8,18 @@ describe("Update client use case", () => {
         jest.clearAllMocks();
     })
 
-    it("Sould return the update a client", async () => {
-
-        expect.assertions(3);
+    function setup() {
         const repository = new IMRepository<Client>();
         const sut = new UpdateClientUseCase(repository);
         const repositorySpy = jest.spyOn(repository, "update");
+
+        return { repository, sut, repositorySpy };
+    }
+
+    it("Sould return the update a client with full params", async () => {
+
+        expect.assertions(2);
+        const { repository, sut, repositorySpy } = setup();
 
         const client = Client.create({
             name: "Test",
@@ -23,17 +29,18 @@ describe("Update client use case", () => {
         }, "1");
         repository.list.push(client)
 
-        expect(repository.list.at(0).props.name).toEqual("Test");
-        sut.execute({
+        const updated = await sut.execute({
             id: "1",
             props: {
                 name: "Updated test",
-                email: "aa@email.com",
-                birthDate: "01/01/2021",
-                cpf: "00000000000"
+                email: "updated@email.com",
+                birthDate: "02/01/2021",
+                cpf: "00000000001"
             }
         })
+
+        const updatedAtList = repository.list.at(0);
         expect(repositorySpy).toBeCalledTimes(1);
-        expect(repository.list.at(0).props.name).toEqual("Updated test");
+        expect(updatedAtList).toEqual(updated);
     })
 })
