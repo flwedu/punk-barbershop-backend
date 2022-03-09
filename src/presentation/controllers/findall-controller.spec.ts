@@ -1,8 +1,12 @@
 import { Client } from "../../application/domain/entities/client";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
+import EntityModelParser from "../adapters/entity-model-parser";
 import { FindAllController } from "./findall-controller";
 
 describe("find all controller", () => {
+
+    const parser = new EntityModelParser();
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -53,7 +57,7 @@ describe("find all controller", () => {
         expect(response.status).toBeCalledTimes(1);
         expect(response.status).toBeCalledWith(200);
         expect(response.json).toBeCalledTimes(1);
-        expect(response.json).toBeCalledWith(repository.list);
+        expect(response.json).toBeCalledWith(repository.list.map(parser.toModel));
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 });

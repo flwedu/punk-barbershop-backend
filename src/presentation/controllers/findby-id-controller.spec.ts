@@ -1,4 +1,5 @@
 import faker from "@faker-js/faker";
+import { ErrorMessage } from "../../application/domain/errors/error-messages";
 import { Barber } from "../../application/domain/entities/barber";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import EntityModelParser from "../adapters/entity-model-parser";
@@ -52,7 +53,7 @@ describe("Find by id controller", () => {
 
     it("should receives a 404 status code for resource not find", async () => {
 
-        expect.assertions(2);
+        expect.assertions(3);
 
         const request = {
             params: {
@@ -69,6 +70,7 @@ describe("Find by id controller", () => {
 
         expect(response.status).toHaveBeenCalledTimes(1);
         expect(response.status).toBeCalledWith(404);
+        expect(response.json).toBeCalledWith(ErrorMessage.ID_NOT_FOUND("1"))
     })
 
 })
