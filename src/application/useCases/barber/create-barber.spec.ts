@@ -1,5 +1,5 @@
-import { Barber } from "../../domain/entities/barber";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
+import { Barber } from "../../domain/entities/barber";
 import { CreateBarberUseCase } from "./create-barber";
 
 describe("create barber use cases", () => {
@@ -29,6 +29,28 @@ describe("create barber use cases", () => {
         expect(spy).toHaveBeenCalledTimes(1);
     })
 
+    it.each(["", null, undefined, "a", "1"])("should not create a new barber with invalid name", async (name) => {
+
+        expect.assertions(2);
+        const repository = new IMRepository();
+        const sut = new CreateBarberUseCase(repository);
+        const spy = jest.spyOn(repository, "save");
+
+        try {
+            await sut.execute({
+                props: {
+                    name,
+                    email: "barber@Email.com",
+                    birthDate: "1980-01-05",
+                    cpf: "00000000000"
+                }
+            });
+        } catch (err) {
+            expect(repository.list.length).toBe(0);
+            expect(spy).toHaveBeenCalledTimes(0);
+        }
+
+    })
     it.each(["", null, undefined, "a", "1"])("should not create a new barber with invalid email", async (email) => {
 
         expect.assertions(2);
