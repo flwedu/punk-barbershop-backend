@@ -1,4 +1,5 @@
 import BusinessRuleError from "../errors/business-rule-error";
+import { ErrorMessage } from "../errors/error-messages";
 import { Duration } from "../valueObjects/Duration";
 import { Entity } from "./Entity";
 
@@ -24,21 +25,15 @@ export class ServiceType extends Entity {
     public static create(props: InputServiceTypeProps, id?: string) {
 
         // Check values
-        if (props.name.length < 2 || props.name.length > 25) {
-            throw new BusinessRuleError("Service name must contain more than 2 characters and no more than 25 characters")
-        }
-        if (props.name.length < 2 || props.name.length > 50) {
-            throw new BusinessRuleError("Service desciption must contain more than 2 characters and less than 50 characters")
-        }
-
-        if (props.price.length < 1 || !/^\d+[\.\,]?\d{0,2}$/.test(props.price.replace(",", ""))) {
-            throw new BusinessRuleError("invalid service price value")
+        if (!props.name || !/\w{2,25}/.test(props.name)) {
+            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("name"))
         }
 
         const duration = Duration.of(props.duration);
+
         const price = Number(props.price);
         if (price < 1 || Number.isNaN(price)) {
-            throw new BusinessRuleError("Invalid price value");
+            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("price"));
         }
 
         const readyProps = {
