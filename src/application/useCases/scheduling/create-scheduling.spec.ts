@@ -1,14 +1,32 @@
+import { ErrorMessage } from "../../../application/domain/errors/error-messages";
+import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";
 import { ServiceType } from "../../domain/entities/serviceType";
-import { IMRepository } from "../../../output/repositories/test/IM-Repository";
-import { CreateBarberUseCase } from "../barber/create-barber";
-import { CreateClientUseCase } from "../client/create-client";
-import { CreateServiceTypeUseCase } from "../service-type/create-serviceType";
 import { CreateSchedulingUseCase } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
+
+    const client = Client.create({
+        name: "Test",
+        email: "user@email.com",
+        birthDate: "01/01/2021",
+        cpf: "00000000000"
+    });
+    const barber = Barber.create({
+        name: "Test",
+        email: "barber@email.com",
+        birthDate: "1980-01-05",
+        cpf: "00000000000"
+    });
+
+    const serviceType = ServiceType.create({
+        name: "Corte xavoso",
+        description: "Aquele corte maneiro",
+        duration: "60",
+        price: "50.00"
+    });
 
     async function setup() {
 
@@ -19,33 +37,11 @@ describe("create scheduling use case", () => {
         const sut = new CreateSchedulingUseCase({
             schedulingRepository, clientRepository, serviceTypeRepository, barberRepository
         });
+        clientRepository.list.push(client);
+        barberRepository.list.push(barber);
+        serviceTypeRepository.list.push(serviceType);
 
-        const client = await new CreateClientUseCase(clientRepository).execute({
-            props: {
-                name: "Test",
-                email: "user@email.com",
-                birthDate: "01/01/2021",
-                cpf: "00000000000"
-            }
-        });
-        const barber = await new CreateBarberUseCase(barberRepository).execute({
-            props: {
-                name: "Test",
-                email: "barber@email.com",
-                birthDate: "1980-01-05",
-                cpf: "00000000000"
-            }
-        });
-
-        const serviceType = await new CreateServiceTypeUseCase(serviceTypeRepository).execute({
-            name: "Corte xavoso",
-            description: "Aquele corte maneiro",
-            duration: "60",
-            price: "50.00"
-        });
-
-        return { sut, schedulingRepository, client, serviceType, barber };
-
+        return { sut, schedulingRepository };
     };
 
     beforeEach(() => {
@@ -56,7 +52,7 @@ describe("create scheduling use case", () => {
 
         expect.assertions(3);
 
-        const { sut, schedulingRepository, client, serviceType, barber } = await setup();
+        const { sut, schedulingRepository } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         const result = await sut.execute({
@@ -72,32 +68,43 @@ describe("create scheduling use case", () => {
 
     });
 
-    it("should not create a new scheduling without client id", async () => {
+    it.each([{
+        cliendId: "",
+        barberId: barber.id,
+        serviceTypeId: serviceType.id
+    }, {
+        cliendId: client.id,
+        barberId: "",
+        serviceTypeId: serviceType.id
+    }, {
+        cliendId: client.id,
+        barberId: barber.id,
+        serviceTypeId: ""
+    }])("should not create a new scheduling without other entities id", async (props) => {
 
-        expect.assertions(2);
+        expect.assertions(3);
 
-        const { sut, schedulingRepository, serviceType, barber } = await setup();
+        const { sut, schedulingRepository } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         try {
+            //@ts-ignore
             await sut.execute({
-                clientId: "",
-                barberId: barber.id,
-                serviceTypeId: serviceType.id,
+                ...props,
                 scheduleDate: "2022-01-01T14:00"
             })
-        } catch {
-
+        } catch (err) {
+            expect(err.message).toEqual(expect.stringMatching(/Invalid\s\w+Id/));
             expect(schedulingRepository.list.length).toEqual(0);
             expect(spy).toHaveBeenCalledTimes(0);
         }
     });
 
-    it("should not create a new scheduling with invalid date", async () => {
+    it.each([undefined, null, "", "2022-01-01T25:10:00"])("should not create a new scheduling with an invalid date -> %s", async (date) => {
 
-        expect.assertions(4);
+        expect.assertions(3);
 
-        const { sut, schedulingRepository, client, serviceType, barber } = await setup();
+        const { sut, schedulingRepository } = await setup();
         const spy = jest.spyOn(schedulingRepository, "save");
 
         try {
@@ -105,31 +112,12 @@ describe("create scheduling use case", () => {
                 clientId: client.id,
                 barberId: barber.id,
                 serviceTypeId: serviceType.id,
-                scheduleDate: "2022-01-01T25:00:00"
+                scheduleDate: date
             })
-        } catch {
+        } catch (err) {
             expect(spy).toHaveBeenCalledTimes(0);
+            expect(err.message).toEqual(expect.stringMatching(/Invalid\s\w*date/i));
+            expect(schedulingRepository.list.length).toEqual(0);
         }
-        try {
-            await sut.execute({
-                clientId: client.id,
-                barberId: barber.id,
-                serviceTypeId: serviceType.id,
-                scheduleDate: ""
-            })
-        } catch {
-            expect(spy).toHaveBeenCalledTimes(0);
-        }
-        try {
-            await sut.execute({
-                clientId: client.id,
-                barberId: barber.id,
-                serviceTypeId: serviceType.id,
-                scheduleDate: "abc"
-            })
-        } catch {
-            expect(spy).toHaveBeenCalledTimes(0);
-        }
-        expect(schedulingRepository.list.length).toEqual(0);
     });
 })
