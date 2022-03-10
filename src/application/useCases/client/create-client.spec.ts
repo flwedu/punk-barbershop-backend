@@ -44,19 +44,37 @@ describe("create client use cases", () => {
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 
-    it.each(["", null, undefined, "a", "1"])(
-        "should not create a new client with invalid email",
-        async () => {
+    it.each(["", null, undefined])(
+        "should not create a new client with invalid name",
+        async (name) => {
             expect.assertions(2);
             const { repository, sut, repositorySpy } = setup();
 
             try {
                 await sut.execute({
                     props: {
-                        name: "Test",
-                        email: "",
-                        birthDate: "01/01/2021",
-                        cpf: "00000000000",
+                        ...generateClientInputRequest().props,
+                        name: name,
+                    },
+                });
+            } catch (err) {
+                expect(repository.list.length).toBe(0);
+                expect(repositorySpy).toHaveBeenCalledTimes(0);
+            }
+        }
+    );
+
+    it.each(["", null, undefined, "a", "1"])(
+        "should not create a new client with invalid email",
+        async (email) => {
+            expect.assertions(2);
+            const { repository, sut, repositorySpy } = setup();
+
+            try {
+                await sut.execute({
+                    props: {
+                        ...generateClientInputRequest().props,
+                        email: email
                     },
                 });
             } catch (err) {
@@ -68,18 +86,16 @@ describe("create client use cases", () => {
 
     it.each(["", null, "01", undefined, "654321987000"])(
         "should not create a new client with invalid cpf",
-        async () => {
+        async (cpf) => {
             expect.assertions(2);
             const { repository, sut, repositorySpy } = setup();
 
             try {
                 await sut.execute({
                     props: {
-                        name: "Test",
-                        email: "aa@email.com",
-                        birthDate: "01/01/2021",
-                        cpf: "000000000",
-                    },
+                        ...generateClientInputRequest().props,
+                        cpf: cpf
+                    }
                 });
             } catch (err) {
                 expect(repository.list.length).toBe(0);

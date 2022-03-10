@@ -46,24 +46,30 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 
-    it.each([{
-        name: faker.name.findName(),
-        cpf: "",
-        birthDate: faker.date.past(20).toISOString(),
-        email: faker.internet.email(),
-    },
-    {
-        name: faker.name.findName(),
-        cpf: "12345678911",
-        birthDate: faker.date.past(18).toISOString(),
-        email: "",
-    },
-    {
-        name: faker.name.findName(),
-        cpf: "12345678911",
-        birthDate: "",
-        email: faker.internet.email(),
-    }
+    it.each([
+        {
+            cpf: "12345678911",
+            birthDate: faker.date.past(20).toISOString(),
+            email: faker.internet.email()
+        },
+        {
+            name: faker.name.findName(),
+            cpf: "",
+            birthDate: faker.date.past(20).toISOString(),
+            email: faker.internet.email(),
+        },
+        {
+            name: faker.name.findName(),
+            cpf: "12345678911",
+            birthDate: faker.date.past(18).toISOString(),
+            email: "",
+        },
+        {
+            name: faker.name.findName(),
+            cpf: "12345678911",
+            birthDate: "",
+            email: faker.internet.email(),
+        }
     ])("should receives a 400 status code", async (body) => {
 
         expect.assertions(4);
