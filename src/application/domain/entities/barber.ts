@@ -1,4 +1,6 @@
 import { parseDateValue } from "../../../util/parser";
+import BusinessRuleError from "../errors/business-rule-error";
+import { ErrorMessage } from "../errors/error-messages";
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
 
@@ -35,6 +37,10 @@ export class Barber extends Entity {
             birthDate: parseDateValue(props.birthDate),
             createdAt: new Date(),
         } as Props<Barber>
+
+        if (!props.name || !/\w{2,}/g.test(props.name)) {
+            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("name"));
+        }
 
         const barber = new Barber(readyProps, id);
         return barber;
