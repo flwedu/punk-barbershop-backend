@@ -1,36 +1,40 @@
 # punk-barbershop-backend
 
-<img src="https://user-images.githubusercontent.com/55285816/154165860-266d2e83-a65a-473b-b163-a111826db8e4.jpg" alt="punk barbershop logo" width="200px" style="margin-left: 35%" />
+<div display="inline-block" align="center">
+<img src="https://user-images.githubusercontent.com/55285816/154165860-266d2e83-a65a-473b-b163-a111826db8e4.jpg" alt="punk barbershop logo" width="200px"/>
+</div>
 
 ## Descrição do projeto
 
 Essa aplicação backend foi criada para atender as demandas de uma barbearia, no agendamento de atendimentos, consulta de preços e acúmulo de pontos de fidelidade para o cliente.
 
-O intuito principal foi aplicar alguns conceitos aprendidos durante os estudos de Domain Driven Design, Test Driven Design, Clean Architecture e uso de Node.js no backend para construção de Rest APIS.
+O intuito principal foi aplicar alguns conceitos aprendidos durante os estudos de Domain Driven Design, Test Driven Design, Clean Architecture e uso de Node.js no backend para construção de Rest API's.
+
+<div display="inline-block" align="center">
+
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+
+</div>
 
 ## Realizando build da aplicação
 
-Para executar a aplicação em modo de desenvolvimento:
+Scripts para execução da aplicação:
 
 ```bash
+# Para rodar em modo de desenvolvimento (jeito mais rápido)
 npm run dev
-```
 
-A aplicação rodará por padrão em [http://localhost:3000/api]([http://localhost:3000/api).
-
-Caso deseje realizar um build, execute:
-
-```bash
+# Caso deseje gerar um builld
 npm run build
-```
 
-Será criada uma pasta `build` com os arquivos transpilados para `.js`.
-
-Após o build, basta executar o arquivo `build/main/app.js`, com o comando
-
-```bash
+# Após o build, a aplicação pode ser executada em:
 node build/main/app.js
 ```
+
+A API estará disponivel por padrão em [http://localhost:3000/api]([http://localhost:3000/api).
 
 ## Testando a aplicação
 
@@ -42,12 +46,12 @@ npm run test
 
 ## Tecnologias utilizadas
 
--   Javascript
--   Typescript
--   Node.js
--   Express
--   Jest
--   SQLite
+-   [Javascript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+-   [Typescript](https://www.typescriptlang.org/)
+-   [Node.js](https://nodejs.org/en/)
+-   [Express](http://expressjs.com/)
+-   [Jest](https://jestjs.io/)
+-   [SQLite](https://www.sqlite.org/index.html)
 
 ## Metodologias praticadas
 
