@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { Barber } from "../../domain/entities/barber";
@@ -34,6 +35,7 @@ describe("create scheduling use case", () => {
         const barberRepository = new IMRepository<Barber>();
         const serviceTypeRepository = new IMRepository<ServiceType>();
         const schedulingRepository = new IMRepository<Scheduling>();
+        const saveSpy = jest.spyOn(schedulingRepository, "save");
         const sut = new CreateSchedulingUseCase({
             schedulingRepository, clientRepository, serviceTypeRepository, barberRepository
         });
@@ -41,30 +43,30 @@ describe("create scheduling use case", () => {
         barberRepository.list.push(barber);
         serviceTypeRepository.list.push(serviceType);
 
-        return { sut, schedulingRepository };
+        return { sut, schedulingRepository, saveSpy };
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should create a new scheduling", async () => {
+    it("Should create a scheduling with valid data", async () => {
 
         expect.assertions(3);
 
-        const { sut, schedulingRepository } = await setup();
-        const spy = jest.spyOn(schedulingRepository, "save");
+        const { sut, schedulingRepository, saveSpy } = await setup();
+
 
         const result = await sut.execute({
             clientId: client.id,
             barberId: barber.id,
             serviceTypeId: serviceType.id,
-            scheduleDate: "2022-01-01T14:00"
+            scheduleDate: faker.date.future(1).toISOString()
         });
 
-        expect(result).toBeTruthy();
-        expect(schedulingRepository.list.length).toEqual(1);
-        expect(spy).toHaveBeenCalledTimes(1);
+        expect(result).toMatchObject({ ...Scheduling });
+        expect(schedulingRepository.list.at(0)).toMatchObject({ ...Scheduling });
+        expect(saveSpy).toHaveBeenCalledTimes(1);
 
     });
 
@@ -99,12 +101,11 @@ describe("create scheduling use case", () => {
         cliendId: client.id,
         barberId: barber.id,
         serviceTypeId: ""
-    }])("should not create a new scheduling without other entities id", async (props) => {
+    }])("Should throw an error when trying to create a scheduling without the ID of related entities", async (props) => {
 
         expect.assertions(3);
 
-        const { sut, schedulingRepository } = await setup();
-        const spy = jest.spyOn(schedulingRepository, "save");
+        const { sut, schedulingRepository, saveSpy } = await setup();
 
         try {
             //@ts-ignore
@@ -115,16 +116,15 @@ describe("create scheduling use case", () => {
         } catch (err) {
             expect(err.message).toEqual(expect.stringMatching(/Invalid\s\w+Id/));
             expect(schedulingRepository.list.length).toEqual(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(saveSpy).toHaveBeenCalledTimes(0);
         }
     });
 
-    it.each([undefined, null, "", "2022-01-01T25:10:00"])("should not create a new scheduling with an invalid date -> %s", async (date) => {
+    it.each([undefined, null, "", "2022-01-01T25:10:00"])("Should throw an error when trying to create a scheduling with this invalid date: %s", async (date) => {
 
         expect.assertions(3);
 
-        const { sut, schedulingRepository } = await setup();
-        const spy = jest.spyOn(schedulingRepository, "save");
+        const { sut, schedulingRepository, saveSpy } = await setup();
 
         try {
             await sut.execute({
@@ -134,7 +134,7 @@ describe("create scheduling use case", () => {
                 scheduleDate: date
             })
         } catch (err) {
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(saveSpy).toHaveBeenCalledTimes(0);
             expect(err.message).toEqual(expect.stringMatching(/Invalid\s\w*date/i));
             expect(schedulingRepository.list.length).toEqual(0);
         }
