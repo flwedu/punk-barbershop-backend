@@ -1,4 +1,6 @@
 import { parseDateValue } from "../../../util/parser";
+import BusinessRuleError from "../errors/business-rule-error";
+import { ErrorMessage } from "../errors/error-messages";
 import { Entity } from "./Entity";
 
 export type InputSchedulingRequestProps = {
@@ -23,10 +25,17 @@ export class Scheduling extends Entity {
 
     public static create(props: InputSchedulingRequestProps, id?: string) {
 
+        const scheduleDate = parseDateValue(props.scheduleDate);
+        const createdAt = new Date();
+
+        if (scheduleDate < createdAt) {
+            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("date", "The date can not be in the past"))
+        }
+
         const readyProps = {
             ...props,
-            scheduleDate: parseDateValue(props.scheduleDate),
-            createdAt: new Date()
+            scheduleDate,
+            createdAt
         } as Props<Scheduling>;
 
         const scheduling = new Scheduling(readyProps, id);
