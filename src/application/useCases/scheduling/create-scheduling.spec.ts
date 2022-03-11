@@ -68,6 +68,25 @@ describe("create scheduling use case", () => {
 
     });
 
+    it.each([faker.date.past(1).toISOString(), faker.date.recent(1).toISOString()])("Should throw an error when trying to create a scheduling with a past date", async (date) => {
+
+        expect.assertions(3);
+        const { sut, schedulingRepository, saveSpy } = await setup();
+
+        try {
+            const result = await sut.execute({
+                clientId: client.id,
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+                scheduleDate: date
+            });
+        } catch (err) {
+            expect(err.message).toEqual(ErrorMessage.INVALID_PARAM("date", "The date can not be in the past"))
+            expect(saveSpy).toHaveBeenCalledTimes(0);
+            expect(schedulingRepository.list.length).toEqual(0);
+        }
+    })
+
     it.each([{
         cliendId: "",
         barberId: barber.id,
