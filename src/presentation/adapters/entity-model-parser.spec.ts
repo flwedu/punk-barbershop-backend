@@ -5,7 +5,7 @@ import EntityModelAdapter from "./entity-model-parser"
 
 describe("entity model adapter", () => {
 
-    it.each([faker.date.past(), faker.date.past(10), faker.date.recent()])("should convert all date props correctly", (birthDate) => {
+    it.each([faker.date.past(), faker.date.past(10), faker.date.recent()])("Should convert all properties correctly", (birthDate) => {
 
         const sut = new EntityModelAdapter();
         const entity = {
@@ -23,7 +23,7 @@ describe("entity model adapter", () => {
         })
     })
 
-    it("should convert all object props correctly", () => {
+    it("Should convert all properties (object) correctly", () => {
 
         const sut = new EntityModelAdapter();
         const entity = {
