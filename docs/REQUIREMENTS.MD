@@ -3,12 +3,13 @@
 ## Entidades
 
 As entidades do `domain` são:
-| Nome | Descrição |
-| :--------: | :--------: |
-| Client | Representa um cliente. |
-| Barber | Representa um cabelereiro. |
-| Scheduling | Representa um agendamento. |
-| ServiceType | Representa um tipo de serviço. |
+
+|    Nome     |         Descrição          |
+|:-----------:|:--------------------------:|
+|   Client    |   Representa um cliente.   |
+|   Barber    | Representa um cabelereiro. |
+| Scheduling  | Representa um agendamento. |
+| ServiceType |   Representa um serviço.   |
 
 ## Diagrama de classes:
 
@@ -54,7 +55,7 @@ classDiagram
 ## Descrição dos campos
 
 | Campo              | Descrição                              | Tipo   | Pertence à     |
-| ------------------ | -------------------------------------- | ------ | -------------- |
+|--------------------|----------------------------------------|--------|----------------|
 | cpf / cnpj         | É o número de CPF / CNPJ da pessoa     | string | Client, Barber |
 | birthDate          | É a data de nascimento da pessoa       | Date   | Client, Barber |
 | createdAt          | Data de inserção do registro           | Date   | Todas          |
@@ -70,11 +71,11 @@ classDiagram
 
 Legenda:
 
--   ✔️ implementado
--   🤞 a ser implementado
+- ✔️ implementado
+- 🤞 a ser implementado
 
 | Situação | Regra                                                                                        |
-| :------: | -------------------------------------------------------------------------------------------- |
+|:--------:|----------------------------------------------------------------------------------------------|
 |    ✔️    | Todas as entidades devem possuir um id.                                                      |
 |    ✔️    | Um agendamento deve possuir: um único cliente, um único barbeiro e um único tipo de serviço. |
 |    🤞    | Um barbeiro não pode possuir dois agendamentos para um mesmo horário.                        |
