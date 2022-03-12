@@ -58,7 +58,7 @@ describe("create serviceType use case test", () => {
 
     })
 
-    it.each(["0", null, "-50", "abc", "a"])("Should throw an error when trying to create a serviceType with this invalid price value: %s", async (price) => {
+    it.each([null, "-50", "abc", "a"])("Should throw an error when trying to create a serviceType with this invalid price value: %s", async (price) => {
         expect.assertions(3);
         const { repository, sut, spy } = setup();
 
