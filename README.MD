@@ -27,14 +27,14 @@ Scripts para execução da aplicação:
 # Para rodar em modo de desenvolvimento (jeito mais rápido)
 npm run dev
 
-# Caso deseje gerar um builld
+# Caso deseje gerar um build
 npm run build
 
 # Após o build, a aplicação pode ser executada em:
 node build/main/app.js
 ```
 
-A API estará disponivel por padrão em [http://localhost:3000/api]([http://localhost:3000/api).
+A API estará disponível por padrão em [http://localhost:3000/api]([http://localhost:3000/api).
 
 ## Testando a aplicação
 
