@@ -2,13 +2,13 @@ import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import { Barber } from "../../domain/entities/barber";
 import { CreateBarberUseCase } from "./create-barber";
 
-describe("create barber use cases", () => {
+describe("Create Barber Use Case tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
     })
 
-    it("should create a new barber with valid data", async () => {
+    it("Should create a barber with valid data", async () => {
 
         expect.assertions(3);
         const repository = new IMRepository<Barber>();
@@ -29,7 +29,7 @@ describe("create barber use cases", () => {
         expect(spy).toHaveBeenCalledTimes(1);
     })
 
-    it.each(["", null, undefined, "a", "1"])("should not create a new barber with invalid name", async (name) => {
+    it.each(["", null, undefined, "a", "1"])("Should throw an error when trying to create a barber with this invalid name: %s", async (name) => {
 
         expect.assertions(2);
         const repository = new IMRepository();
@@ -51,7 +51,7 @@ describe("create barber use cases", () => {
         }
 
     })
-    it.each(["", null, undefined, "a", "1"])("should not create a new barber with invalid email", async (email) => {
+    it.each(["", null, undefined, "a", "1"])("Should throw an error when trying to create a barber with this invalid email: %s", async (email) => {
 
         expect.assertions(2);
         const repository = new IMRepository();
@@ -74,7 +74,7 @@ describe("create barber use cases", () => {
 
     })
 
-    it.each(["", null, "01", undefined, "654321987000"])("should not create a new barber with invalid cpf -> %d", async (cpf) => {
+    it.each(["", null, "01", undefined, "654321987000"])("Should throw an error when trying to create a barber with this invalid CPF: %s", async (cpf) => {
 
         expect.assertions(2);
         const repository = new IMRepository();

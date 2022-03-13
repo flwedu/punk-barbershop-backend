@@ -1,3 +1,4 @@
+import { testPriceValue } from "../../../util/testFields";
 import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
 import { Duration } from "../valueObjects/Duration";
@@ -14,7 +15,7 @@ export interface Props<ServiceType> {
     name: string,
     description: string,
     duration: Duration,
-    price: number,
+    price: string,
 }
 
 export class ServiceType extends Entity {
@@ -31,18 +32,14 @@ export class ServiceType extends Entity {
 
         const duration = Duration.of(props.duration);
 
-        const price = Number(props.price);
-        if (price < 1 || Number.isNaN(price)) {
+        if (!testPriceValue(props.price)) {
             throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("price"));
         }
 
-        const readyProps = {
+        const serviceType = new ServiceType({
             ...props,
             duration,
-            price
-        } as Props<ServiceType>
-
-        const serviceType = new ServiceType(readyProps, id);
+        }, id);
 
         return serviceType;
     }

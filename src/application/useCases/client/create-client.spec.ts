@@ -33,7 +33,7 @@ describe("create client use cases", () => {
         };
     }
 
-    it("should create a new client with valid data", async () => {
+    it("Should create a client with valid data", async () => {
         expect.assertions(3);
         const { repository, sut, repositorySpy } = setup();
 
@@ -45,7 +45,7 @@ describe("create client use cases", () => {
     });
 
     it.each(["", null, undefined])(
-        "should not create a new client with invalid name",
+        "Should throw an error when trying to create a client with this invalid name: %s",
         async (name) => {
             expect.assertions(2);
             const { repository, sut, repositorySpy } = setup();
@@ -65,7 +65,7 @@ describe("create client use cases", () => {
     );
 
     it.each(["", null, undefined, "a", "1"])(
-        "should not create a new client with invalid email",
+        "Should throw an error when trying to create a client with this invalid email: %s",
         async (email) => {
             expect.assertions(2);
             const { repository, sut, repositorySpy } = setup();
@@ -85,7 +85,7 @@ describe("create client use cases", () => {
     );
 
     it.each(["", null, "01", undefined, "654321987000"])(
-        "should not create a new client with invalid cpf",
+        "Should throw an error when trying to create a client with this invalid CPF: %s",
         async (cpf) => {
             expect.assertions(2);
             const { repository, sut, repositorySpy } = setup();
@@ -104,7 +104,7 @@ describe("create client use cases", () => {
         }
     );
 
-    it("Should trhow error while trying to create a client with existent id", async () => {
+    it("Should throw an error when trying to create a client with an existing ID", async () => {
         expect.assertions(2);
         const { sut, repositorySpy } = setup();
 

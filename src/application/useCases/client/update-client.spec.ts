@@ -2,7 +2,7 @@ import { IMRepository } from "../../../output/repositories/test/IM-Repository"
 import { Client } from "../../domain/entities/client"
 import UpdateClientUseCase from "./update-client";
 
-describe("Update client use case", () => {
+describe("Update client use case tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -16,7 +16,7 @@ describe("Update client use case", () => {
         return { repository, sut, repositorySpy };
     }
 
-    it("Sould return the update a client with full params", async () => {
+    it("Should return a client with all updated parameters", async () => {
 
         expect.assertions(2);
         const { repository, sut, repositorySpy } = setup();

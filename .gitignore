@@ -2,3 +2,7 @@ node_modules/
 .vscode/
 coverage/
 build/
+.idea/.gitignore
+.idea/modules.xml
+.idea/punk-barbershop-backend.iml
+.idea/vcs.xml

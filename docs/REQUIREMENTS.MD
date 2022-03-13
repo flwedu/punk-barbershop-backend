@@ -3,12 +3,13 @@
 ## Entidades
 
 As entidades do `domain` são:
-| Nome | Descrição |
-| :--------: | :--------: |
-| Client | Representa um cliente. |
-| Barber | Representa um cabelereiro. |
-| Scheduling | Representa um agendamento. |
-| ServiceType | Representa um tipo de serviço. |
+
+|    Nome     |          Descrição          |
+| :---------: | :-------------------------: |
+|   Client    |   Representa um cliente.    |
+|   Barber    | Representa um cabeleireiro. |
+| Scheduling  | Representa um agendamento.  |
+| ServiceType |   Representa um serviço.    |
 
 ## Diagrama de classes:
 
@@ -24,14 +25,14 @@ classDiagram
 	Entity : + Object props
 	class Client{
 		+ string: name
-		+ string: cpf
+		+ string: CPF
 		+ Date: birthDate
 		+ Date: createdAt
 		+ string: email
 	}
 		class Barber{
 		+ string: name
-		+ string: cpf/cnpj
+		+ string: CPF/CNPJ
 		+ Date: birthDate
 		+ Date: createdAt
 		+ string: email
@@ -55,7 +56,7 @@ classDiagram
 
 | Campo              | Descrição                              | Tipo   | Pertence à     |
 | ------------------ | -------------------------------------- | ------ | -------------- |
-| cpf / cnpj         | É o número de CPF / CNPJ da pessoa     | string | Client, Barber |
+| CPF / CNPJ         | É o número de CPF / CNPJ da pessoa     | string | Client, Barber |
 | birthDate          | É a data de nascimento da pessoa       | Date   | Client, Barber |
 | createdAt          | Data de inserção do registro           | Date   | Todas          |
 | schedulingDateTime | Data e horário de um agendamento       | Date   | Scheduling     |
@@ -79,4 +80,4 @@ Legenda:
 |    ✔️    | Um agendamento deve possuir: um único cliente, um único barbeiro e um único tipo de serviço. |
 |    🤞    | Um barbeiro não pode possuir dois agendamentos para um mesmo horário.                        |
 |    🤞    | Um cliente não pode possuir dois agendamentos para um mesmo horário.                         |
-|          |                                                                                              |
+|    ✔️    | Um agendamento não pode ser feito com data no passado                                        |
