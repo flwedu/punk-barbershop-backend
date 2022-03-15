@@ -43,7 +43,7 @@ describe("Tests for Client #GET controller controller", () => {
         expect(data).toEqual([parser.toModel(client)]);
     })
 
-    test("Sould receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
+    test("Should receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
 
         expect.assertions(2);
         const client = Client.create({
@@ -61,7 +61,7 @@ describe("Tests for Client #GET controller controller", () => {
         expect(data).toEqual(parser.toModel(client));
     })
 
-    test.each(["1"])("Sould receive a 404 when GET to api/clients/:id", async (id) => {
+    test.each(["1"])("Should receive a 404 when GET to api/clients/:id", async (id) => {
 
         expect.assertions(2);
 
