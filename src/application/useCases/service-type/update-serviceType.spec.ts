@@ -1,28 +1,14 @@
-import faker from "@faker-js/faker";
-import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
-import { IMRepository } from "../../../output/repositories/test/IM-Repository";
+import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
+import {
+    createFakeServiceType,
+    createFakeServiceTypeProps,
+} from "../../../util/MockDataFactory";
+import { setupRepository } from "../../../util/TestUtilFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
 import { UpdateServiceTypeUseCase } from "./update-serviceType";
 
 describe("Update service type use case", () => {
-
-    function setup() {
-        const repository = new IMRepository<ServiceType>();
-        const sut = new UpdateServiceTypeUseCase(repository);
-        const repositorySpy = jest.spyOn(repository, "update");
-        return { repository, sut, repositorySpy };
-    }
-
-    function generateServiceTypeProps() {
-        return {
-            name: faker.lorem.words(15),
-            description: faker.lorem.words(25),
-            duration: "120",
-            price: "50"
-        }
-    }
-
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -40,38 +26,52 @@ describe("Update service type use case", () => {
             duration: "30",
             price: "50",
         },
-    ])("Should update a ServiceType with the passed parameters (%o)", async (props) => {
-        expect.assertions(3);
-        const { repository, sut, repositorySpy } = setup();
+    ])(
+        "Should update a ServiceType with the passed parameters (%o)",
+        async (props) => {
+            expect.assertions(3);
+            const { repository, repositorySpy } = setupRepository(
+                ServiceType,
+                "update"
+            );
+            const sut = new UpdateServiceTypeUseCase(repository);
 
-        const originalService = ServiceType.create(generateServiceTypeProps())
-        repository.list.push(originalService);
+            const originalService = createFakeServiceType();
+            repository.list.push(originalService);
 
-        const updatedService = await sut.execute({
-            id: originalService.id,
-            props,
-        });
-        expect(new EntityModelParser().toModel(updatedService)).toMatchObject({ ...props });
-        expect(await repository.findById(originalService.id)).toMatchObject(updatedService);
-        expect(repositorySpy).toHaveBeenCalledTimes(1);
-    });
-
+            const updatedService = await sut.execute({
+                id: originalService.id,
+                props,
+            });
+            expect(
+                new EntityModelParser().toModel(updatedService)
+            ).toMatchObject({ ...props });
+            expect(await repository.findById(originalService.id)).toMatchObject(
+                updatedService
+            );
+            expect(repositorySpy).toHaveBeenCalledTimes(1);
+        }
+    );
 
     it.each(["2", "3", null, "0"])(
         "Should throw an error when trying to update a ServiceType with this non-existent id: %s",
         async (id) => {
             expect.assertions(2);
-            const { sut, repositorySpy } = setup();
+            const { repository, repositorySpy } = setupRepository(
+                ServiceType,
+                "update"
+            );
+            const sut = new UpdateServiceTypeUseCase(repository);
 
             try {
                 await sut.execute({
                     id,
                     props: {
-                        ...generateServiceTypeProps()
+                        ...createFakeServiceTypeProps(),
                     },
                 });
             } catch (err) {
-                expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(id))
+                expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(id));
                 expect(repositorySpy).toHaveBeenCalledTimes(1);
             }
         }
@@ -81,12 +81,16 @@ describe("Update service type use case", () => {
         "Should throw an error when trying to update a ServiceType with this invalid duration value: %s",
         async (duration) => {
             expect.assertions(3);
-            const { repository, sut, repositorySpy } = setup();
+            const { repository, repositorySpy } = setupRepository(
+                ServiceType,
+                "update"
+            );
+            const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = ServiceType.create(
-                generateServiceTypeProps(),
+                createFakeServiceTypeProps(),
                 "1"
-            )
+            );
             repository.list.push(originalService);
 
             try {
@@ -100,9 +104,13 @@ describe("Update service type use case", () => {
                     },
                 });
             } catch (err) {
-                expect(err.message).toEqual(ErrorMessage.INVALID_PARAM("duration value"))
+                expect(err.message).toEqual(
+                    ErrorMessage.INVALID_PARAM("duration value")
+                );
                 expect(repositorySpy).toBeCalledTimes(0);
-                expect(await repository.findById(originalService.id)).toMatchObject(originalService);
+                expect(
+                    await repository.findById(originalService.id)
+                ).toMatchObject(originalService);
             }
         }
     );
@@ -111,10 +119,14 @@ describe("Update service type use case", () => {
         "Should throw an error when trying to update a ServiceType with this invalid price value: %s",
         async (price) => {
             expect.assertions(3);
-            const { repository, sut, repositorySpy } = setup();
+            const { repository, repositorySpy } = setupRepository(
+                ServiceType,
+                "update"
+            );
+            const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = ServiceType.create(
-                generateServiceTypeProps(),
+                createFakeServiceTypeProps(),
                 "1"
             );
             repository.list.push(originalService);
@@ -130,12 +142,14 @@ describe("Update service type use case", () => {
                     },
                 });
             } catch (err) {
-                expect(err.message).toEqual(ErrorMessage.INVALID_PARAM("price"))
+                expect(err.message).toEqual(
+                    ErrorMessage.INVALID_PARAM("price")
+                );
                 expect(repositorySpy).toBeCalledTimes(0);
-                expect(await repository.findById(originalService.id)).toMatchObject(originalService);
+                expect(
+                    await repository.findById(originalService.id)
+                ).toMatchObject(originalService);
             }
         }
     );
 });
-
-

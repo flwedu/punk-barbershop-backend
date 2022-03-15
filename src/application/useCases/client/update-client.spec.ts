@@ -1,5 +1,7 @@
-import { IMRepository } from "../../../output/repositories/test/IM-Repository"
-import { Client } from "../../domain/entities/client"
+import { createFakeClient, createFakeClientProps } from "../../../util/MockDataFactory";
+import { setupRepository } from "../../../util/TestUtilFunctions";
+import { Client } from "../../domain/entities/client";
+import { ErrorMessage } from "../../domain/errors/error-messages";
 import UpdateClientUseCase from "./update-client";
 
 describe("Update client use case tests", () => {
@@ -8,39 +10,37 @@ describe("Update client use case tests", () => {
         jest.clearAllMocks();
     })
 
-    function setup() {
-        const repository = new IMRepository<Client>();
-        const sut = new UpdateClientUseCase(repository);
-        const repositorySpy = jest.spyOn(repository, "update");
-
-        return { repository, sut, repositorySpy };
-    }
-
     it("Should return a client with all updated parameters", async () => {
 
         expect.assertions(2);
-        const { repository, sut, repositorySpy } = setup();
+        const { repository, repositorySpy } = setupRepository(Client, "update");
+        const sut = new UpdateClientUseCase(repository);
 
-        const client = Client.create({
-            name: "Test",
-            email: "aa@email.com",
-            birthDate: "01/01/2021",
-            cpf: "00000000000"
-        }, "1");
+        const client = createFakeClient();
         repository.list.push(client)
 
         const updated = await sut.execute({
-            id: "1",
+            id: client.id,
             props: {
-                name: "Updated test",
-                email: "updated@email.com",
-                birthDate: "02/01/2021",
-                cpf: "00000000001"
+                ...createFakeClientProps()
             }
         })
 
-        const updatedAtList = repository.list.at(0);
         expect(repositorySpy).toBeCalledTimes(1);
-        expect(updatedAtList).toEqual(updated);
+        expect(await repository.findById(client.id)).toMatchObject(updated);
+    })
+
+    test.each(["1", null, undefined, ""])("Should throw an error when trying to update a inexistent client", async (id) => {
+
+        expect.assertions(2);
+        const { repository, repositorySpy } = setupRepository(Client, "update");
+        const sut = new UpdateClientUseCase(repository);
+
+        try {
+            await sut.execute({ id, props: createFakeClientProps() })
+        } catch (err) {
+            expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+            expect(repositorySpy).not.toHaveBeenCalled();
+        }
     })
 })

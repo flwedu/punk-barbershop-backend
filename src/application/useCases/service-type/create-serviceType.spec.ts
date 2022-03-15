@@ -1,6 +1,6 @@
-import faker from "@faker-js/faker";
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
-import { IMRepository } from "../../../output/repositories/test/IM-Repository";
+import { createFakeServiceTypeProps } from "../../../util/MockDataFactory";
+import { setupRepository } from "../../../util/TestUtilFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
 import { CreateServiceTypeUseCase } from "./create-serviceType";
 
@@ -10,67 +10,51 @@ describe("create serviceType use case test", () => {
         jest.clearAllMocks();
     })
 
-    function setup() {
-        const repository = new IMRepository<ServiceType>();
-        const sut = new CreateServiceTypeUseCase(repository);
-        const spy = jest.spyOn(repository, "save");
-
-        return { repository, sut, spy }
-    }
-
-    function generateServiceTypeProps() {
-        return {
-            name: faker.lorem.words(15),
-            description: faker.lorem.words(25),
-            duration: Math.floor(Math.random() * 121).toString(),
-            price: (Math.random() * 10).toFixed(2)
-        }
-    }
-
     it("Should create a serviceType", async () => {
 
         expect.assertions(3);
-        const { repository, sut, spy } = setup();
+        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const sut = new CreateServiceTypeUseCase(repository);
 
-        const result = await sut.execute(generateServiceTypeProps());
+        const result = await sut.execute(createFakeServiceTypeProps());
 
         expect(result).toMatchObject({ ...ServiceType });
         expect(await repository.findById(result.id)).toMatchObject({ ...ServiceType });
-        expect(spy).toHaveBeenCalledTimes(1);
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 
     it.each(["", "abc1", "0", null, "-1"])("Should throw an error when trying to create a serviceType with this invalid duration value: %s", async (duration) => {
 
-        expect.assertions(3);
-        const { repository, sut, spy } = setup();
+        expect.assertions(2);
+        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const sut = new CreateServiceTypeUseCase(repository);
 
         try {
             await sut.execute({
-                ...generateServiceTypeProps(),
+                ...createFakeServiceTypeProps(),
                 duration,
             });
 
         } catch (err) {
             expect(err.message).toEqual(ErrorMessage.INVALID_PARAM("duration value"))
-            expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(repositorySpy).not.toHaveBeenCalled();
         }
 
     })
 
     it.each([null, "-50", "abc", "a"])("Should throw an error when trying to create a serviceType with this invalid price value: %s", async (price) => {
-        expect.assertions(3);
-        const { repository, sut, spy } = setup();
+        expect.assertions(2);
+        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const sut = new CreateServiceTypeUseCase(repository);
 
         try {
             await sut.execute({
-                ...generateServiceTypeProps(),
+                ...createFakeServiceTypeProps(),
                 price,
             });
         } catch (err) {
             expect(err.message).toEqual(ErrorMessage.INVALID_PARAM("price"))
-            expect(repository.list.length).toBe(0);
-            expect(spy).toHaveBeenCalledTimes(0);
+            expect(repositorySpy).not.toHaveBeenCalled();
         }
     })
 })
