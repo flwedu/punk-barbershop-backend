@@ -12,6 +12,7 @@ export default class UpdateClientUseCase implements IUseCase {
     constructor(private readonly repository: IRepository<Client>) { }
 
     async execute(data: UpdateClientRequest) {
+        await this.repository.findById(data.id);
         const { id, props: { ...props } } = data;
 
         const client = Client.create(props, id)
