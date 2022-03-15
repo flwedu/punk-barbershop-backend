@@ -16,7 +16,7 @@ describe("Tests for Client #GET controller controller", () => {
         Config.repositories.clientRepository = new IMRepository<Client>();
     })
 
-    test("Sould receive a 204 response code", async () => {
+    test("Should receive a 204 response code", async () => {
         expect.assertions(2);
 
         const response = await supertest(server).get("/api/clients");
@@ -25,7 +25,7 @@ describe("Tests for Client #GET controller controller", () => {
         expect(response.text).toEqual("");
     });
 
-    test("Sould receive a 200 when GET to api/clients code and body contais a clients array", async () => {
+    test("Should receive a 200 when GET to api/clients code and body contais a clients array", async () => {
 
         expect.assertions(2);
         const client = Client.create({
