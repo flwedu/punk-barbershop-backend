@@ -1,15 +1,11 @@
 {
     "compilerOptions": {
-        "outDir": "build",
-        "module": "commonjs",
-        "target": "es2019",
         "esModuleInterop": true,
-        "rootDir": "src",
-        "baseUrl": ".",
-        "sourceMap": true,
-        "paths": {
-            "*": ["./src"]
-        }
+        "module": "commonjs",
+        "target": "ES2016",
+        "strictNullChecks": false,
+        "outDir": "dist"
     },
-    "include": ["src"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "__tests__/**/*", "src/**/*.spec.ts"]
 }
