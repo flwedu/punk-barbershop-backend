@@ -1,4 +1,6 @@
+import { configureClientExpressRoutes } from "./configureClientExpressRoutes";
+import { configureBarberExpressRoutes } from "./configureBarberExpressRoutes";
 import { configureMiscRoutes } from "./default";
-import { configureClientRoutes } from "./clientExpressRouter";
 
-export { configureMiscRoutes, configureClientRoutes }
+
+export { configureMiscRoutes, configureClientExpressRoutes, configureBarberExpressRoutes }
