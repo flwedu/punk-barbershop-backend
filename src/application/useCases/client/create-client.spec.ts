@@ -1,5 +1,5 @@
-import { createFakeClientProps } from "../../../util/MockDataFactory";
-import { setupRepository } from "../../../util/TestUtilFunctions";
+import { createFakeClientProps } from "../../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { Client } from "../../domain/entities/client";
 import { ErrorMessage } from "../../domain/errors/error-messages";
 import { CreateClientUseCase } from "./create-client";

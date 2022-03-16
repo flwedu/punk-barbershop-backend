@@ -1,6 +1,6 @@
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
-import { createFakeServiceTypeProps } from "../../../util/MockDataFactory";
-import { setupRepository } from "../../../util/TestUtilFunctions";
+import { createFakeServiceTypeProps } from "../../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
 import { CreateServiceTypeUseCase } from "./create-serviceType";
 

@@ -6,7 +6,7 @@ import {
     createFakeClient,
     createFakeSchedulingProps,
     createFakeServiceType,
-} from "../../../util/MockDataFactory";
+} from "../../../__test_utils__/MockDataFactory";
 import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";

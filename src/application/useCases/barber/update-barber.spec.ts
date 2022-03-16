@@ -1,5 +1,5 @@
-import { createFakeBarber, createFakeBarberProps } from "../../../util/MockDataFactory";
-import { setupRepository } from "../../../util/TestUtilFunctions";
+import { createFakeBarber, createFakeBarberProps } from "../../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { Barber } from "../../domain/entities";
 import { ErrorMessage } from "../../domain/errors/error-messages";
 import { UpdateBarberUseCase } from "./update-barber";

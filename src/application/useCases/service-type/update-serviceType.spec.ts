@@ -3,8 +3,8 @@ import EntityModelParser from "../../../presentation/adapters/entity-model-parse
 import {
     createFakeServiceType,
     createFakeServiceTypeProps,
-} from "../../../util/MockDataFactory";
-import { setupRepository } from "../../../util/TestUtilFunctions";
+} from "../../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
 import { UpdateServiceTypeUseCase } from "./update-serviceType";
 
