@@ -2,7 +2,7 @@ import { createFakeBarber, createFakeBarberProps } from "../../../util/MockDataF
 import { setupRepository } from "../../../util/TestUtilFunctions";
 import { Barber } from "../../domain/entities";
 import { ErrorMessage } from "../../domain/errors/error-messages";
-import UpdateBarberUseCase from "./update-barber";
+import { UpdateBarberUseCase } from "./update-barber";
 
 describe("Update barber use case tests", () => {
 

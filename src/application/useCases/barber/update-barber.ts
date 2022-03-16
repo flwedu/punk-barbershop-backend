@@ -8,7 +8,7 @@ type UpdateBarberRequest = {
     props: InputBarberProps
 }
 
-export default class UpdateBarberUseCase implements IUseCase {
+export class UpdateBarberUseCase implements IUseCase {
 
     constructor(private readonly repository: IRepository<Barber>) { }
 
