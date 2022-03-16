@@ -26,8 +26,7 @@
         "test:watch": "jest --watchAll",
         "dev": "ts-node-dev src/main/app.ts",
         "start": "tsc && node build/main/app.js",
-        "build": "tsc -p tsconfig-build.json",
-        "test:build": "tsc && jest ./build",
+        "build": "tsc",
         "test:e2e": "jest ./__tests__"
     },
     "dependencies": {
