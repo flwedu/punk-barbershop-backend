@@ -2,7 +2,8 @@ import cors from "cors";
 import express from "express";
 import { Barber, Client, Scheduling, ServiceType } from "../../application/domain/entities";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
-import { configureClientRoutes, configureMiscRoutes } from "../routes";
+import { configureMiscRoutes } from "../routes";
+import { configureClientExpressRoutes, configureBarberExpressRoutes } from "../routes/";
 
 
 // Configuring server and routes
@@ -21,7 +22,8 @@ const serviceTypeRepository = new IMRepository<ServiceType>();
 
 // Exporting configurations
 configureMiscRoutes(router);
-configureClientRoutes(router, clientRepository);
+configureClientExpressRoutes(router, clientRepository);
+configureBarberExpressRoutes(router, barberRepository);
 
 export const Config = {
     server, router, repositories: {
