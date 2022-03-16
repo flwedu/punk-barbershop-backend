@@ -7,7 +7,7 @@ import { DeleteByIdController, FindAllController, FindByIdController, UpdateEnti
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
 
-export function configureClientRoutes(router: Router, repository: IRepository<any>) {
+export function configureClientExpressRoutes(router: Router, repository: IRepository<any>) {
 
     router.get("/clients", (request, response) => {
         new FindAllController<Client>(repository).handle(request, response);
