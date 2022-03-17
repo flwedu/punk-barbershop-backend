@@ -1,6 +1,6 @@
-import faker from "@faker-js/faker";
 import { ServiceType } from "../../application/domain/entities/serviceType";
-import { IMRepository } from "../../output/repositories/test/IM-Repository";
+import { createFakeServiceType } from "../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../__test_utils__/setupFunctions";
 import { DeleteByIdController } from "./deleteby-id-controller";
 
 describe("Delete by id controller", () => {
@@ -13,26 +13,21 @@ describe("Delete by id controller", () => {
 
         expect.assertions(4);
 
-        const repository = new IMRepository<ServiceType>();
+        const { repository, repositorySpy } = setupRepository(ServiceType, "delete")
         const sut = new DeleteByIdController(repository);
-        const repositorySpy = jest.spyOn(repository, "delete");
         const request = { params: { id } };
         const response = {
             json: jest.fn(() => response),
             status: jest.fn(() => response)
         };
 
-        repository.list.push(ServiceType.create({
-            name: faker.lorem.word(10),
-            description: faker.lorem.word(15),
-            duration: "30",
-            price: "50"
-        }, id));
+        const serviceType = createFakeServiceType(id);
+        await repository.save(serviceType);
 
         await sut.handle(request, response);
 
-        expect(response.status).toBeCalledTimes(1);
-        expect(response.status).toBeCalledWith(202);
+        expect(response.status).toHaveBeenCalledTimes(1);
+        expect(response.status).toHaveBeenCalledWith(202);
         expect(response.json).toBeCalledTimes(1);
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
@@ -41,27 +36,22 @@ describe("Delete by id controller", () => {
 
         expect.assertions(4);
 
-        const repository = new IMRepository<ServiceType>();
+        const { repository, repositorySpy } = setupRepository(ServiceType, "delete")
         const sut = new DeleteByIdController(repository);
-        const repositorySpy = jest.spyOn(repository, "delete");
+
         const request = { params: { id } };
         const response = {
             json: jest.fn(() => response),
             status: jest.fn(() => response)
         };
 
-        repository.list.push(ServiceType.create({
-            name: faker.lorem.word(10),
-            description: faker.lorem.word(15),
-            duration: "30",
-            price: "50"
-        }, "1"));
+        await repository.save(createFakeServiceType());
 
         await sut.handle(request, response);
 
-        expect(response.status).toBeCalledTimes(1);
-        expect(response.status).toBeCalledWith(404);
-        expect(response.json).toBeCalledTimes(1);
+        expect(response.status).toHaveBeenCalledTimes(1);
+        expect(response.status).toHaveBeenCalledWith(404);
+        expect(response.json).toHaveBeenCalledTimes(1);
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 })

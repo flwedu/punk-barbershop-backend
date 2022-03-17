@@ -1,7 +1,7 @@
-import faker from "@faker-js/faker";
-import { ErrorMessage } from "../../application/domain/errors/error-messages";
 import { Barber } from "../../application/domain/entities/barber";
+import { ErrorMessage } from "../../application/domain/errors/error-messages";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
+import { createFakeBarber } from "../../__test_utils__/MockDataFactory";
 import EntityModelParser from "../adapters/entity-model-parser";
 import FindByIdController from "./findby-id-controller";
 
@@ -35,13 +35,8 @@ describe("Find by id controller", () => {
             status: jest.fn(() => response)
         };
 
-        const barber = Barber.create({
-            name: faker.name.findName(),
-            email: faker.internet.email(),
-            cpf: "12345678911",
-            birthDate: faker.date.recent().toISOString()
-        }, id);
-        repository.list.push(barber);
+        const barber = createFakeBarber(id);
+        await repository.save(barber);
 
         await sut.handle(request, response);
 

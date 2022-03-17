@@ -5,6 +5,7 @@ import { ErrorMessage } from "../../../src/application/domain/errors/error-messa
 import { Config } from "../../../src/main/config/config";
 import { IMRepository } from "../../../src/output/repositories/test/IM-Repository";
 import EntityModelParser from "../../../src/presentation/adapters/entity-model-parser";
+import { createFakeClientProps } from "../../../src/__test_utils__/MockDataFactory"
 
 describe("Tests for Client #POST controller controller", () => {
 
@@ -19,10 +20,7 @@ describe("Tests for Client #POST controller controller", () => {
     test("Should return 201 and body should contains the data about created client", async () => {
 
         const requestData = {
-            name: faker.name.findName(),
-            email: faker.internet.email(),
-            cpf: "00011122233",
-            birthDate: faker.date.past(20).toISOString(),
+            ...createFakeClientProps()
         }
         const response = await supertest(server).post("/api/clients").send(requestData);
         const data = JSON.parse(response.text);

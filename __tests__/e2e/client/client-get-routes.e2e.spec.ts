@@ -1,10 +1,10 @@
 import supertest from "supertest";
-import faker from "@faker-js/faker";
 import { Client } from "../../../src/application/domain/entities";
+import { ErrorMessage } from "../../../src/application/domain/errors/error-messages";
 import { Config } from "../../../src/main/config/config";
 import { IMRepository } from "../../../src/output/repositories/test/IM-Repository";
 import EntityModelParser from "../../../src/presentation/adapters/entity-model-parser";
-import { ErrorMessage } from "../../../src/application/domain/errors/error-messages";
+import { createFakeClient } from "../../../src/__test_utils__/MockDataFactory";
 
 const server = Config.server;
 const repository = Config.repositories.clientRepository;
@@ -28,12 +28,7 @@ describe("Tests for Client #GET controller controller", () => {
     test("Should receive a 200 when GET to api/clients code and body contais a clients array", async () => {
 
         expect.assertions(2);
-        const client = Client.create({
-            name: faker.name.findName(),
-            cpf: "12345678911",
-            birthDate: "2020-01-01",
-            email: "test@email.com",
-        })
+        const client = createFakeClient();
         await repository.save(client);
 
         const response = await supertest(server).get("/api/clients");
@@ -46,12 +41,7 @@ describe("Tests for Client #GET controller controller", () => {
     test("Should receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
 
         expect.assertions(2);
-        const client = Client.create({
-            name: faker.name.findName(),
-            cpf: "12345678911",
-            birthDate: "2020-01-01",
-            email: "test@email.com",
-        });
+        const client = createFakeClient();
         await repository.save(client);
 
         const response = await supertest(server).get(`/api/clients/${client.id}`);
