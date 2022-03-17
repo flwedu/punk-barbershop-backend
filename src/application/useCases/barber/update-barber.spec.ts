@@ -17,7 +17,7 @@ describe("Update barber use case tests", () => {
         const sut = new UpdateBarberUseCase(repository);
 
         const barber = createFakeBarber();
-        repository.list.push(barber)
+        await repository.save(barber);
 
         const updated = await sut.execute({
             id: barber.id,

@@ -34,7 +34,7 @@ describe("Tests for Client #GET controller controller", () => {
             birthDate: "2020-01-01",
             email: "test@email.com",
         })
-        repository.list.push(client)
+        await repository.save(client);
 
         const response = await supertest(server).get("/api/clients");
         const data = JSON.parse(response.text);
@@ -52,7 +52,7 @@ describe("Tests for Client #GET controller controller", () => {
             birthDate: "2020-01-01",
             email: "test@email.com",
         });
-        repository.list.push(client)
+        await repository.save(client);
 
         const response = await supertest(server).get(`/api/clients/${client.id}`);
         const data = JSON.parse(response.text);

@@ -37,7 +37,7 @@ describe("Update service type use case", () => {
             const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = createFakeServiceType();
-            repository.list.push(originalService);
+            await repository.save(originalService);
 
             const updatedService = await sut.execute({
                 id: originalService.id,
@@ -91,7 +91,7 @@ describe("Update service type use case", () => {
                 createFakeServiceTypeProps(),
                 "1"
             );
-            repository.list.push(originalService);
+            await repository.save(originalService);
 
             try {
                 await sut.execute({
@@ -129,7 +129,7 @@ describe("Update service type use case", () => {
                 createFakeServiceTypeProps(),
                 "1"
             );
-            repository.list.push(originalService);
+            await repository.save(originalService);
 
             try {
                 await sut.execute({

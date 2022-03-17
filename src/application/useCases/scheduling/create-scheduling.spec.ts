@@ -30,9 +30,9 @@ describe("create scheduling use case", () => {
             serviceTypeRepository,
             barberRepository,
         });
-        clientRepository.list.push(client);
-        barberRepository.list.push(barber);
-        serviceTypeRepository.list.push(serviceType);
+        await clientRepository.save(client);
+        await barberRepository.save(barber);
+        await serviceTypeRepository.save(serviceType);
 
         return { sut, schedulingRepository, saveSpy };
     }

@@ -17,7 +17,7 @@ describe("Update client use case tests", () => {
         const sut = new UpdateClientUseCase(repository);
 
         const client = createFakeClient();
-        repository.list.push(client)
+        await repository.save(client)
 
         const updated = await sut.execute({
             id: client.id,

@@ -24,7 +24,7 @@ describe("Update entity controller class tests: ", () => {
                 cpf: "12345678911",
                 birthDate: faker.date.recent().toISOString(),
             };
-            repository.list.push(Client.create(props, id));
+            await repository.save(Client.create(props, id));
 
             const request = {
                 params: {
