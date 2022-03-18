@@ -13,7 +13,7 @@ describe("Update client use case tests", () => {
     it("Should return a client with all updated parameters", async () => {
 
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(Client, "update");
+        const { repository, repositorySpy } = setupRepository<Client>("update");
         const sut = new UpdateClientUseCase(repository);
 
         const client = createFakeClient();
@@ -33,7 +33,7 @@ describe("Update client use case tests", () => {
     test.each(["1", null, undefined, ""])("Should throw an error when trying to update a inexistent client", async (id) => {
 
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(Client, "update");
+        const { repository, repositorySpy } = setupRepository<Client>("update");
         const sut = new UpdateClientUseCase(repository);
 
         try {

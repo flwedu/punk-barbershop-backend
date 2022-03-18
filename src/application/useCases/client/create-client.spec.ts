@@ -11,7 +11,7 @@ describe("create client use cases", () => {
 
     it("Should create a client with valid data", async () => {
         expect.assertions(3);
-        const { repository, repositorySpy } = setupRepository(Client, "save");
+        const { repository, repositorySpy } = setupRepository<Client>("save");
         const sut = new CreateClientUseCase(repository);
 
         const client = await sut.execute({ props: createFakeClientProps() });
@@ -25,7 +25,7 @@ describe("create client use cases", () => {
         "Should throw an error when trying to create a client with this invalid name: %s",
         async (name) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(Client, "save");
+            const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
 
             try {
@@ -47,7 +47,7 @@ describe("create client use cases", () => {
         "Should throw an error when trying to create a client with this invalid email: %s",
         async (email) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(Client, "save");
+            const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
 
             try {
@@ -69,7 +69,7 @@ describe("create client use cases", () => {
         "Should throw an error when trying to create a client with this invalid CPF: %s",
         async (cpf) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(Client, "save");
+            const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
 
             try {
@@ -89,7 +89,7 @@ describe("create client use cases", () => {
 
     it("Should throw an error when trying to create a client with an existing ID", async () => {
         expect.assertions(3);
-        const { repository, repositorySpy } = setupRepository(Client, "save");
+        const { repository, repositorySpy } = setupRepository<Client>("save");
         const sut = new CreateClientUseCase(repository);
 
         const client = await sut.execute({ props: createFakeClientProps() });

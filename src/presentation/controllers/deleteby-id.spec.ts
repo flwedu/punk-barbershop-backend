@@ -13,7 +13,7 @@ describe("Delete by id controller", () => {
 
         expect.assertions(4);
 
-        const { repository, repositorySpy } = setupRepository(ServiceType, "delete")
+        const { repository, repositorySpy } = setupRepository<ServiceType>("delete")
         const sut = new DeleteByIdController(repository);
         const request = { params: { id } };
         const response = {
@@ -36,7 +36,7 @@ describe("Delete by id controller", () => {
 
         expect.assertions(4);
 
-        const { repository, repositorySpy } = setupRepository(ServiceType, "delete")
+        const { repository, repositorySpy } = setupRepository<ServiceType>("delete")
         const sut = new DeleteByIdController(repository);
 
         const request = { params: { id } };

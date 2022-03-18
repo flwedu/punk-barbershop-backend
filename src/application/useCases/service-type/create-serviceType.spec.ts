@@ -13,7 +13,7 @@ describe("create serviceType use case test", () => {
     it("Should create a serviceType", async () => {
 
         expect.assertions(3);
-        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const { repository, repositorySpy } = setupRepository<ServiceType>("save");
         const sut = new CreateServiceTypeUseCase(repository);
 
         const result = await sut.execute(createFakeServiceTypeProps());
@@ -26,7 +26,7 @@ describe("create serviceType use case test", () => {
     it.each(["", "abc1", "0", null, "-1"])("Should throw an error when trying to create a serviceType with this invalid duration value: %s", async (duration) => {
 
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const { repository, repositorySpy } = setupRepository<ServiceType>("save");
         const sut = new CreateServiceTypeUseCase(repository);
 
         try {
@@ -44,7 +44,7 @@ describe("create serviceType use case test", () => {
 
     it.each([null, "-50", "abc", "a"])("Should throw an error when trying to create a serviceType with this invalid price value: %s", async (price) => {
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(ServiceType, "save");
+        const { repository, repositorySpy } = setupRepository<ServiceType>("save");
         const sut = new CreateServiceTypeUseCase(repository);
 
         try {

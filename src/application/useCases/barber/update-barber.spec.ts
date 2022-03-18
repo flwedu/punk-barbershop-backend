@@ -13,7 +13,7 @@ describe("Update barber use case tests", () => {
     it("Should return a barber with all updated parameters", async () => {
 
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(Barber, "update");
+        const { repository, repositorySpy } = setupRepository<Barber>("update");
         const sut = new UpdateBarberUseCase(repository);
 
         const barber = createFakeBarber();
@@ -33,7 +33,7 @@ describe("Update barber use case tests", () => {
     test.each(["1", null, undefined, ""])("Should throw an error when trying to update a inexistent barber", async (id) => {
 
         expect.assertions(2);
-        const { repository, repositorySpy } = setupRepository(Barber, "update");
+        const { repository, repositorySpy } = setupRepository<Barber>("update");
         const sut = new UpdateBarberUseCase(repository);
 
         try {

@@ -14,8 +14,7 @@ describe("find all controller", () => {
     it("should return 204 and a empty data body", async () => {
         expect.assertions(5);
 
-        const { repository, repositorySpy } = setupRepository(
-            Client,
+        const { repository, repositorySpy } = setupRepository<Client>(
             "findAll"
         );
         const sut = new FindAllController(repository);
@@ -38,8 +37,7 @@ describe("find all controller", () => {
     it("should receives 200 status code and a filled data body", async () => {
         expect.assertions(5);
 
-        const { repository, repositorySpy } = setupRepository(
-            Client,
+        const { repository, repositorySpy } = setupRepository<Client>(
             "findAll"
         );
         const sut = new FindAllController(repository);

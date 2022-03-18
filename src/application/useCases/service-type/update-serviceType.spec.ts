@@ -30,10 +30,7 @@ describe("Update service type use case", () => {
         "Should update a ServiceType with the passed parameters (%o)",
         async (props) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(
-                ServiceType,
-                "update"
-            );
+            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = createFakeServiceType();
@@ -57,10 +54,7 @@ describe("Update service type use case", () => {
         "Should throw an error when trying to update a ServiceType with this non-existent id: %s",
         async (id) => {
             expect.assertions(2);
-            const { repository, repositorySpy } = setupRepository(
-                ServiceType,
-                "update"
-            );
+            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
             try {
@@ -81,10 +75,7 @@ describe("Update service type use case", () => {
         "Should throw an error when trying to update a ServiceType with this invalid duration value: %s",
         async (duration) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(
-                ServiceType,
-                "update"
-            );
+            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = ServiceType.create(
@@ -119,10 +110,7 @@ describe("Update service type use case", () => {
         "Should throw an error when trying to update a ServiceType with this invalid price value: %s",
         async (price) => {
             expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository(
-                ServiceType,
-                "update"
-            );
+            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
             const originalService = ServiceType.create(
