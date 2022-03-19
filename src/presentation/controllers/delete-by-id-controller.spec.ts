@@ -1,7 +1,7 @@
 import { ServiceType } from "../../application/domain/entities/serviceType";
 import { createFakeServiceType } from "../../__test_utils__/MockDataFactory";
 import { setupRepository } from "../../__test_utils__/setupFunctions";
-import { DeleteByIdController } from "./deleteby-id-controller";
+import { DeleteByIdController } from "./";
 
 describe("Delete by id controller", () => {
 
