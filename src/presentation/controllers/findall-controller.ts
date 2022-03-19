@@ -1,6 +1,6 @@
 import ResponseFactory from "../../presentation/http/ResponseFactory";
 import { Entity } from "../../application/domain/entities/Entity";
-import { FindAllUseCase } from "../../application/useCases/findall";
+import { FindAllUseCase } from "../../application/useCases/FindAllUseCase";
 import IRepository from "../../output/repositories/IRepository";
 
 import Controller from "./Controller";

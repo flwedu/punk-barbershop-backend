@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Barber } from "../../application/domain/entities";
 import { CreateBarberUseCase } from "../../application/useCases/barber/create-barber";
 import { UpdateBarberUseCase } from "../../application/useCases/barber/update-barber"
-import { FindByIdUseCase } from "../../application/useCases/findby-id";
+import { FindByIdUseCase } from "../../application/useCases/FindByIdUseCase";
 import IRepository from "../../output/repositories/IRepository";
 import { FindAllController, FindByController, UpdateEntityController, DeleteByIdController } from "../../presentation/controllers";
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";

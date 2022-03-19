@@ -4,7 +4,7 @@ import { createFakeBarber } from "../../__test_utils__/MockDataFactory";
 import { setupRepository } from "../../__test_utils__/setupFunctions";
 import EntityModelParser from "../adapters/entity-model-parser";
 import { FindByController } from "./";
-import { FindByIdUseCase } from "../../application/useCases/findby-id"
+import { FindByIdUseCase } from "../../application/useCases/FindByIdUseCase"
 
 describe("Find by id controller", () => {
 
