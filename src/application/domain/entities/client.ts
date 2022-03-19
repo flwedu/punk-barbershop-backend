@@ -3,8 +3,8 @@ import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
+import { Entity, Props } from "./Entity";
 
-import { Entity } from "./Entity";
 
 export type InputClientProps = {
     name: string,
@@ -14,7 +14,7 @@ export type InputClientProps = {
     cpf: string,
 }
 
-export interface Props<Client> {
+export interface ClientProps extends Props<Client> {
     name: string,
     email: Email,
     createdAt: Date,
@@ -23,7 +23,8 @@ export interface Props<Client> {
 }
 
 export class Client extends Entity {
-    private constructor(props: Props<Client>, id?: string) {
+
+    private constructor(props: ClientProps, id?: string) {
         super(props, id);
     }
 

@@ -2,7 +2,7 @@ import { testPriceValue } from "../../../util/testFields";
 import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
 import { Duration } from "../valueObjects/Duration";
-import { Entity } from "./Entity";
+import { Entity, Props } from "./Entity";
 
 export type InputServiceTypeProps = {
     name: string,
@@ -11,7 +11,7 @@ export type InputServiceTypeProps = {
     price: string,
 }
 
-export interface Props<ServiceType> {
+export interface ServiceTypeProps extends Props<ServiceType> {
     name: string,
     description: string,
     duration: Duration,
@@ -19,7 +19,7 @@ export interface Props<ServiceType> {
 }
 
 export class ServiceType extends Entity {
-    private constructor(props: Props<ServiceType>, id?: string) {
+    private constructor(props: ServiceTypeProps, id?: string) {
         super(props, id);
     }
 

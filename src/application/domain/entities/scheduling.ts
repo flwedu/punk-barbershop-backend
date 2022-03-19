@@ -1,7 +1,7 @@
 import { parseDateValue } from "../../../util/parser";
 import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
-import { Entity } from "./Entity";
+import { Entity, Props } from "./Entity";
 
 export type InputSchedulingRequestProps = {
     clientId: string,
@@ -10,7 +10,7 @@ export type InputSchedulingRequestProps = {
     serviceTypeId: string,
 }
 
-export interface Props<Scheduling> {
+export interface SchedulingProps extends Props<Scheduling> {
     clientId: string,
     barberId: string,
     serviceTypeId: string,
@@ -19,7 +19,7 @@ export interface Props<Scheduling> {
 }
 
 export class Scheduling extends Entity {
-    private constructor(props: Props<Scheduling>, id?: string) {
+    private constructor(props: SchedulingProps, id?: string) {
         super(props, id);
     }
 
@@ -36,7 +36,7 @@ export class Scheduling extends Entity {
             ...props,
             scheduleDate,
             createdAt
-        } as Props<Scheduling>;
+        };
 
         const scheduling = new Scheduling(readyProps, id);
 
