@@ -1,7 +1,7 @@
 import Controller from "./Controller";
 import { DeleteByIdController } from "./deleteby-id-controller";
 import { FindAllController } from "./findall-controller";
-import FindByIdController from "./findby-id-controller";
+import FindByController from "./find-by-controller";
 import UpdateEntityController from "./update-entity-controller";
 
-export { Controller, DeleteByIdController, FindAllController, FindByIdController, UpdateEntityController };
+export { Controller, DeleteByIdController, FindAllController, FindByController, UpdateEntityController };

@@ -1,7 +1,7 @@
 import faker from "@faker-js/faker";
+import { setupRepository } from "../../__test_utils__/setupFunctions"
 import { Client } from "../../application/domain/entities";
 import { CreateClientUseCase } from "../../application/useCases/client/create-client";
-import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import { CreateEntityController } from "./create-entity-controller";
 
 
@@ -11,20 +11,12 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
         jest.clearAllMocks();
     })
 
-    function setup() {
-        const repository = new IMRepository<Client>();
-        const useCase = new CreateClientUseCase(repository);
-        const repositorySpy = jest.spyOn(repository, "save");
-        const sut = new CreateEntityController(useCase);
-
-        return { repository, sut, repositorySpy };
-    }
-
     it("should get a response entity with 201 status code", async () => {
 
         expect.assertions(4);
+        const { repository, repositorySpy } = setupRepository<Client>("save")
+        const sut = new CreateEntityController(new CreateClientUseCase(repository));
 
-        const { sut, repositorySpy } = setup();
         const request = {
             body: {
                 name: faker.name.findName(),
@@ -73,7 +65,9 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
     ])("should receives a 400 status code", async (body) => {
 
         expect.assertions(4);
-        const { sut, repositorySpy } = setup();
+        const { repository, repositorySpy } = setupRepository<Client>("save")
+        const sut = new CreateEntityController(new CreateClientUseCase(repository));
+
         const request = {
             body
         };

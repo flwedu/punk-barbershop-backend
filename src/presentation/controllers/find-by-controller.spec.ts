@@ -1,9 +1,10 @@
-import { Barber } from "../../application/domain/entities/barber";
+import { Barber } from "../../application/domain/entities";
 import { ErrorMessage } from "../../application/domain/errors/error-messages";
-import { IMRepository } from "../../output/repositories/test/IM-Repository";
 import { createFakeBarber } from "../../__test_utils__/MockDataFactory";
+import { setupRepository } from "../../__test_utils__/setupFunctions";
 import EntityModelParser from "../adapters/entity-model-parser";
-import FindByIdController from "./findby-id-controller";
+import { FindByController } from "./";
+import { FindByIdUseCase } from "../../application/useCases/findby-id"
 
 describe("Find by id controller", () => {
 
@@ -13,17 +14,11 @@ describe("Find by id controller", () => {
         jest.clearAllMocks();
     })
 
-    function setup() {
-        const repository = new IMRepository<Barber>();
-        const sut = new FindByIdController(repository);
-
-        return { repository, sut }
-    }
-
     it.each(["1", "2"])("Should receives a 200 status code", async (id) => {
 
         expect.assertions(4);
-        const { repository, sut } = setup();
+        const { repository } = setupRepository<Barber>("findById");
+        const sut = new FindByController(new FindByIdUseCase(repository));
 
         const request = {
             params: {
@@ -59,7 +54,8 @@ describe("Find by id controller", () => {
             json: jest.fn(() => response),
             status: jest.fn(() => response)
         };
-        const { sut } = setup();
+        const { repository } = setupRepository<Barber>("findById");
+        const sut = new FindByController(new FindByIdUseCase(repository));
 
         await sut.handle(request, response);
 
