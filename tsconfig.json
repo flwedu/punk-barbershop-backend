@@ -4,6 +4,7 @@
         "module": "commonjs",
         "target": "ES2016",
         "strictNullChecks": false,
+        "rootDir": "src",
         "outDir": "dist"
     },
     "include": ["src/**/*"],
