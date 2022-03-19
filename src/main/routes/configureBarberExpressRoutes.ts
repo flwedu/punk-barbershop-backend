@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Barber } from "../../application/domain/entities";
 import { CreateBarberUseCase } from "../../application/useCases/barber/create-barber";
 import { UpdateBarberUseCase } from "../../application/useCases/barber/update-barber"
+import { FindByIdUseCase } from "../../application/useCases/findby-id";
 import IRepository from "../../output/repositories/IRepository";
 import { FindAllController, FindByController, UpdateEntityController, DeleteByIdController } from "../../presentation/controllers";
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
@@ -13,7 +14,7 @@ export function configureBarberExpressRoutes(router: Router, repository: IReposi
     })
 
     router.get("/barbers/:id", (request, response) => {
-        new FindByController<Barber>(repository).handle(request, response);
+        new FindByController(new FindByIdUseCase(repository)).handle(request, response);
     })
 
     router.post("/barbers", (request, response) => {
