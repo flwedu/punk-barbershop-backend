@@ -1,6 +1,27 @@
-import { Barber } from "./barber";
-import { Client } from "./client";
-import { Scheduling } from "./scheduling";
-import { ServiceType } from "./serviceType";
+import { Barber, BarberProps, InputBarberProps } from "./barber";
+import { Client, ClientProps, InputClientProps } from "./client";
+import {
+    Scheduling,
+    InputSchedulingRequestProps,
+    SchedulingProps,
+} from "./scheduling";
+import {
+    ServiceType,
+    InputServiceTypeProps,
+    ServiceTypeProps,
+} from "./serviceType";
 
-export { Barber, Client, Scheduling, ServiceType }
+export {
+    Barber,
+    BarberProps,
+    InputBarberProps,
+    Client,
+    ClientProps,
+    InputClientProps,
+    Scheduling,
+    SchedulingProps,
+    InputSchedulingRequestProps,
+    ServiceType,
+    ServiceTypeProps,
+    InputServiceTypeProps,
+};
