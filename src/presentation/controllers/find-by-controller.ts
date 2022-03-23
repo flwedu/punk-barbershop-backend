@@ -4,15 +4,16 @@ import EntityModelParser from "../adapters/entity-model-parser";
 import Controller from "./Controller";
 
 export default class FindByController implements Controller {
-    constructor(private readonly useCase: IUseCase) { }
+    constructor(private readonly useCase: IUseCase, private readonly modelParser?: EntityModelParser) { }
 
     async handle(request, response) {
         const query = { ...request.params, ...request.body };
         try {
-            const data = await this.useCase.execute(query);
-            const parsedData = new EntityModelParser().toModel(data);
-
-            return new ResponseFactory(response).makeOkResponse(parsedData);
+            let data = await this.useCase.execute(query);
+            if (this.modelParser) {
+                data = this.modelParser.toModel(data);
+            }
+            return new ResponseFactory(response).makeOkResponse(data);
         } catch (err) {
             return new ResponseFactory(response).makeErrorResponse(err);
         }
