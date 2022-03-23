@@ -17,7 +17,7 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
     findAll(): Promise<T[]> {
         return Promise.resolve(this.list);
     }
-    save(entity: T, id?: string): Promise<T> {
+    save(entity: T, id?: string): Promise<string> {
 
         if (this.list.some(el => el.id == id)) {
             throw new BusinessRuleError(ErrorMessage.ID_ALREADY_EXISTS(id));
@@ -25,15 +25,15 @@ export class IMRepository<T extends Entity> implements IRepository<T> {
 
         this.list.push(entity);
         const lastIndex = this.list.length - 1;
-        return Promise.resolve(this.list[lastIndex]);
+        return Promise.resolve(this.list[lastIndex].id);
     };
-    update(entity: T, id: string): Promise<T> {
+    update(entity: T, id: string): Promise<string> {
         const index = this.list.findIndex(element => element.id == id);
         if (index == -1) {
             throw new ResourceNotFound(ErrorMessage.ID_NOT_FOUND(id));
         }
         this.list[index] = entity;
-        return Promise.resolve(this.list[index]);
+        return Promise.resolve(this.list[index].id);
     };
 
     find(query: any): Promise<T[]> {
