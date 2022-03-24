@@ -18,7 +18,7 @@ describe("Find by id controller", () => {
 
         expect.assertions(4);
         const { repository } = setupRepository<Barber>("findById");
-        const sut = new FindByController(new FindByIdUseCase(repository));
+        const sut = new FindByController(new FindByIdUseCase(repository), parser);
 
         const request = {
             params: {

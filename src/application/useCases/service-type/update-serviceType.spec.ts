@@ -1,8 +1,7 @@
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
-import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
 import {
     createFakeServiceType,
-    createFakeServiceTypeProps,
+    createFakeServiceTypeProps
 } from "../../../__test_utils__/MockDataFactory";
 import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
@@ -36,16 +35,12 @@ describe("Update service type use case", () => {
             const originalService = createFakeServiceType();
             await repository.save(originalService);
 
-            const updatedService = await sut.execute({
+            const updatedServiceId = await sut.execute({
                 id: originalService.id,
                 props,
             });
-            expect(
-                new EntityModelParser().toModel(updatedService)
-            ).toMatchObject({ ...props });
-            expect(await repository.findById(originalService.id)).toMatchObject(
-                updatedService
-            );
+            expect(updatedServiceId).toEqual(expect.any(String))
+            expect(await repository.findById(originalService.id)).toMatchObject(ServiceType.create(props, updatedServiceId));
             expect(repositorySpy).toHaveBeenCalledTimes(1);
         }
     );

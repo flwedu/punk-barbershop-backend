@@ -17,7 +17,7 @@ describe("find all controller", () => {
         const { repository, repositorySpy } = setupRepository<Client>(
             "findAll"
         );
-        const sut = new FindAllController(repository);
+        const sut = new FindAllController(repository, parser);
 
         const request = {};
         const response = {
@@ -40,7 +40,7 @@ describe("find all controller", () => {
         const { repository, repositorySpy } = setupRepository<Client>(
             "findAll"
         );
-        const sut = new FindAllController(repository);
+        const sut = new FindAllController(repository, parser);
 
         const request = {};
         const response = {
