@@ -14,9 +14,7 @@ describe("find all controller", () => {
     it("should return 204 and a empty data body", async () => {
         expect.assertions(5);
 
-        const { repository, repositorySpy } = setupRepository<Client>(
-            "findAll"
-        );
+        const { repository, repositorySpy } = setupRepository<Client>("findAll");
         const sut = new FindAllController(repository, parser);
 
         const request = {};
@@ -37,10 +35,8 @@ describe("find all controller", () => {
     it("should receives 200 status code and a filled data body", async () => {
         expect.assertions(5);
 
-        const { repository, repositorySpy } = setupRepository<Client>(
-            "findAll"
-        );
-        const sut = new FindAllController(repository, parser);
+        const { repository, repositorySpy } = setupRepository<Client>("findAll");
+        const sut = new FindAllController(repository);
 
         const request = {};
         const response = {
@@ -54,9 +50,7 @@ describe("find all controller", () => {
         expect(response.status).toBeCalledTimes(1);
         expect(response.status).toBeCalledWith(200);
         expect(response.json).toBeCalledTimes(1);
-        expect(response.json).toBeCalledWith(
-            repository.list.map(parser.toModel)
-        );
+        expect(response.json).toBeCalledWith(repository.list);
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 });
