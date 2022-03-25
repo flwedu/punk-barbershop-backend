@@ -6,19 +6,70 @@ import {
     Barber,
     Client,
     Scheduling,
-    ServiceType
+    ServiceType,
 } from "../../application/domain/entities";
-import { BarberMongoDbAdapter } from "../../output/adapters/mongodb/BarberMongoDbAdapter";
-import { ClientMongoDbAdapter } from "../../output/adapters/mongodb/ClientMongoDbAdapter";
-import { SchedulingMongoDbAdapter } from "../../output/adapters/mongodb/SchedulingMongoDbAdapter";
-import { ServiceTypeMongoDbAdapter } from "../../output/adapters/mongodb/ServiceTypeMongoDbAdapter";
+import {
+    BarberMongoDbAdapter,
+    ClientMongoDbAdapter,
+    SchedulingMongoDbAdapter,
+    ServiceTypeMongoDbAdapter,
+} from "../../output/adapters/mongodb/";
+import IRepository from "../../output/repositories/IRepository";
 import { MongoRepository } from "../../output/repositories/mongodb/MongoRepository";
 import EntityModelParser from "../../presentation/adapters/entity-model-parser";
-import { configureMiscRoutes } from "../routes";
 import {
+    configureMiscRoutes,
     configureBarberExpressRoutes,
-    configureClientExpressRoutes
+    configureClientExpressRoutes,
 } from "../routes/";
+
+//Configuring MongoDB
+mongoose.connect(process.env.MONGODB_URL);
+const modelParser = new EntityModelParser();
+
+export class ServerConfig<T, R> {
+    private repositories = new Map<string, IRepository<any>>();
+    private router: R;
+
+    constructor(private readonly server: T) { }
+
+    getServer(): T {
+        return this.server;
+    }
+
+    setRepository(name: string, repository: IRepository<any>) {
+        this.repositories.set(name, repository);
+        return this;
+    }
+
+    setRepositories(
+        repositoriesList: { name: string; repository: IRepository<any> }[]
+    ) {
+        repositoriesList.forEach((item) => {
+            this.repositories.set(item.name, item.repository);
+        });
+        return this;
+    }
+
+    getRepository(name: string) {
+        return this.repositories.get(name);
+    }
+
+    addRouterConfig(fn: Function) {
+        // Execute the configure router function with the app router and repositories
+        fn(this.router, this.repositories);
+        return this;
+    }
+
+    setRouter(router: R) {
+        this.router = router;
+        return this;
+    }
+
+    getRouter(): R {
+        return this.router;
+    }
+}
 
 // Configuring server and routes
 const server = express();
@@ -28,29 +79,37 @@ server.use(express.json());
 server.use("/api", router);
 server.use(cors());
 
-//Configuring MongoDB
-mongoose.connect(process.env.MONGODB_URL);
-const modelParser = new EntityModelParser();
-
-let clientRepository = new MongoRepository<Client>(new ClientMongoDbAdapter(modelParser));
-let barberRepository = new MongoRepository<Barber>(new BarberMongoDbAdapter(modelParser));
-let serviceTypeRepository = new MongoRepository<ServiceType>(new ServiceTypeMongoDbAdapter(modelParser));
-let schedulingRepository = new MongoRepository<Scheduling>(new SchedulingMongoDbAdapter(modelParser));
-
-// Configuring routes with repositories
-configureClientExpressRoutes(router, clientRepository);
-configureBarberExpressRoutes(router, barberRepository);
-
-// Exporting configurations
-configureMiscRoutes(router);
-
-export const Config = {
-    server,
-    router,
-    repositories: {
-        clientRepository,
-        barberRepository,
-        schedulingRepository,
-        serviceTypeRepository,
-    },
-};
+export const defaultAppConfig = new ServerConfig<
+    express.Express,
+    express.Router
+>(server)
+    .setRepositories([
+        {
+            name: "Client",
+            repository: new MongoRepository<Client>(
+                new ClientMongoDbAdapter(modelParser)
+            ),
+        },
+        {
+            name: "Barber",
+            repository: new MongoRepository<Barber>(
+                new BarberMongoDbAdapter(modelParser)
+            ),
+        },
+        {
+            name: "Barber",
+            repository: new MongoRepository<ServiceType>(
+                new ServiceTypeMongoDbAdapter(modelParser)
+            ),
+        },
+        {
+            name: "Barber",
+            repository: new MongoRepository<Scheduling>(
+                new SchedulingMongoDbAdapter(modelParser)
+            ),
+        },
+    ])
+    .setRouter(router)
+    .addRouterConfig(configureMiscRoutes)
+    .addRouterConfig(configureClientExpressRoutes)
+    .addRouterConfig(configureBarberExpressRoutes);
