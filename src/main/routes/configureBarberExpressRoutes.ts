@@ -7,7 +7,9 @@ import IRepository from "../../output/repositories/IRepository";
 import { FindAllController, FindByController, UpdateEntityController, DeleteByIdController } from "../../presentation/controllers";
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
-export function configureBarberExpressRoutes(router: Router, repository: IRepository<any>) {
+export function configureBarberExpressRoutes(router: Router, repositories: Map<string, IRepository<any>>) {
+
+    const repository = repositories.get("Barber");
 
     router.get("/barbers", (request, response) => {
         new FindAllController<Barber>(repository).handle(request, response);
