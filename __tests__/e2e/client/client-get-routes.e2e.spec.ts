@@ -6,7 +6,7 @@ import { IMRepository } from "../../../src/output/repositories/test/IM-Repositor
 import EntityModelParser from "../../../src/presentation/adapters/entity-model-parser";
 import { createFakeClient } from "../../../src/__test_utils__/MockDataFactory";
 
-describe("Tests for Client #GET controller controller", () => {
+describe("Tests for Client #GET controller", () => {
 
     const parser = new EntityModelParser();
     const app = testInMemoryAppConfiguration;
@@ -35,7 +35,7 @@ describe("Tests for Client #GET controller controller", () => {
         const data = JSON.parse(response.text);
 
         expect(response.status).toEqual(200);
-        expect(data).toMatchObject([{ ...client }]);
+        expect(data).toMatchObject([parser.toModel(client)]);
     })
 
     test("Should receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
@@ -48,7 +48,7 @@ describe("Tests for Client #GET controller controller", () => {
         const data = JSON.parse(response.text);
 
         expect(response.status).toEqual(200);
-        expect(data).toMatchObject({ ...client });
+        expect(data).toMatchObject(parser.toModel(client));
     })
 
     test.each(["1"])("Should receive a 404 when GET to api/clients/:id", async (id) => {
