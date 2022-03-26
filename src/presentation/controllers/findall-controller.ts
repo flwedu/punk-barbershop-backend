@@ -20,7 +20,7 @@ export class FindAllController<T extends Entity> implements Controller {
             }
             else {
                 if (this.modelParser) {
-                    data = this.modelParser.toModel(data);
+                    data = data.map(this.modelParser.toModel);
                 }
                 return new ResponseFactory(response).makeOkResponse(data);
             }
