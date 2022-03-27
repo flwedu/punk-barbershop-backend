@@ -10,7 +10,7 @@ type UpdateServiceTypeRequest = {
 export class UpdateServiceTypeUseCase implements IUseCase {
     constructor(private readonly repository: IRepository<ServiceType>) { };
 
-    async execute(data: UpdateServiceTypeRequest): Promise<ServiceType> {
+    async execute(data: UpdateServiceTypeRequest): Promise<string> {
         const serviceType = ServiceType.create(data.props, data.id);
         return this.repository.update(serviceType, data.id);
     };
