@@ -1,4 +1,5 @@
 import supertest from "supertest";
+import crypto from "crypto";
 import { Client } from "../../../src/application/domain/entities";
 import { ErrorMessage } from "../../../src/application/domain/errors/error-messages";
 import { testInMemoryAppConfiguration } from "../../../src/main/config/test-configuration";
