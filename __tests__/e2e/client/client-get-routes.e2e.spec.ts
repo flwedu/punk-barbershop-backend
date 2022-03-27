@@ -1,4 +1,5 @@
 import supertest from "supertest";
+import crypto from "crypto";
 import { Client } from "../../../src/application/domain/entities";
 import { ErrorMessage } from "../../../src/application/domain/errors/error-messages";
 import { testInMemoryAppConfiguration } from "../../../src/main/config/test-configuration";
@@ -16,7 +17,7 @@ describe("Tests for Client #GET controller", () => {
         app.setRepository("Client", new IMRepository<Client>());
     })
 
-    test("Should receive a 204 response code", async () => {
+    test("Should receive a 204 and body contains an empty array", async () => {
         expect.assertions(2);
 
         const response = await supertest(app.getServer().listen()).get("/api/clients");
@@ -25,7 +26,7 @@ describe("Tests for Client #GET controller", () => {
         expect(response.body).toEqual({});
     });
 
-    test("Should receive a 200 when GET to api/clients code and body contais a clients array", async () => {
+    test("Should receive a 200 when #GET to /api/clients code and body contais a array with resources", async () => {
 
         expect.assertions(2);
         const client = createFakeClient();
@@ -37,7 +38,7 @@ describe("Tests for Client #GET controller", () => {
         expect(response.body).toMatchObject([parser.toModel(client)]);
     })
 
-    test("Should receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
+    test("Should receive a 200 when #GET to /api/clients/:id code and body contais a resource", async () => {
 
         expect.assertions(2);
         const client = createFakeClient();
@@ -49,7 +50,7 @@ describe("Tests for Client #GET controller", () => {
         expect(response.body).toMatchObject(parser.toModel(client));
     })
 
-    test.each(["1"])("Should receive a 404 when GET to api/clients/:id", async (id) => {
+    test.each([crypto.randomUUID()])("Should receive a 404 when #GET to api/clients/:id", async (id) => {
 
         expect.assertions(2);
 
@@ -58,5 +59,4 @@ describe("Tests for Client #GET controller", () => {
         expect(response.status).toEqual(404);
         expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
     })
-
 })
