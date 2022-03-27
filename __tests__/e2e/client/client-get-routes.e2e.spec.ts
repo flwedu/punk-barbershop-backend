@@ -22,7 +22,7 @@ describe("Tests for Client #GET controller", () => {
         const response = await supertest(app.getServer().listen()).get("/api/clients");
 
         expect(response.status).toEqual(204);
-        expect(response.text).toEqual("");
+        expect(response.body).toEqual({});
     });
 
     test("Should receive a 200 when GET to api/clients code and body contais a clients array", async () => {
@@ -32,10 +32,9 @@ describe("Tests for Client #GET controller", () => {
         await repository.save(client);
 
         const response = await supertest(app.getServer().listen()).get("/api/clients");
-        const data = JSON.parse(response.text);
 
         expect(response.status).toEqual(200);
-        expect(data).toMatchObject([parser.toModel(client)]);
+        expect(response.body).toMatchObject([parser.toModel(client)]);
     })
 
     test("Should receive a 200 when GET to api/clients/:id code and body contais a client", async () => {
@@ -45,21 +44,19 @@ describe("Tests for Client #GET controller", () => {
         await repository.save(client);
 
         const response = await supertest(app.getServer().listen()).get(`/api/clients/${client.id}`);
-        const data = JSON.parse(response.text);
 
         expect(response.status).toEqual(200);
-        expect(data).toMatchObject(parser.toModel(client));
+        expect(response.body).toMatchObject(parser.toModel(client));
     })
 
     test.each(["1"])("Should receive a 404 when GET to api/clients/:id", async (id) => {
 
         expect.assertions(2);
 
-        const response = await supertest(app.getServer().listen()).get(`/api/clients/${id}`);
-        const data = JSON.parse(response.text);
+        const response = await supertest(app.getServer().listen()).get(`/api/clients/${id}`).send();
 
         expect(response.status).toEqual(404);
-        expect(data).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+        expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
     })
 
 })
