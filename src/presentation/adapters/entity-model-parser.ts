@@ -3,7 +3,8 @@ export default class EntityModelParser {
 
     toModel(entity: any) {
         const model = Object.create(null);
-        const keys = Object.keys(entity.props);
+        // Get all keys and remove the keys starting with "_"
+        const keys = Object.keys(entity.props).filter(key => !/^_\w*/.test(key));
         model.id = entity.id;
 
         for (let key of keys) {
@@ -15,7 +16,6 @@ export default class EntityModelParser {
             else if (typeof keyValue == "object") {
                 model[key] = keyValue.getValue();
             }
-
         }
         return model;
     }
