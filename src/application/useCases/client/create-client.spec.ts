@@ -14,10 +14,10 @@ describe("create client use cases", () => {
         const { repository, repositorySpy } = setupRepository<Client>("save");
         const sut = new CreateClientUseCase(repository);
 
-        const client = await sut.execute({ props: createFakeClientProps() });
+        const clientId = await sut.execute({ props: createFakeClientProps() });
 
-        expect(client).toMatchObject({ ...Client });
-        expect(await repository.findById(client.id)).toMatchObject(client);
+        expect(clientId).toEqual(expect.any(String));
+        expect(await repository.findById(clientId)).toMatchObject({ ...Client });
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 
@@ -92,12 +92,12 @@ describe("create client use cases", () => {
         const { repository, repositorySpy } = setupRepository<Client>("save");
         const sut = new CreateClientUseCase(repository);
 
-        const client = await sut.execute({ props: createFakeClientProps() });
+        const clientId = await sut.execute({ props: createFakeClientProps() });
         try {
-            await sut.execute({ props: createFakeClientProps(), id: client.id })
+            await sut.execute({ props: createFakeClientProps(), id: clientId })
         }
         catch (err) {
-            expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS(client.id));
+            expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS(clientId));
             expect(repository.list.length).toBe(1);
             expect(repositorySpy).toHaveBeenCalledTimes(2);
         }

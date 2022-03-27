@@ -14,10 +14,10 @@ describe("create barber use cases", () => {
         const { repository, repositorySpy } = setupRepository<Barber>("save");
         const sut = new CreateBarberUseCase(repository);
 
-        const barber = await sut.execute({ props: createFakeBarberProps() });
+        const barberId = await sut.execute({ props: createFakeBarberProps() });
 
-        expect(barber).toMatchObject({ ...Barber });
-        expect(await repository.findById(barber.id)).toMatchObject(barber);
+        expect(barberId).toEqual(expect.any(String));
+        expect(await repository.findById(barberId)).toMatchObject({ ...Barber });
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 
@@ -92,12 +92,12 @@ describe("create barber use cases", () => {
         const { repository, repositorySpy } = setupRepository<Barber>("save");
         const sut = new CreateBarberUseCase(repository);
 
-        const barber = await sut.execute({ props: createFakeBarberProps() });
+        const barberId = await sut.execute({ props: createFakeBarberProps() });
         try {
-            await sut.execute({ props: createFakeBarberProps(), id: barber.id })
+            await sut.execute({ props: createFakeBarberProps(), id: barberId })
         }
         catch (err) {
-            expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS(barber.id));
+            expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS(barberId));
             expect(repository.list.length).toBe(1);
             expect(repositorySpy).toHaveBeenCalledTimes(2);
         }

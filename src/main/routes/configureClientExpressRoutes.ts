@@ -4,18 +4,22 @@ import { CreateClientUseCase } from "../../application/useCases/client/create-cl
 import UpdateClientUseCase from "../../application/useCases/client/update-client";
 import { FindByIdUseCase } from "../../application/useCases/FindByIdUseCase";
 import IRepository from "../../output/repositories/IRepository";
+import EntityModelParser from "../../presentation/adapters/entity-model-parser";
 import { DeleteByIdController, FindAllController, FindByController, UpdateEntityController } from "../../presentation/controllers";
 import { CreateEntityController } from "../../presentation/controllers/create-entity-controller";
 
 
-export function configureClientExpressRoutes(router: Router, repository: IRepository<any>) {
+export function configureClientExpressRoutes(router: Router, repositories: Map<string, IRepository<any>>) {
+
+    const parser = new EntityModelParser();
+    const repository = repositories.get("Client");
 
     router.get("/clients", (request, response) => {
-        new FindAllController<Client>(repository).handle(request, response);
+        new FindAllController<Client>(repository, parser).handle(request, response);
     })
 
     router.get("/clients/:id", (request, response) => {
-        new FindByController(new FindByIdUseCase(repository)).handle(request, response);
+        new FindByController(new FindByIdUseCase(repository), parser).handle(request, response);
     })
 
     router.post("/clients", (request, response) => {

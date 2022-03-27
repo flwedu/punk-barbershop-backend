@@ -5,9 +5,9 @@ import { ErrorMessage } from "../../../src/application/domain/errors/error-messa
 import { testInMemoryAppConfiguration } from "../../../src/main/config/test-configuration";
 import { IMRepository } from "../../../src/output/repositories/test/IM-Repository";
 import EntityModelParser from "../../../src/presentation/adapters/entity-model-parser";
-import { createFakeClientProps } from "../../../src/__test_utils__/MockDataFactory"
+import { createFakeClient, createFakeClientProps } from "../../../src/__test_utils__/MockDataFactory"
 
-describe("Tests for Client #POST controller", () => {
+describe("Tests for Client #UPDATE controller", () => {
 
     const parser = new EntityModelParser();
     const app = testInMemoryAppConfiguration;
@@ -17,18 +17,18 @@ describe("Tests for Client #POST controller", () => {
         app.setRepository("Client", new IMRepository<Client>());
     })
 
-    test("Should return 201 and body should contains the id of created client", async () => {
+    test("Should return 202 and body should contains the id of updated client", async () => {
 
+        const original = createFakeClient();
+        const originalId = await repository.save(original);
         const requestData = {
-            id: "1",
             ...createFakeClientProps()
         }
-        const response = await supertest(app.getServer()).post("/api/clients").send(requestData);
+        const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
         const data = JSON.parse(response.text);
 
-        expect(response.statusCode).toEqual(201);
-        expect(data).toEqual(requestData.id);
-        expect(data).toEqual(expect.any(String));
+        expect(response.statusCode).toEqual(202);
+        expect(data).toEqual(originalId);
     })
 
     test.each([[{
@@ -48,10 +48,24 @@ describe("Tests for Client #POST controller", () => {
     }, ErrorMessage.INVALID_PARAM("CPF")]
     ])("Should return 400 and body is $1", async (requestData, message) => {
 
-        const response = await supertest(app.getServer()).post("/api/clients").send(requestData);
+        const original = createFakeClient();
+        const originalId = await repository.save(original);
+        const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
         const data = JSON.parse(response.text);
 
         expect(response.statusCode).toEqual(400);
         expect(data).toEqual(message);
+    })
+
+    test.each(["1", "b", "1231456"])("Should return 404 for a inexistent resource id", async (id) => {
+
+        const requestData = {
+            ...createFakeClientProps()
+        }
+        const response = await supertest(app.getServer()).put(`/api/clients/${id}`).send(requestData);
+        const data = JSON.parse(response.text);
+
+        expect(response.statusCode).toEqual(404);
+        expect(data).toEqual(ErrorMessage.ID_NOT_FOUND(id));
     })
 })

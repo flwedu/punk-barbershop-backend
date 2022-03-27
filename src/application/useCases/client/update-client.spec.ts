@@ -19,7 +19,7 @@ describe("Update client use case tests", () => {
         const client = createFakeClient();
         await repository.save(client)
 
-        const updated = await sut.execute({
+        const updatedId = await sut.execute({
             id: client.id,
             props: {
                 ...createFakeClientProps()
@@ -27,7 +27,7 @@ describe("Update client use case tests", () => {
         })
 
         expect(repositorySpy).toBeCalledTimes(1);
-        expect(await repository.findById(client.id)).toMatchObject(updated);
+        expect(updatedId).toEqual(client.id);
     })
 
     test.each(["1", null, undefined, ""])("Should throw an error when trying to update a inexistent client", async (id) => {

@@ -46,14 +46,12 @@ describe("create scheduling use case", () => {
 
         const { sut, schedulingRepository, saveSpy } = await setup();
 
-        const scheduling = await sut.execute({
+        const schedulingId = await sut.execute({
             ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
         });
 
-        expect(scheduling).toMatchObject({ ...Scheduling });
-        expect(await schedulingRepository.findById(scheduling.id)).toMatchObject({
-            ...Scheduling,
-        });
+        expect(schedulingId).toEqual(expect.any(String));
+        expect(await schedulingRepository.findById(schedulingId)).toMatchObject({ ...Scheduling });
         expect(saveSpy).toHaveBeenCalledTimes(1);
     });
 

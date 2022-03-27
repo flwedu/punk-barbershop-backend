@@ -16,10 +16,10 @@ describe("create serviceType use case test", () => {
         const { repository, repositorySpy } = setupRepository<ServiceType>("save");
         const sut = new CreateServiceTypeUseCase(repository);
 
-        const result = await sut.execute(createFakeServiceTypeProps());
+        const resultId = await sut.execute(createFakeServiceTypeProps());
 
-        expect(result).toMatchObject({ ...ServiceType });
-        expect(await repository.findById(result.id)).toMatchObject({ ...ServiceType });
+        expect(resultId).toEqual(expect.any(String));
+        expect(await repository.findById(resultId)).toMatchObject({ ...ServiceType });
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 

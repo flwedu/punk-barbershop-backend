@@ -19,7 +19,7 @@ describe("Update barber use case tests", () => {
         const barber = createFakeBarber();
         await repository.save(barber);
 
-        const updated = await sut.execute({
+        const updatedId = await sut.execute({
             id: barber.id,
             props: {
                 ...createFakeBarberProps()
@@ -27,7 +27,7 @@ describe("Update barber use case tests", () => {
         })
 
         expect(repositorySpy).toBeCalledTimes(1);
-        expect(await repository.findById(barber.id)).toMatchObject(updated);
+        expect(updatedId).toEqual(barber.id);
     })
 
     test.each(["1", null, undefined, ""])("Should throw an error when trying to update a inexistent barber", async (id) => {
