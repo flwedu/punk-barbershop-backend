@@ -1,8 +1,9 @@
 import { Entity } from "../../application/domain/entities/Entity";
 import IUseCase from "../../application/useCases/IUseCase";
 import ResponseFactory from "../http/ResponseFactory";
+import IExpressController from "./IExpressController";
 
-export default class UpdateEntityController<T extends Entity> {
+export default class UpdateEntityController<T extends Entity> implements IExpressController {
     constructor(private readonly useCase: IUseCase) { }
 
     async handle(request, response) {

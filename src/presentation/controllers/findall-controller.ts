@@ -1,13 +1,13 @@
-import ResponseFactory from "../../presentation/http/ResponseFactory";
 import { Entity } from "../../application/domain/entities/Entity";
 import { FindAllUseCase } from "../../application/useCases/FindAllUseCase";
 import IRepository from "../../output/repositories/IRepository";
-
-import Controller from "./Controller";
+import ResponseFactory from "../../presentation/http/ResponseFactory";
 import EntityModelParser from "../adapters/entity-model-parser";
+import IExpressController from "./IExpressController";
 
 
-export class FindAllController<T extends Entity> implements Controller {
+
+export class FindAllController<T extends Entity> implements IExpressController {
 
     constructor(private readonly repository: IRepository<T>, private readonly modelParser?: EntityModelParser) { }
 
