@@ -9,7 +9,7 @@ describe("create client use cases", () => {
         jest.clearAllMocks();
     });
 
-    it("Should create a client with valid data", async () => {
+    it("Should create a client with valid data without passing id", async () => {
         expect.assertions(3);
         const { repository, repositorySpy } = setupRepository<Client>("save");
         const sut = new CreateClientUseCase(repository);
@@ -18,6 +18,19 @@ describe("create client use cases", () => {
 
         expect(clientId).toEqual(expect.any(String));
         expect(await repository.findById(clientId)).toMatchObject({ ...Client });
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("Should create a client with valid data passing id", async () => {
+        expect.assertions(4);
+        const { repository, repositorySpy } = setupRepository<Client>("save");
+        const sut = new CreateClientUseCase(repository);
+
+        const clientId = await sut.execute({ id: "1", props: createFakeClientProps() });
+
+        expect(clientId).toEqual(expect.any(String));
+        expect(await repository.findById(clientId)).toMatchObject({ ...Client });
+        expect(clientId).toEqual("1")
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 
