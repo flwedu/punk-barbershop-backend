@@ -6,6 +6,7 @@ import { IEntityMongoDbAdapter } from "./IEntityMongoDbAdapter";
 export class BarberMongoDbAdapter implements IEntityMongoDbAdapter<Barber> {
 
     private schema = new mongoose.Schema({
+        _id: String,
         name: String,
         email: String,
         createdAt: Date,
@@ -26,7 +27,7 @@ export class BarberMongoDbAdapter implements IEntityMongoDbAdapter<Barber> {
 
     toDbModel(entity: Barber, id?: string) {
         const parsedModel = this.modelParser.toModel(entity);
-        return new this.model({ ...parsedModel, id: id || entity.id });
+        return new this.model({ ...parsedModel, _id: id });
     }
 
     toEntity(data: any) {
