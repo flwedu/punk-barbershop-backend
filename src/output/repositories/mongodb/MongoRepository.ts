@@ -29,7 +29,7 @@ export class MongoRepository<T extends Entity> implements IRepository<T> {
         return Promise.resolve(list);
     }
 
-    async save(entity: T, id?: string): Promise<any> {
+    async save(entity: T, id: string): Promise<any> {
 
         const instance = this.adapter.toDbModel(entity, id);
 
