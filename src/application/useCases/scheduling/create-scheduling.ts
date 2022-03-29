@@ -39,6 +39,6 @@ export class CreateSchedulingUseCase implements IUseCase {
         await this.serviceTypeRepository.findById(data.serviceTypeId);
 
         const scheduling = Scheduling.create(data);
-        return this.schedulingRepository.save(scheduling);
+        return this.schedulingRepository.save(scheduling, scheduling.id);
     }
 }
