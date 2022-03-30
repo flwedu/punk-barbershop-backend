@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Scheduling, InputSchedulingRequestProps } from "../../../application/domain/entities";
+import { Scheduling, InputSchedulingProps } from "../../../application/domain/entities";
 import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
 import { IEntityMongoDbAdapter } from "./IEntityMongoDbAdapter";
 
@@ -30,7 +30,7 @@ export class SchedulingMongoDbAdapter implements IEntityMongoDbAdapter<Schedulin
     }
 
     toEntity(data: any) {
-        const props = data._doc as InputSchedulingRequestProps
+        const props = data._doc as InputSchedulingProps
         return Scheduling.create({ ...props }, data.id);
     }
 

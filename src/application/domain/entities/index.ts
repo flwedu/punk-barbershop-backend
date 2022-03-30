@@ -2,7 +2,7 @@ import { Barber, BarberProps, InputBarberProps } from "./barber";
 import { Client, ClientProps, InputClientProps } from "./client";
 import {
     Scheduling,
-    InputSchedulingRequestProps,
+    InputSchedulingProps,
     SchedulingProps,
 } from "./scheduling";
 import {
@@ -20,7 +20,7 @@ export {
     InputClientProps,
     Scheduling,
     SchedulingProps,
-    InputSchedulingRequestProps,
+    InputSchedulingProps,
     ServiceType,
     ServiceTypeProps,
     InputServiceTypeProps,
