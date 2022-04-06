@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-        "esModuleInterop": true,
-        "module": "commonjs",
-        "target": "ES2016",
-        "strictNullChecks": false,
-        "rootDir": "src",
-        "outDir": "dist"
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "__tests__/**/*", "src/**/*.spec.ts"]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "target": "ES2016",
+    "strictNullChecks": false,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "__tests__/**/*", "src/**/*.spec.ts"]
 }
