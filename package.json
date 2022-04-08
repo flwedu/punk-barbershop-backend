@@ -26,6 +26,7 @@
     "test:no-coverage": "jest --coverage=false",
     "test:watch": "jest --watchAll --coverage=false",
     "dev": "ts-node-dev src/main/app.ts",
+    "dev:test": "ts-node-dev src/main/app.ts --mode=test",
     "start": "tsc && node build/main/app.js",
     "build": "tsc",
     "test:e2e": "jest ./__tests__ --coverage=false"

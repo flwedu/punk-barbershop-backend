@@ -5,7 +5,7 @@ import {
     createFakeBarber,
     createFakeClient,
     createFakeSchedulingProps,
-    createFakeServiceType,
+    createFakeServiceType
 } from "../../../__test_utils__/MockDataFactory";
 import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
@@ -47,7 +47,9 @@ describe("create scheduling use case", () => {
         const { sut, schedulingRepository, saveSpy } = await setup();
 
         const schedulingId = await sut.execute({
-            ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
+            props: {
+                ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
+            }
         });
 
         expect(schedulingId).toEqual(expect.any(String));
@@ -66,8 +68,10 @@ describe("create scheduling use case", () => {
 
             try {
                 await sut.execute({
-                    ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
-                    scheduleDate: date
+                    props: {
+                        ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
+                        scheduleDate: date
+                    }
                 });
             } catch (err) {
                 expect(err.message).toEqual(
@@ -100,21 +104,20 @@ describe("create scheduling use case", () => {
         },
     ])(
         "Should throw an error when trying to create a scheduling without the ID of related entities",
-        async (props) => {
+        async (propsValues: any) => {
             expect.assertions(3);
 
             const { sut, schedulingRepository, saveSpy } = await setup();
 
             try {
-                //@ts-ignore
                 await sut.execute({
-                    ...props,
-                    scheduleDate: "2022-01-01T14:00",
+                    props: {
+                        ...propsValues,
+                        scheduleDate: "2022-01-01T14:00",
+                    }
                 });
             } catch (err) {
-                expect(err.message).toEqual(
-                    expect.stringMatching(/Invalid\s\w+Id/)
-                );
+                expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(undefined));
                 expect(schedulingRepository.list.length).toEqual(0);
                 expect(saveSpy).toHaveBeenCalledTimes(0);
             }
@@ -130,10 +133,12 @@ describe("create scheduling use case", () => {
 
             try {
                 await sut.execute({
-                    clientId: client.id,
-                    barberId: barber.id,
-                    serviceTypeId: serviceType.id,
-                    scheduleDate: date,
+                    props: {
+                        clientId: client.id,
+                        barberId: barber.id,
+                        serviceTypeId: serviceType.id,
+                        scheduleDate: date,
+                    }
                 });
             } catch (err) {
                 expect(saveSpy).toHaveBeenCalledTimes(0);

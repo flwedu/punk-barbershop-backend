@@ -2,9 +2,9 @@ import { Entity } from "../../application/domain/entities/Entity";
 import { DeleteByIdUseCase } from "../../application/useCases/DeleteByIdUseCase";
 import IRepository from "../../output/repositories/IRepository";
 import ResponseFactory from "../../presentation/http/ResponseFactory";
-import Controller from "./Controller";
+import IExpressController from "./IExpressController";
 
-export class DeleteByIdController<T extends Entity> implements Controller {
+export class DeleteByIdController<T extends Entity> implements IExpressController {
     constructor(private readonly repository: IRepository<T>) { }
 
     async handle(request, response) {

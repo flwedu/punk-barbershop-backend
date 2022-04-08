@@ -26,7 +26,7 @@ export class ServiceType extends Entity {
     public static create(props: InputServiceTypeProps, id?: string) {
 
         // Check values
-        if (!props.name || !/\w{2,25}/.test(props.name)) {
+        if (!props.name || !/\w+/.test(props.name)) {
             throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("name"))
         }
 

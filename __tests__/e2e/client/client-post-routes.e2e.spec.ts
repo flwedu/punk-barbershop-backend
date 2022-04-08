@@ -19,16 +19,15 @@ describe("Tests for Client #POST controller", () => {
 
     test("Should return 201 and body should contains the id of created client", async () => {
 
+        expect.assertions(2);
         const requestData = {
             id: "1",
             ...createFakeClientProps()
         }
         const response = await supertest(app.getServer()).post("/api/clients").send(requestData);
-        const data = JSON.parse(response.text);
 
         expect(response.statusCode).toEqual(201);
-        expect(data).toEqual(requestData.id);
-        expect(data).toEqual(expect.any(String));
+        expect(response.body).toEqual(requestData.id);
     })
 
     test.each([[{
@@ -48,10 +47,10 @@ describe("Tests for Client #POST controller", () => {
     }, ErrorMessage.INVALID_PARAM("CPF")]
     ])("Should return 400 and body is $1", async (requestData, message) => {
 
+        expect.assertions(2);
         const response = await supertest(app.getServer()).post("/api/clients").send(requestData);
-        const data = JSON.parse(response.text);
 
         expect(response.statusCode).toEqual(400);
-        expect(data).toEqual(message);
+        expect(response.body).toEqual(message);
     })
 })

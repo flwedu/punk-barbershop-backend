@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import faker from "@faker-js/faker";
 import {
     Barber,
@@ -7,7 +8,7 @@ import {
 } from "../application/domain/entities";
 import { InputBarberProps } from "../application/domain/entities/barber";
 import { InputClientProps } from "../application/domain/entities/client";
-import { InputSchedulingRequestProps } from "../application/domain/entities/scheduling";
+import { InputSchedulingProps } from "../application/domain/entities/scheduling";
 import { InputServiceTypeProps } from "../application/domain/entities/serviceType";
 
 export function createFakeClientProps(): InputClientProps {
@@ -36,12 +37,12 @@ export function createFakeServiceTypeProps(): InputServiceTypeProps {
     };
 }
 
-export function createFakeSchedulingProps(data: { id?: string; clientId?: string; barberId?: string; serviceId?: string; }): InputSchedulingRequestProps {
+export function createFakeSchedulingProps(data?: { id?: string; clientId?: string; barberId?: string; serviceId?: string; }): InputSchedulingProps {
     return {
         scheduleDate: faker.date.soon(1).toISOString(),
-        barberId: data.barberId || "1",
-        clientId: data.clientId || "1",
-        serviceTypeId: data.serviceId || "1",
+        barberId: data?.barberId || crypto.randomUUID(),
+        clientId: data?.clientId || crypto.randomUUID(),
+        serviceTypeId: data?.serviceId || crypto.randomUUID(),
     };
 }
 
@@ -65,6 +66,6 @@ export function createFakeScheduling(data?: {
 }) {
     return Scheduling.create(
         createFakeSchedulingProps(data),
-        data.id
+        data?.id
     );
 }

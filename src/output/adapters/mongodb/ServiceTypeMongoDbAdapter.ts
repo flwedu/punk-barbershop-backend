@@ -6,6 +6,7 @@ import { IEntityMongoDbAdapter } from "./IEntityMongoDbAdapter";
 export class ServiceTypeMongoDbAdapter implements IEntityMongoDbAdapter<ServiceType> {
 
     private schema = new mongoose.Schema({
+        _id: String,
         name: String,
         description: String,
         duration: Number,
@@ -25,7 +26,7 @@ export class ServiceTypeMongoDbAdapter implements IEntityMongoDbAdapter<ServiceT
 
     toDbModel(entity: ServiceType, id?: string) {
         const parsedModel = this.modelParser.toModel(entity);
-        return new this.model({ ...parsedModel, id: id || entity.id });
+        return new this.model({ ...parsedModel, _id: id });
     }
 
     toEntity(data: any) {

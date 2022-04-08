@@ -4,7 +4,7 @@ import cors from "cors";
 import { Client, Barber, ServiceType, Scheduling } from "../../application/domain/entities";
 import { ClientMongoDbAdapter, BarberMongoDbAdapter, ServiceTypeMongoDbAdapter, SchedulingMongoDbAdapter } from "../../output/adapters/mongodb";
 import { MongoRepository } from "../../output/repositories/mongodb/MongoRepository";
-import { configureMiscRoutes, configureClientExpressRoutes, configureBarberExpressRoutes } from "../routes";
+import { configureMiscRoutes, configureClientExpressRoutes, configureBarberExpressRoutes, configureSchedulingExpressRoutes, configureServiceTypeExpressRoutes } from "../routes";
 import { ServerConfig } from "./ServerConfig";
 import EntityModelParser from "../../presentation/adapters/entity-model-parser";
 import mongoose from "mongoose";
@@ -54,4 +54,6 @@ export const defaultAppConfiguration = new ServerConfig<
     .setRouter(router)
     .addRouterConfig(configureMiscRoutes)
     .addRouterConfig(configureClientExpressRoutes)
-    .addRouterConfig(configureBarberExpressRoutes);
+    .addRouterConfig(configureBarberExpressRoutes)
+    .addRouterConfig(configureSchedulingExpressRoutes)
+    .addRouterConfig(configureServiceTypeExpressRoutes);

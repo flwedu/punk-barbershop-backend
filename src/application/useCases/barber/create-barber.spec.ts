@@ -9,7 +9,7 @@ describe("create barber use cases", () => {
         jest.clearAllMocks();
     });
 
-    it("Should create a barber with valid data", async () => {
+    it("Should create a barber with valid data without passing id", async () => {
         expect.assertions(3);
         const { repository, repositorySpy } = setupRepository<Barber>("save");
         const sut = new CreateBarberUseCase(repository);
@@ -18,6 +18,19 @@ describe("create barber use cases", () => {
 
         expect(barberId).toEqual(expect.any(String));
         expect(await repository.findById(barberId)).toMatchObject({ ...Barber });
+        expect(repositorySpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("Should create a barber with valid data passing id", async () => {
+        expect.assertions(4);
+        const { repository, repositorySpy } = setupRepository<Barber>("save");
+        const sut = new CreateBarberUseCase(repository);
+
+        const barberId = await sut.execute({ id: "1", props: createFakeBarberProps() });
+
+        expect(barberId).toEqual(expect.any(String));
+        expect(await repository.findById(barberId)).toMatchObject({ ...Barber });
+        expect(barberId).toEqual("1");
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 

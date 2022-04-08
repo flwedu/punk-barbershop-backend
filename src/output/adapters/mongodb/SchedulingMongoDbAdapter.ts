@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { Scheduling, InputSchedulingRequestProps } from "../../../application/domain/entities";
+import { Scheduling, InputSchedulingProps } from "../../../application/domain/entities";
 import EntityModelParser from "../../../presentation/adapters/entity-model-parser";
 import { IEntityMongoDbAdapter } from "./IEntityMongoDbAdapter";
 
 export class SchedulingMongoDbAdapter implements IEntityMongoDbAdapter<Scheduling> {
 
     private schema = new mongoose.Schema({
+        _id: String,
         clientId: String,
         barberId: String,
         scheduleDate: Date,
@@ -25,11 +26,11 @@ export class SchedulingMongoDbAdapter implements IEntityMongoDbAdapter<Schedulin
 
     toDbModel(entity: Scheduling, id?: string) {
         const parsedModel = this.modelParser.toModel(entity);
-        return new this.model({ ...parsedModel, id: id || entity.id });
+        return new this.model({ ...parsedModel, _id: id });
     }
 
     toEntity(data: any) {
-        const props = data._doc as InputSchedulingRequestProps
+        const props = data._doc as InputSchedulingProps
         return Scheduling.create({ ...props }, data.id);
     }
 

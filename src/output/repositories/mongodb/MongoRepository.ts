@@ -9,13 +9,13 @@ export class MongoRepository<T extends Entity> implements IRepository<T> {
     }
 
     async find(queryData: any): Promise<T[]> {
-        const model = this.adapter.getModel();
-        const query = await model.find(queryData);
+        const Model = this.adapter.getModel();
+        const query = await Model.find(queryData);
         return Promise.resolve(query.map(this.adapter.toEntity));
     }
     async findById(id: string): Promise<T> {
-        const model = this.adapter.getModel();
-        const query = await model.findOne({ id });
+        const Model = this.adapter.getModel();
+        const query = await Model.findOne({ id });
         if (!query) {
             throw new ResourceNotFound();
         }
@@ -29,23 +29,24 @@ export class MongoRepository<T extends Entity> implements IRepository<T> {
         return Promise.resolve(list);
     }
 
-    async save(entity: T, id?: string): Promise<any> {
+    async save(entity: T, id: string): Promise<any> {
 
-        const instance = this.adapter.toDbModel(entity, id);
+        const doc = this.adapter.toDbModel(entity, id);
 
         try {
-            await instance.save();
-            return Promise.resolve(instance.id);
+            await doc.save();
+            return Promise.resolve(doc.id);
         } catch (error) {
             throw new Error(error);
         }
     }
     async update(entity: T, id: string): Promise<string> {
 
-        const model = this.adapter.getModel();
-        const query = await model.updateOne({ id }, { ...entity });
+        const Model = this.adapter.getModel();
+        const { _id, ...props } = this.adapter.toDbModel(entity, id);
+        const query = await Model.updateOne({ _id: id }, { $set: { ...props } });
 
-        if (query.matchedCount) {
+        if (query.upsertedId) {
             return Promise.resolve(query.upsertedId.toString());
         }
         else {
@@ -53,13 +54,10 @@ export class MongoRepository<T extends Entity> implements IRepository<T> {
         }
     }
     async delete(id: string): Promise<any> {
-        const model = this.adapter.getModel();
-        model.findByIdAndDelete(id, { limit: 1 }, (err, doc, res) => {
-            if (err) {
-                throw new Error(err.stack);
-            }
-            return Promise.resolve();
-        });
-
+        const Model = this.adapter.getModel();
+        const result = Model.deleteOne({ id }, err => {
+            if (err) return Promise.reject(err);
+        })
+        return Promise.resolve(`deleted ${result.countDocuments()}`);
     }
 }

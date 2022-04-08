@@ -3,7 +3,7 @@ import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
 import { Entity, Props } from "./Entity";
 
-export type InputSchedulingRequestProps = {
+export type InputSchedulingProps = {
     clientId: string,
     barberId: string,
     scheduleDate: string,
@@ -23,7 +23,7 @@ export class Scheduling extends Entity {
         super(props, id);
     }
 
-    public static create(props: InputSchedulingRequestProps, id?: string) {
+    public static create(props: InputSchedulingProps, id?: string) {
 
         const scheduleDate = parseDateValue(props.scheduleDate);
         const createdAt = new Date();

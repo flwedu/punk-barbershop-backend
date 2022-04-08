@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { Barber, Client, Scheduling, ServiceType } from "../../application/domain/entities";
 import { IMRepository } from "../../output/repositories/test/IM-Repository";
-import { configureBarberExpressRoutes, configureClientExpressRoutes } from "../routes";
+import { configureBarberExpressRoutes, configureClientExpressRoutes, configureSchedulingExpressRoutes, configureServiceTypeExpressRoutes } from "../routes";
 import { ServerConfig } from "./ServerConfig";
 
 // Configuring server and routes
@@ -37,4 +37,6 @@ export const testInMemoryAppConfiguration = new ServerConfig<
     ])
     .setRouter(router)
     .addRouterConfig(configureClientExpressRoutes)
-    .addRouterConfig(configureBarberExpressRoutes);
+    .addRouterConfig(configureBarberExpressRoutes)
+    .addRouterConfig(configureSchedulingExpressRoutes)
+    .addRouterConfig(configureServiceTypeExpressRoutes);

@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { ServiceType } from "../../application/domain/entities/serviceType";
 import { createFakeServiceType } from "../../__test_utils__/MockDataFactory";
 import { setupRepository } from "../../__test_utils__/setupFunctions";
@@ -9,7 +10,7 @@ describe("Delete by id controller", () => {
         jest.clearAllMocks();
     })
 
-    it.each(["1", "2", "50", "44546121"])("should receives 202", async (id) => {
+    it.each(["1", "2", "50", crypto.randomUUID()])("should receives 202", async (id) => {
 
         expect.assertions(4);
 

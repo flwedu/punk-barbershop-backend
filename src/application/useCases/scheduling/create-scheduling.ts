@@ -1,6 +1,6 @@
 import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
-import { InputSchedulingRequestProps, Scheduling } from "../../domain/entities/scheduling";
+import { InputSchedulingProps, Scheduling } from "../../domain/entities/scheduling";
 import { ServiceType } from "../../domain/entities/serviceType";
 import IRepository from "../../../output/repositories/IRepository";
 import IUseCase from "../IUseCase";
@@ -14,6 +14,11 @@ type SchedulingRepositoriesDependencies = {
     schedulingRepository: IRepository<Scheduling>
 }
 
+type CreateSchedulingRequest = {
+    id?: string,
+    props: InputSchedulingProps
+}
+
 export class CreateSchedulingUseCase implements IUseCase {
 
     private clientRepository: IRepository<Client>
@@ -25,7 +30,7 @@ export class CreateSchedulingUseCase implements IUseCase {
         Object.assign(this, repositoriesList);
     }
 
-    async execute(data: InputSchedulingRequestProps) {
+    async execute(data: CreateSchedulingRequest) {
 
         const keys = Object.keys(data);
         for (let key in keys) {
@@ -34,11 +39,11 @@ export class CreateSchedulingUseCase implements IUseCase {
             }
         }
 
-        await this.clientRepository.findById(data.clientId);
-        await this.barberRepository.findById(data.barberId);
-        await this.serviceTypeRepository.findById(data.serviceTypeId);
+        await this.clientRepository.findById(data.props.clientId);
+        await this.barberRepository.findById(data.props.barberId);
+        await this.serviceTypeRepository.findById(data.props.serviceTypeId);
 
-        const scheduling = Scheduling.create(data);
-        return this.schedulingRepository.save(scheduling);
+        const scheduling = Scheduling.create(data.props, data.id);
+        return this.schedulingRepository.save(scheduling, scheduling.id);
     }
 }

@@ -1,9 +1,9 @@
 import IUseCase from "../../application/useCases/IUseCase";
 import ResponseFactory from "../../presentation/http/ResponseFactory";
 import EntityModelParser from "../adapters/entity-model-parser";
-import Controller from "./Controller";
+import IExpressController from "./IExpressController";
 
-export default class FindByController implements Controller {
+export default class FindByController implements IExpressController {
     constructor(private readonly useCase: IUseCase, private readonly modelParser?: EntityModelParser) { }
 
     async handle(request, response) {
