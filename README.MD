@@ -2,7 +2,7 @@
 
 <div display="inline-block" align="center">
 <img src="https://user-images.githubusercontent.com/55285816/154165860-266d2e83-a65a-473b-b163-a111826db8e4.jpg" alt="punk barbershop logo" width="200px"/>
-
+<br>
 <img src="https://img.shields.io/github/last-commit/flwedu/punk-barbershop-backend" />
 <img src="https://img.shields.io/github/repo-size/flwedu/punk-barbershop-backend" />
 </div>
