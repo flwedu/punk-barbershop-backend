@@ -4,4 +4,5 @@ export const ErrorMessage = {
     INVALID_PARAM: (param: string, message?: string) => {
         return message ? `Invalid ${param}: ${message}` : `Invalid ${param}`
     },
+    NULL_PARAM: (param: string) => `${param} can't be null or empty.`
 }
