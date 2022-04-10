@@ -1,5 +1,4 @@
 import faker from "@faker-js/faker";
-import { ErrorMessage } from "../../../application/domain/errors/error-messages";
 import { IMRepository } from "../../../output/repositories/test/IM-Repository";
 import {
     createFakeBarber,
@@ -11,6 +10,8 @@ import { Barber } from "../../domain/entities/barber";
 import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";
 import { ServiceType } from "../../domain/entities/serviceType";
+import BusinessRuleError from "../../domain/errors/business-rule-error";
+import ResourceNotFound from "../../domain/errors/resource-not-found";
 import { CreateSchedulingUseCase } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
@@ -57,96 +58,80 @@ describe("create scheduling use case", () => {
         expect(saveSpy).toHaveBeenCalledTimes(1);
     });
 
-    it.each([
-        faker.date.past(1).toISOString(),
-        faker.date.recent(1).toISOString(),
-    ])(
-        "Should throw an error when trying to create a scheduling with a past date",
-        async (date) => {
-            expect.assertions(3);
-            const { sut, schedulingRepository, saveSpy } = await setup();
+    describe("Should throw error: ", () => {
 
-            try {
-                await sut.execute({
+        it.each([
+            faker.date.past(1).toISOString(),
+            faker.date.recent(1).toISOString(),
+            new Date().toISOString()
+        ])(
+            "When trying to create a scheduling with a past date",
+            async (date) => {
+                expect.assertions(2);
+                const { sut, saveSpy } = await setup();
+
+                expect(sut.execute({
                     props: {
                         ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
                         scheduleDate: date
                     }
-                });
-            } catch (err) {
-                expect(err.message).toEqual(
-                    ErrorMessage.INVALID_PARAM(
-                        "date",
-                        "The date can not be in the past"
-                    )
-                );
+                })).rejects.toThrowError(BusinessRuleError);
                 expect(saveSpy).not.toHaveBeenCalled();
-                expect(schedulingRepository.list.length).toEqual(0);
             }
-        }
-    );
+        );
 
-    it.each([
-        {
-            cliendId: "",
-            barberId: barber.id,
-            serviceTypeId: serviceType.id,
-        },
-        {
-            cliendId: client.id,
-            barberId: "",
-            serviceTypeId: serviceType.id,
-        },
-        {
-            cliendId: client.id,
-            barberId: barber.id,
-            serviceTypeId: "",
-        },
-    ])(
-        "Should throw an error when trying to create a scheduling without the ID of related entities",
-        async (propsValues: any) => {
-            expect.assertions(3);
+        it.each([
+            {
+                cliendId: "",
+                barberId: barber.id,
+                serviceTypeId: serviceType.id,
+            },
+            {
+                cliendId: client.id,
+                barberId: "",
+                serviceTypeId: serviceType.id,
+            },
+            {
+                cliendId: client.id,
+                barberId: barber.id,
+                serviceTypeId: "",
+            },
+        ])(
+            "When trying to create a scheduling without the ID of related entities",
+            async (propsValues: any) => {
+                expect.assertions(3);
 
-            const { sut, schedulingRepository, saveSpy } = await setup();
+                const { sut, schedulingRepository, saveSpy } = await setup();
 
-            try {
-                await sut.execute({
+                expect(sut.execute({
                     props: {
                         ...propsValues,
                         scheduleDate: "2022-01-01T14:00",
                     }
-                });
-            } catch (err) {
-                expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(undefined));
+                })).rejects.toThrowError(ResourceNotFound);
                 expect(schedulingRepository.list.length).toEqual(0);
                 expect(saveSpy).toHaveBeenCalledTimes(0);
             }
-        }
-    );
+        );
 
-    it.each([undefined, null, "", "2022-01-01T25:10:00"])(
-        "Should throw an error when trying to create a scheduling with this invalid date: %s",
-        async (date) => {
-            expect.assertions(3);
+        it.each([undefined, null, "", "2022-01-01T25:10:00"])(
+            "When trying to create a scheduling with this invalid date: %s",
+            async (date) => {
+                expect.assertions(3);
 
-            const { sut, schedulingRepository, saveSpy } = await setup();
+                const { sut, schedulingRepository, saveSpy } = await setup();
 
-            try {
-                await sut.execute({
+                expect(sut.execute({
                     props: {
                         clientId: client.id,
                         barberId: barber.id,
                         serviceTypeId: serviceType.id,
                         scheduleDate: date,
                     }
-                });
-            } catch (err) {
-                expect(saveSpy).toHaveBeenCalledTimes(0);
-                expect(err.message).toEqual(
-                    expect.stringMatching(/Invalid\s\w*date/i)
-                );
+                })).rejects.toThrowError(BusinessRuleError);
+                expect(saveSpy).not.toHaveBeenCalled();
                 expect(schedulingRepository.list.length).toEqual(0);
             }
-        }
-    );
+        );
+    })
 });
