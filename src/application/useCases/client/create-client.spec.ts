@@ -10,8 +10,9 @@ describe("create client use cases", () => {
         jest.clearAllMocks();
     });
 
-    describe('Should create a resource: ', () => {
-        it("without passing id value", async () => {
+    describe('Should create a client: ', () => {
+
+        it("with valid data without passing id", async () => {
             expect.assertions(3);
             const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
@@ -23,7 +24,7 @@ describe("create client use cases", () => {
             expect(repositorySpy).toHaveBeenCalledTimes(1);
         });
 
-        it("passing id value", async () => {
+        it("with valid data passing id", async () => {
             expect.assertions(4);
             const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
@@ -32,83 +33,78 @@ describe("create client use cases", () => {
 
             expect(clientId).toEqual(expect.any(String));
             expect(await repository.findById(clientId)).toMatchObject({ ...Client });
-            expect(clientId).toEqual("1")
+            expect(clientId).toEqual("1");
             expect(repositorySpy).toHaveBeenCalledTimes(1);
         });
     })
 
-    describe("Should throw an error: ", () => {
+    describe('Should throw an Error: ', () => {
 
-        it.each(["", null, undefined])(
-            "When trying to create a client with this invalid name: %s",
-            async (name) => {
-                expect.assertions(3);
+        describe('For Null Or Empty Fields: ', () => {
+
+            const data = createFakeClientProps();
+
+            it.each(["", null, undefined])("empty name", async (name) => {
+                expect.assertions(2);
                 const { repository, repositorySpy } = setupRepository<Client>("save");
                 const sut = new CreateClientUseCase(repository);
 
                 expect(sut.execute({
                     props: {
-                        ...createFakeClientProps(),
+                        ...data,
                         name: name,
                     },
-                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.INVALID_PARAM("name")));
-                expect(repository.list.length).toBe(0);
-                expect(repositorySpy).toHaveBeenCalledTimes(0);
+                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.NULL_PARAM("name")));
+                expect(repositorySpy).not.toHaveBeenCalled();
             }
+            );
 
-        );
-
-        it.each(["", null, undefined, "a", "1"])(
-            "When trying to create a client with this invalid email: %s",
-            async (email) => {
-                expect.assertions(3);
+            it.each(["", null, undefined])("empty email", async (email) => {
+                expect.assertions(2);
                 const { repository, repositorySpy } = setupRepository<Client>("save");
                 const sut = new CreateClientUseCase(repository);
 
                 expect(sut.execute({
                     props: {
-                        ...createFakeClientProps(),
-                        email: email
+                        ...data,
+                        email: email,
                     },
-                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.INVALID_PARAM("e-mail")))
-
-                expect(repository.list.length).toBe(0);
-                expect(repositorySpy).toHaveBeenCalledTimes(0);
+                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.NULL_PARAM("email")));
+                expect(repositorySpy).not.toHaveBeenCalled();
             }
-        );
+            );
 
-        it.each(["", null, "01", undefined, "654321987000"])(
-            "When trying to create a client with this invalid CPF: %s",
-            async (cpf) => {
-                expect.assertions(3);
+            it.each(["", null, undefined])("empty CPF", async (cpf) => {
+                expect.assertions(2);
                 const { repository, repositorySpy } = setupRepository<Client>("save");
                 const sut = new CreateClientUseCase(repository);
 
                 expect(sut.execute({
                     props: {
-                        ...createFakeClientProps(),
-                        cpf: cpf
-                    }
-                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.INVALID_PARAM("CPF")))
-
-                expect(repository.list.length).toBe(0);
-                expect(repositorySpy).toHaveBeenCalledTimes(0);
-
+                        ...data,
+                        cpf: cpf,
+                    },
+                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.NULL_PARAM("cpf")));
+                expect(repositorySpy).not.toHaveBeenCalled();
             }
-        );
+            );
+        })
 
-        it("When trying to create a client with an existing ID", async () => {
+        it("when trying to create a client with an existing ID", async () => {
             expect.assertions(3);
             const { repository, repositorySpy } = setupRepository<Client>("save");
             const sut = new CreateClientUseCase(repository);
 
             const clientId = await sut.execute({ props: createFakeClientProps() });
-            expect(sut.execute({ props: createFakeClientProps(), id: clientId })).rejects
-                .toEqual(new BusinessRuleError(ErrorMessage.ID_ALREADY_EXISTS(clientId)))
-
-            expect(repository.list.length).toBe(1);
-            expect(repositorySpy).toHaveBeenCalledTimes(2);
-        }
-        );
+            try {
+                await sut.execute({ props: createFakeClientProps(), id: clientId })
+            }
+            catch (err) {
+                expect(err.message).toEqual(ErrorMessage.ID_ALREADY_EXISTS(clientId));
+                expect(repository.list.length).toBe(1);
+                expect(repositorySpy).toHaveBeenCalledTimes(2);
+            }
+        });
     })
+
 });

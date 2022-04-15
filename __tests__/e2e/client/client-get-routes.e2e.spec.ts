@@ -17,46 +17,55 @@ describe("Tests for Client #GET controller", () => {
         app.setRepository("Client", new IMRepository<Client>());
     })
 
-    test("Should receive a 204 and body contains an empty array", async () => {
-        expect.assertions(2);
+    describe('Should return 204: ', () => {
 
-        const response = await supertest(app.getServer().listen()).get("/api/clients");
+        test("and body contains an empty array", async () => {
+            expect.assertions(2);
 
-        expect(response.status).toEqual(204);
-        expect(response.body).toEqual({});
-    });
+            const response = await supertest(app.getServer().listen()).get("/api/clients");
 
-    test("Should receive a 200 when #GET to /api/clients code and body contais a array with resources", async () => {
-
-        expect.assertions(2);
-        const client = createFakeClient();
-        await repository.save(client);
-
-        const response = await supertest(app.getServer().listen()).get("/api/clients");
-
-        expect(response.status).toEqual(200);
-        expect(response.body).toMatchObject([parser.toModel(client)]);
+            expect(response.status).toEqual(204);
+            expect(response.body).toEqual({});
+        });
     })
 
-    test("Should receive a 200 when #GET to /api/clients/:id code and body contais a resource", async () => {
+    describe('Should return 200: ', () => {
 
-        expect.assertions(2);
-        const client = createFakeClient();
-        await repository.save(client);
+        test("when #GET to /api/clients code and body contais a array with resources", async () => {
 
-        const response = await supertest(app.getServer().listen()).get(`/api/clients/${client.id}`);
+            expect.assertions(2);
+            const client = createFakeClient();
+            await repository.save(client, client.id);
 
-        expect(response.status).toEqual(200);
-        expect(response.body).toMatchObject(parser.toModel(client));
+            const response = await supertest(app.getServer().listen()).get("/api/clients");
+
+            expect(response.status).toEqual(200);
+            expect(response.body).toMatchObject([parser.toModel(client)]);
+        })
+
+        test("when #GET to /api/clients/:id code and body contais a resource", async () => {
+
+            expect.assertions(2);
+            const client = createFakeClient();
+            await repository.save(client, client.id);
+
+            const response = await supertest(app.getServer().listen()).get(`/api/clients/${client.id}`);
+
+            expect(response.status).toEqual(200);
+            expect(response.body).toMatchObject(parser.toModel(client));
+        })
     })
 
-    test.each([crypto.randomUUID()])("Should receive a 404 when #GET to api/clients/:id", async (id) => {
+    describe('Should return 404: ', () => {
 
-        expect.assertions(2);
+        test.each([crypto.randomUUID()])("when #GET to api/clients/:id", async (id) => {
 
-        const response = await supertest(app.getServer().listen()).get(`/api/clients/${id}`).send();
+            expect.assertions(2);
 
-        expect(response.status).toEqual(404);
-        expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+            const response = await supertest(app.getServer().listen()).get(`/api/clients/${id}`).send();
+
+            expect(response.status).toEqual(404);
+            expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+        })
     })
 })

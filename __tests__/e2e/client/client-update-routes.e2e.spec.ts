@@ -1,4 +1,3 @@
-import faker from "@faker-js/faker";
 import supertest from "supertest";
 import { Client } from "../../../src/application/domain/entities";
 import { ErrorMessage } from "../../../src/application/domain/errors/error-messages";
@@ -15,56 +14,68 @@ describe("Tests for Client #UPDATE controller", () => {
         app.setRepository("Client", new IMRepository<Client>());
     })
 
-    test("Should return 202 and body should contains the id of updated client", async () => {
+    describe('Should return 202: ', () => {
 
-        expect.assertions(2);
-        const original = createFakeClient();
-        const originalId = await repository.save(original);
-        const requestData = {
-            ...createFakeClientProps()
-        }
-        const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
+        test("body should contains the id of updated client", async () => {
 
-        expect(response.statusCode).toEqual(202);
-        expect(response.body).toEqual(originalId);
+            expect.assertions(2);
+            const original = createFakeClient();
+            const originalId = await repository.save(original, original.id);
+            const requestData = {
+                ...createFakeClientProps()
+            }
+            const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
+
+            expect(response.statusCode).toEqual(202);
+            expect(response.body).toEqual(originalId);
+        })
     })
 
-    test.each([[{
-        name: faker.name.findName(),
-        cpf: "00011122233",
-        birthDate: faker.date.past(20).toISOString(),
-    }, ErrorMessage.INVALID_PARAM("e-mail")],
-    [{
-        email: faker.internet.email(),
-        cpf: "00011122233",
-        birthDate: faker.date.past(20).toISOString(),
-    }, ErrorMessage.INVALID_PARAM("name")],
-    [{
-        name: faker.name.findName(),
-        email: faker.internet.email(),
-        birthDate: faker.date.past(20).toISOString(),
-    }, ErrorMessage.INVALID_PARAM("CPF")]
-    ])("Should return 400 and body is $1", async (requestData, message) => {
+    describe('Should return 400', () => {
 
-        expect.assertions(2);
-        const original = createFakeClient();
-        const originalId = await repository.save(original);
-        const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
-        const data = JSON.parse(response.text);
+        const data = createFakeClientProps();
 
-        expect(response.statusCode).toEqual(400);
-        expect(data).toEqual(message);
+        test.each([[{
+            name: data.name,
+            cpf: data.cpf,
+            birthDate: data.birthDate,
+        }, ErrorMessage.NULL_PARAM("email")],
+        [{
+            email: data.email,
+            cpf: data.cpf,
+            birthDate: data.birthDate,
+        }, ErrorMessage.NULL_PARAM("name")],
+        [{
+            name: data.name,
+            email: data.email,
+            birthDate: data.birthDate,
+        }, ErrorMessage.NULL_PARAM("cpf")]
+        ])("and body is $1 for missing input param", async (requestData, message) => {
+
+            expect.assertions(2);
+            const original = createFakeClient();
+            const originalId = await repository.save(original, original.id);
+            const response = await supertest(app.getServer()).put(`/api/clients/${originalId}`).send(requestData);
+            const data = JSON.parse(response.text);
+
+            expect(response.statusCode).toEqual(400);
+            expect(data).toEqual(message);
+        })
     })
 
-    test.each(["1", "b", "1231456"])("Should return 404 for a inexistent resource id", async (id) => {
+    describe('Should return 404', () => {
 
-        expect.assertions(2);
-        const requestData = {
-            ...createFakeClientProps()
-        }
-        const response = await supertest(app.getServer()).put(`/api/clients/${id}`).send(requestData);
+        test.each(["1"])("for a inexistent resource id", async (id) => {
 
-        expect(response.statusCode).toEqual(404);
-        expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+            expect.assertions(2);
+            const requestData = {
+                ...createFakeClientProps()
+            }
+            const response = await supertest(app.getServer()).put(`/api/clients/${id}`).send(requestData);
+
+            expect(response.statusCode).toEqual(404);
+            expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+        })
     })
+
 })

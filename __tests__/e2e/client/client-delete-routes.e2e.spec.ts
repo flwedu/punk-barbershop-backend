@@ -15,25 +15,31 @@ describe("Tests for Client #DELETE controller", () => {
         app.setRepository("Client", new IMRepository<Client>());
     })
 
-    test("Should return 202 and body contais the id of deleted resource", async () => {
+    describe('Should return 202: ', () => {
 
-        expect.assertions(2);
-        const resource = createFakeClient();
-        const id = await repository.save(resource);
+        test("and body contais the id of deleted resource", async () => {
 
-        const response = await supertest(app.getServer()).delete(`/api/clients/${id}`).send();
+            expect.assertions(2);
+            const resource = createFakeClient();
+            const id = await repository.save(resource, resource.id);
 
-        expect(response.statusCode).toEqual(202);
-        expect(response.body).toEqual(`element ${id} deleted`);
+            const response = await supertest(app.getServer()).delete(`/api/clients/${id}`).send();
+
+            expect(response.statusCode).toEqual(202);
+            expect(response.body).toEqual(`element ${id} deleted`);
+        })
     })
 
-    test.each(["1", crypto.randomUUID()])("Should return 404 for a non existent resource id", async (id) => {
+    describe('Should return 404: ', () => {
 
-        expect.assertions(2);
+        test.each(["1", crypto.randomUUID()])("for a non existent resource id", async (id) => {
 
-        const response = await supertest(app.getServer()).delete(`/api/clients/${id}`).send();
+            expect.assertions(2);
 
-        expect(response.statusCode).toEqual(404);
-        expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+            const response = await supertest(app.getServer()).delete(`/api/clients/${id}`).send();
+
+            expect(response.statusCode).toEqual(404);
+            expect(response.body).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+        })
     })
 })
