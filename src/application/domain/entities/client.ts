@@ -1,6 +1,6 @@
 import { parseDateValue } from "../../../util/parser";
 import BusinessRuleError from "../errors/business-rule-error";
-import { ErrorMessage } from "../errors/error-messages";
+import { TextValidator } from "../validators/TextValidator";
 import { Cpf } from "../valueObjects/Cpf";
 import { Email } from "../valueObjects/Email";
 import { Entity, Props } from "./Entity";
@@ -30,6 +30,10 @@ export class Client extends Entity {
 
     public static create(props: InputClientProps, id?: string) {
 
+        const { name, email, cpf } = props;
+        const errors = new TextValidator({}).checkValues({ name, email, cpf });
+        if (errors.length) throw new BusinessRuleError(`${[...errors]}`);
+
         const readyProps = {
             ...props,
             email: Email.of(props.email),
@@ -37,10 +41,6 @@ export class Client extends Entity {
             birthDate: parseDateValue(props.birthDate),
             createdAt: new Date(),
         };
-
-        if (!props.name || !/\w{2,}/g.test(props.name)) {
-            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("name"));
-        }
 
         const client = new Client(readyProps, id);
 
