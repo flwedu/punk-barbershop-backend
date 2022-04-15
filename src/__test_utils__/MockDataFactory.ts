@@ -31,7 +31,7 @@ export function createFakeBarberProps(): InputBarberProps {
 export function createFakeServiceTypeProps(): InputServiceTypeProps {
     return {
         name: "Nice test haircut",
-        description: faker.lorem.words(50),
+        description: faker.lorem.words(10),
         duration: "60",
         price: faker.commerce.price(50, 200),
     };
