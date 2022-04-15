@@ -1,4 +1,5 @@
 import { ErrorMessage } from "../errors/error-messages";
+import IValidator from "./IValidator";
 
 export interface TextValidatorParams {
     minLength?: number,
@@ -6,7 +7,7 @@ export interface TextValidatorParams {
     onlyWords?: boolean
 }
 
-export class TextValidator {
+export class TextValidator implements IValidator {
 
     constructor(private props: TextValidatorParams) { };
 
