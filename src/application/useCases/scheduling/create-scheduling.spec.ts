@@ -11,7 +11,7 @@ import { Client } from "../../domain/entities/client";
 import { Scheduling } from "../../domain/entities/scheduling";
 import { ServiceType } from "../../domain/entities/serviceType";
 import BusinessRuleError from "../../domain/errors/business-rule-error";
-import ResourceNotFound from "../../domain/errors/resource-not-found";
+import { ErrorMessage } from "../../domain/errors/error-messages";
 import { CreateSchedulingUseCase } from "./create-scheduling";
 
 describe("create scheduling use case", () => {
@@ -75,7 +75,7 @@ describe("create scheduling use case", () => {
                         ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
                         scheduleDate: date
                     }
-                })).rejects.toThrowError(BusinessRuleError);
+                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.INVALID_PARAM("date", "The date can not be in the past")));
                 expect(saveSpy).not.toHaveBeenCalled();
             }
         );
@@ -108,7 +108,7 @@ describe("create scheduling use case", () => {
                         ...propsValues,
                         scheduleDate: "2022-01-01T14:00",
                     }
-                })).rejects.toThrowError(ResourceNotFound);
+                })).rejects.toThrowError(BusinessRuleError);
                 expect(schedulingRepository.list.length).toEqual(0);
                 expect(saveSpy).toHaveBeenCalledTimes(0);
             }

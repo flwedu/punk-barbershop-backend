@@ -1,6 +1,7 @@
 import { parseDateValue } from "../../../util/parser";
 import BusinessRuleError from "../errors/business-rule-error";
 import { ErrorMessage } from "../errors/error-messages";
+import { NotNullOrEmptyValidator } from "../validators/NotNullOrEmptyValidator";
 import { Entity, Props } from "./Entity";
 
 export type InputSchedulingProps = {
@@ -27,6 +28,9 @@ export class Scheduling extends Entity {
 
         const scheduleDate = parseDateValue(props.scheduleDate);
         const createdAt = new Date();
+
+        const errors = new NotNullOrEmptyValidator().checkValues(props)
+        if (errors.length) throw new BusinessRuleError(`Errors: ${[...errors]}`);
 
         if (scheduleDate < createdAt) {
             throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("date", "The date can not be in the past"))
