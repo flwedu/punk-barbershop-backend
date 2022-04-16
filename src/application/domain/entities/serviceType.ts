@@ -1,6 +1,6 @@
-import { testPriceValue } from "../../../util/testFields";
 import BusinessRuleError from "../errors/business-rule-error";
-import { ErrorMessage } from "../errors/error-messages";
+import { PriceValidator } from "../validators/PriceValidator";
+import { TextValidator } from "../validators/TextValidator";
 import { Duration } from "../valueObjects/Duration";
 import { Entity, Props } from "./Entity";
 
@@ -25,16 +25,12 @@ export class ServiceType extends Entity {
 
     public static create(props: InputServiceTypeProps, id?: string) {
 
-        // Check values
-        if (!props.name || !/\w+/.test(props.name)) {
-            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("name"))
-        }
+        const errors = [];
+        errors.push(...new PriceValidator({}).checkValues({ price: props.price }));
+        errors.push(...new TextValidator({}).checkValues({ name: props.name, description: props.description }));
+        if (errors.length) throw new BusinessRuleError(`${[...errors]}`)
 
         const duration = Duration.of(props.duration);
-
-        if (!testPriceValue(props.price)) {
-            throw new BusinessRuleError(ErrorMessage.INVALID_PARAM("price"));
-        }
 
         const serviceType = new ServiceType({
             ...props,
