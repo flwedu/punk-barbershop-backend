@@ -19,26 +19,27 @@ describe("Update ServiceType use case", () => {
     describe('Should update a Service Type', () => {
 
         test.each([newProps])('With the passed parameters', async (props) => {
-            expect.assertions(3);
             const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
             const original = ServiceType.create(oldProps);
             await repository.save(original);
 
-            const updatedServiceId = await sut.execute({
+            const updatedId = await sut.execute({
                 id: original.id,
                 props,
             });
-            expect(updatedServiceId).toEqual(expect.any(String))
-            expect(await repository.findById(original.id)).toMatchObject(ServiceType.create(props, updatedServiceId));
+
+            expect.assertions(3);
+            expect(await repository.findById(original.id)).toMatchObject(ServiceType.create(props, updatedId));
             expect(repositorySpy).toHaveBeenCalledTimes(1);
+            expect(updatedId).toEqual(original.id);
         })
     })
 
     describe('Should throw Error: ', () => {
 
-        it.each(["2", "3", null, "0"])(
+        test.each(["2", "3", null, "0"])(
             "When trying to update with this non-existent id: %s",
             async (id) => {
                 expect.assertions(2);
@@ -58,7 +59,7 @@ describe("Update ServiceType use case", () => {
         );
 
         describe('When trying to update with invalid value: ', () => {
-            it.each([null, "", undefined, "4.5", "ABC"])(
+            test.each([null, "", undefined, "4.5", "ABC"])(
                 "%s duration value",
                 async (duration) => {
                     expect.assertions(3);
@@ -93,7 +94,7 @@ describe("Update ServiceType use case", () => {
                 }
             );
 
-            it.each(["ABC", "a", "-150"])(
+            test.each(["ABC", "a", "-150"])(
                 "%s price value",
                 async (price) => {
                     expect.assertions(3);

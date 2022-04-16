@@ -68,7 +68,7 @@ describe("create serviceType use case test", () => {
 
             })
 
-            it.each(["-50", "abc", "a"])("price value: %s", async (price) => {
+            test.each(["-50", "abc", "a"])("price value: %s", async (price) => {
                 expect.assertions(2);
                 const { repository, repositorySpy } = setupRepository<ServiceType>("save");
                 const sut = new CreateServiceTypeUseCase(repository);

@@ -42,7 +42,7 @@ describe("create scheduling use case", () => {
         jest.clearAllMocks();
     });
 
-    it("Should create a scheduling with valid data", async () => {
+    test("Should create a scheduling with valid data", async () => {
         expect.assertions(3);
 
         const { sut, schedulingRepository, saveSpy } = await setup();
@@ -60,7 +60,7 @@ describe("create scheduling use case", () => {
 
     describe("Should throw error: ", () => {
 
-        it.each([
+        test.each([
             faker.date.past(1).toISOString(),
             faker.date.recent(1).toISOString(),
             new Date().toISOString()
@@ -70,7 +70,7 @@ describe("create scheduling use case", () => {
                 expect.assertions(2);
                 const { sut, saveSpy } = await setup();
 
-                expect(sut.execute({
+                await expect(sut.execute({
                     props: {
                         ...createFakeSchedulingProps({ barberId: barber.id, clientId: client.id, serviceId: serviceType.id }),
                         scheduleDate: date
@@ -80,48 +80,37 @@ describe("create scheduling use case", () => {
             }
         );
 
-        it.each([
-            {
-                cliendId: "",
-                barberId: barber.id,
-                serviceTypeId: serviceType.id,
-            },
-            {
-                cliendId: client.id,
-                barberId: "",
-                serviceTypeId: serviceType.id,
-            },
-            {
-                cliendId: client.id,
-                barberId: barber.id,
-                serviceTypeId: "",
-            },
-        ])(
-            "When trying to create a scheduling without the ID of related entities",
-            async (propsValues: any) => {
+        test.each`
+        props | missingKey
+        ${{ cliendId: "", barberId: barber.id, serviceTypeId: serviceType.id }} | ${"cliendId"}
+        ${{ cliendId: client.id, barberId: "", serviceTypeId: serviceType.id }} | ${"barberId"}
+        ${{ cliendId: client.id, barberId: barber.id, serviceTypeId: "" }} | ${"serviceTypeId"}
+        `(
+            "When trying to create a scheduling without the $missingKey",
+            async ({ props, missingKey }) => {
                 expect.assertions(3);
 
                 const { sut, schedulingRepository, saveSpy } = await setup();
 
-                expect(sut.execute({
+                await expect(sut.execute({
                     props: {
-                        ...propsValues,
+                        ...props,
                         scheduleDate: "2022-01-01T14:00",
                     }
-                })).rejects.toThrowError(BusinessRuleError);
+                })).rejects.toEqual(new BusinessRuleError("Errors: " + ErrorMessage.NULL_PARAM(missingKey)));
                 expect(schedulingRepository.list.length).toEqual(0);
                 expect(saveSpy).toHaveBeenCalledTimes(0);
             }
         );
 
-        it.each([undefined, null, "", "2022-01-01T25:10:00"])(
+        test.each([undefined, null, "", "2022-01-01T25:10:00"])(
             "When trying to create a scheduling with this invalid date: %s",
             async (date) => {
                 expect.assertions(3);
 
                 const { sut, schedulingRepository, saveSpy } = await setup();
 
-                expect(sut.execute({
+                await expect(sut.execute({
                     props: {
                         clientId: client.id,
                         barberId: barber.id,
