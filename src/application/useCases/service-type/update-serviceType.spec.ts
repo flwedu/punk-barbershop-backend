@@ -1,138 +1,149 @@
 import { ErrorMessage } from "../../../application/domain/errors/error-messages";
 import {
-    createFakeServiceType,
     createFakeServiceTypeProps
 } from "../../../__test_utils__/MockDataFactory";
 import { setupRepository } from "../../../__test_utils__/setupFunctions";
 import { ServiceType } from "../../domain/entities/serviceType";
+import BusinessRuleError from "../../domain/errors/business-rule-error";
+import ResourceNotFound from "../../domain/errors/resource-not-found";
 import { UpdateServiceTypeUseCase } from "./update-serviceType";
 
-describe("Update service type use case", () => {
+describe("Update ServiceType use case", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it.each([
-        {
-            name: "Corte legal atualizado",
-            description: "Um corte legal",
-            duration: "30",
-            price: "50",
-        },
-        {
-            name: "Corte legal atualizado 2",
-            description: "Show de bola",
-            duration: "30",
-            price: "50",
-        },
-    ])(
-        "Should update a ServiceType with the passed parameters (%o)",
-        async (props) => {
+    const oldProps = createFakeServiceTypeProps();
+    const newProps = createFakeServiceTypeProps();
+
+    describe('Should update a Service Type', () => {
+
+        test.each([newProps])('With the passed parameters', async (props) => {
             expect.assertions(3);
             const { repository, repositorySpy } = setupRepository<ServiceType>("update");
             const sut = new UpdateServiceTypeUseCase(repository);
 
-            const originalService = createFakeServiceType();
-            await repository.save(originalService);
+            const original = ServiceType.create(oldProps);
+            await repository.save(original);
 
             const updatedServiceId = await sut.execute({
-                id: originalService.id,
+                id: original.id,
                 props,
             });
             expect(updatedServiceId).toEqual(expect.any(String))
-            expect(await repository.findById(originalService.id)).toMatchObject(ServiceType.create(props, updatedServiceId));
+            expect(await repository.findById(original.id)).toMatchObject(ServiceType.create(props, updatedServiceId));
             expect(repositorySpy).toHaveBeenCalledTimes(1);
-        }
-    );
+        })
+    })
 
-    it.each(["2", "3", null, "0"])(
-        "Should throw an error when trying to update a ServiceType with this non-existent id: %s",
-        async (id) => {
-            expect.assertions(2);
-            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
-            const sut = new UpdateServiceTypeUseCase(repository);
+    describe('Should throw Error: ', () => {
 
-            try {
-                await sut.execute({
+        it.each(["2", "3", null, "0"])(
+            "When trying to update with this non-existent id: %s",
+            async (id) => {
+                expect.assertions(2);
+                const { repository, repositorySpy } = setupRepository<ServiceType>("update");
+                const sut = new UpdateServiceTypeUseCase(repository);
+
+                await expect(sut.execute({
                     id,
                     props: {
-                        ...createFakeServiceTypeProps(),
+                        ...newProps,
                     },
-                });
-            } catch (err) {
-                expect(err.message).toEqual(ErrorMessage.ID_NOT_FOUND(id));
+                }))
+                    .rejects
+                    .toEqual(new ResourceNotFound(ErrorMessage.ID_NOT_FOUND(id)));
                 expect(repositorySpy).toHaveBeenCalledTimes(1);
             }
-        }
-    );
+        );
 
-    it.each([null, "", undefined, "4.5", "ABC"])(
-        "Should throw an error when trying to update a ServiceType with this invalid duration value: %s",
-        async (duration) => {
-            expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
-            const sut = new UpdateServiceTypeUseCase(repository);
+        describe('When trying to update with invalid value: ', () => {
+            it.each([null, "", undefined, "4.5", "ABC"])(
+                "%s duration value",
+                async (duration) => {
+                    expect.assertions(3);
+                    const { repository, repositorySpy } = setupRepository<ServiceType>("update");
+                    const sut = new UpdateServiceTypeUseCase(repository);
 
-            const originalService = ServiceType.create(
-                createFakeServiceTypeProps(),
-                "1"
+                    const originalService = ServiceType.create(
+                        createFakeServiceTypeProps(),
+                        "1"
+                    );
+                    await repository.save(originalService);
+
+                    try {
+                        await sut.execute({
+                            id: "1",
+                            props: {
+                                name: "Updated haircut",
+                                description: "A nice haircut",
+                                duration,
+                                price: "200",
+                            },
+                        });
+                    } catch (err) {
+                        expect(err.message).toEqual(
+                            ErrorMessage.INVALID_PARAM("duration value")
+                        );
+                        expect(repositorySpy).toBeCalledTimes(0);
+                        expect(
+                            await repository.findById(originalService.id)
+                        ).toMatchObject(originalService);
+                    }
+                }
             );
-            await repository.save(originalService);
 
-            try {
-                await sut.execute({
-                    id: "1",
-                    props: {
-                        name: "Updated haircut",
-                        description: "A nice haircut",
-                        duration,
-                        price: "200",
-                    },
-                });
-            } catch (err) {
-                expect(err.message).toEqual(
-                    ErrorMessage.INVALID_PARAM("duration value")
-                );
-                expect(repositorySpy).toBeCalledTimes(0);
-                expect(
-                    await repository.findById(originalService.id)
-                ).toMatchObject(originalService);
-            }
-        }
-    );
+            it.each(["ABC", "a", "-150"])(
+                "%s price value",
+                async (price) => {
+                    expect.assertions(3);
+                    const { repository, repositorySpy } = setupRepository<ServiceType>("update");
+                    const sut = new UpdateServiceTypeUseCase(repository);
 
-    it.each([null, "", undefined, "ABC", "a"])(
-        "Should throw an error when trying to update a ServiceType with this invalid price value: %s",
-        async (price) => {
-            expect.assertions(3);
-            const { repository, repositorySpy } = setupRepository<ServiceType>("update");
-            const sut = new UpdateServiceTypeUseCase(repository);
+                    const originalService = ServiceType.create(
+                        oldProps,
+                        "1"
+                    );
+                    await repository.save(originalService);
 
-            const originalService = ServiceType.create(
-                createFakeServiceTypeProps(),
-                "1"
+                    try {
+                        await sut.execute({
+                            id: "1",
+                            props: {
+                                ...newProps,
+                                price,
+                            },
+                        });
+                    } catch (err) {
+                        expect(err.message).toEqual(
+                            ErrorMessage.INVALID_PARAM("price")
+                        );
+                        expect(repositorySpy).toBeCalledTimes(0);
+                        expect(
+                            await repository.findById(originalService.id)
+                        ).toMatchObject(originalService);
+                    }
+                }
             );
-            await repository.save(originalService);
+        })
 
-            try {
-                await sut.execute({
-                    id: "1",
-                    props: {
-                        name: "Updated haircut",
-                        description: "",
-                        duration: "60",
-                        price,
-                    },
-                });
-            } catch (err) {
-                expect(err.message).toEqual(
-                    ErrorMessage.INVALID_PARAM("price")
-                );
-                expect(repositorySpy).toBeCalledTimes(0);
-                expect(
-                    await repository.findById(originalService.id)
-                ).toMatchObject(originalService);
-            }
-        }
-    );
+        describe('When using null or empty values', () => {
+
+            test.each([null, undefined, ""])("% price value", async (price) => {
+                expect.assertions(2);
+                const { repository, repositorySpy } = setupRepository<ServiceType>("update");
+                const sut = new UpdateServiceTypeUseCase(repository);
+
+                const original = ServiceType.create(oldProps);
+                await repository.save(original);
+                await expect(sut.execute({
+                    id: original.id, props: {
+                        ...newProps,
+                        price
+                    }
+                })).rejects.toEqual(new BusinessRuleError(ErrorMessage.NULL_PARAM("price")))
+                expect(repositorySpy).not.toHaveBeenCalled();
+            })
+        })
+    })
 });
