@@ -11,7 +11,7 @@ describe("find all controller", () => {
         jest.clearAllMocks();
     });
 
-    it("should return 204 and a empty data body", async () => {
+    test("should return 204 and a empty data body", async () => {
         expect.assertions(5);
 
         const { repository, repositorySpy } = setupRepository<Client>("findAll");
@@ -32,7 +32,7 @@ describe("find all controller", () => {
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     });
 
-    it("should receives 200 status code and a filled data body", async () => {
+    test("should receives 200 status code and a filled data body", async () => {
         expect.assertions(5);
 
         const { repository, repositorySpy } = setupRepository<Client>("findAll");

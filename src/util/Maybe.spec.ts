@@ -4,7 +4,7 @@ describe("Maybe class tests", () => {
 
     describe("testing isPresent() and isEmpty() function", () => {
 
-        it.each(["", "Abc", 123, Object.create({}), {}, Boolean(false)])("Creating a maybe with value", (value) => {
+        test.each(["", "Abc", 123, Object.create({}), {}, Boolean(false)])("Creating a maybe with value", (value) => {
 
             expect.assertions(2)
 
@@ -13,7 +13,7 @@ describe("Maybe class tests", () => {
             expect(maybe.isEmpty()).toBeFalsy()
         })
 
-        it.each([Maybe.of(null), Maybe.of(undefined), Maybe.empty()])("Creating a maybe without value", (maybe) => {
+        test.each([Maybe.of(null), Maybe.of(undefined), Maybe.empty()])("Creating a maybe without value", (maybe) => {
 
             expect.assertions(2)
 
@@ -24,7 +24,7 @@ describe("Maybe class tests", () => {
 
     describe("getValue() function", () => {
 
-        it("getValue() should return the same value", () => {
+        test("getValue() should return the same value", () => {
 
             expect.assertions(1);
 
@@ -34,7 +34,7 @@ describe("Maybe class tests", () => {
             expect(maybe.getValue()).toEqual(value);
         })
 
-        it("getValue() should return a value with promises", async () => {
+        test("getValue() should return a value with promises", async () => {
 
             let value = "11";
             const promise = new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ describe("Maybe class tests", () => {
     })
 
     describe("getValueOrElse() function", () => {
-        it("should return the previous value", () => {
+        test("should return the previous value", () => {
 
             expect.assertions(1);
 
@@ -59,7 +59,7 @@ describe("Maybe class tests", () => {
 
         })
 
-        it("should return the new value", () => {
+        test("should return the new value", () => {
 
             expect.assertions(1);
 

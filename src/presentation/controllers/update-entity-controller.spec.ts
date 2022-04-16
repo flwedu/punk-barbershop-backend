@@ -9,7 +9,7 @@ describe("Update entity controller class tests: ", () => {
         jest.clearAllMocks();
     });
 
-    it.each(["1", "4545612"])(
+    test.each(["1", "4545612"])(
         "should receive 202 for UpdateClientUseCase",
         async (id) => {
             const repository = new IMRepository<Client>();

@@ -14,7 +14,7 @@ describe("Find by id controller", () => {
         jest.clearAllMocks();
     })
 
-    it.each(["1", "2"])("Should receives a 200 status code", async (id) => {
+    test.each(["1", "2"])("Should receives a 200 status code", async (id) => {
 
         expect.assertions(4);
         const { repository } = setupRepository<Barber>("findById");
@@ -41,7 +41,7 @@ describe("Find by id controller", () => {
         expect(response.json).toBeCalledWith(parser.toModel(barber));
     })
 
-    it("should receives a 404 status code for resource not find", async () => {
+    test("should receives a 404 status code for resource not find", async () => {
 
         expect.assertions(3);
 

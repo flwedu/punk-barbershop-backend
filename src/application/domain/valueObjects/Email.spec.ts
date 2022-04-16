@@ -2,14 +2,14 @@ import { Email } from "./Email";
 
 describe("Email value object class tests", () => {
 
-    it.each(["ab@email.com", "aa@e.com", "abbc.df@email.com", "aa@email.com.br"])("should return true for a valid email address: %s", (value) => {
+    test.each(["ab@email.com", "aa@e.com", "abbc.df@email.com", "aa@email.com.br"])("should return true for a valid email address: %s", (value) => {
         expect.assertions(1);
 
         const email = Email.of(value)
         expect(email.getValue()).toEqual(value);
     })
 
-    it.each(["", null, undefined, "aaec", "email.com", "aa.com@br", "@.com"])("should return false for a invalid email address", (value) => {
+    test.each(["", null, undefined, "aaec", "email.com", "aa.com@br", "@.com"])("should return false for a invalid email address", (value) => {
         expect.assertions(1);
 
         try {
@@ -20,7 +20,7 @@ describe("Email value object class tests", () => {
         }
     })
 
-    it.each(["ab@email.com", "a@mail.com", "test@email.co.uk"])("method equals() of a Cpf object %s should return true for %s", (value) => {
+    test.each(["ab@email.com", "a@mail.com", "test@email.co.uk"])("method equals() of a Cpf object %s should return true for %s", (value) => {
         expect.assertions(1);
 
         const email = Email.of(value);

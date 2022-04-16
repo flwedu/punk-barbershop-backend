@@ -10,7 +10,7 @@ describe("Delete by id controller", () => {
         jest.clearAllMocks();
     })
 
-    it.each(["1", "2", "50", crypto.randomUUID()])("should receives 202", async (id) => {
+    test.each(["1", "2", "50", crypto.randomUUID()])("should receives 202", async (id) => {
 
         expect.assertions(4);
 
@@ -33,7 +33,7 @@ describe("Delete by id controller", () => {
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 
-    it.each(["8", "2", "-1", "ab", null, undefined])("should receives 404", async (id) => {
+    test.each(["8", "2", "-1", "ab", null, undefined])("should receives 404", async (id) => {
 
         expect.assertions(4);
 

@@ -11,7 +11,7 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
         jest.clearAllMocks();
     })
 
-    it("should get a response entity with 201 status code", async () => {
+    test("should get a response entity with 201 status code", async () => {
 
         expect.assertions(4);
         const { repository, repositorySpy } = setupRepository<Client>("save")
@@ -38,7 +38,7 @@ describe("CreateEntityController class tests with CreateClientUseCase", () => {
         expect(repositorySpy).toHaveBeenCalledTimes(1);
     })
 
-    it.each([
+    test.each([
         {
             cpf: "12345678911",
             birthDate: faker.date.past(20).toISOString(),
